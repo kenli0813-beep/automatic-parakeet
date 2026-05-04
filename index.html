@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bugsnax Math Hunt!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap');
+
+    :root {
+      --orange: #ff6b1a;
+      --yellow: #ffd700;
+      --green: #4caf50;
+      --red: #e53935;
+      --purple: #7c4dff;
+      --bg: #fff8e1;
+      --card: #ffffff;
+      --text: #3e2723;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--orange);
+      text-shadow: 3px 3px 0 #ff9800;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #795548;
+      margin-bottom: 20px;
+    }
+
+    /* ── HUD ── */
+    .hud {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .hud-box {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 10px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .hud-box .label {
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #999;
+    }
+
+    .hud-box .value {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.6rem;
+      color: var(--orange);
+    }
+
+    .hud-box .value.timer-warn { color: var(--red); animation: pulse .5s infinite alternate; }
+
+    /* ── DIFFICULTY SELECTOR ── */
+    #difficulty-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .diff-btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 6px 0 rgba(0,0,0,.15);
+    }
+
+    .diff-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 rgba(0,0,0,.15); }
+    .diff-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,.15); }
+
+    .diff-btn.easy   { background: #a5d6a7; color: #1b5e20; }
+    .diff-btn.medium { background: #ffe082; color: #e65100; }
+    .diff-btn.hard   { background: #ef9a9a; color: #b71c1c; }
+
+    .diff-desc {
+      font-size: .85rem;
+      opacity: .8;
+      margin-top: 4px;
+    }
+
+    /* ── GAME SCREEN ── */
+    #game-screen { display: none; width: 100%; max-width: 560px; }
+
+    .bugsnax-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .bugsnax-sprite {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 8px;
+      animation: bounce 1.2s ease-in-out infinite alternate;
+    }
+
+    .bugsnax-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .bugsnax-says {
+      font-size: .95rem;
+      color: #5d4037;
+      margin-bottom: 20px;
+      min-height: 2.4em;
+    }
+
+    .math-problem {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      color: var(--text);
+      margin-bottom: 20px;
+      letter-spacing: .04em;
+    }
+
+    /* ── ANSWER CHOICES ── */
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .choice-btn {
+      padding: 18px;
+      border: 3px solid transparent;
+      border-radius: 16px;
+      background: #f5f5f5;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: background .15s, transform .1s, border-color .15s;
+    }
+
+    .choice-btn:hover:not(:disabled) {
+      background: #fff3e0;
+      border-color: var(--orange);
+      transform: scale(1.05);
+    }
+
+    .choice-btn.correct  { background: #c8e6c9; border-color: var(--green); }
+    .choice-btn.wrong    { background: #ffcdd2; border-color: var(--red); }
+    .choice-btn:disabled { cursor: default; }
+
+    /* ── FEEDBACK BANNER ── */
+    .feedback {
+      min-height: 2.4em;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 8px;
+      transition: opacity .3s;
+    }
+
+    .feedback.correct-msg { color: var(--green); }
+    .feedback.wrong-msg   { color: var(--red); }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap {
+      background: #e0e0e0;
+      border-radius: 99px;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--yellow));
+      border-radius: 99px;
+      transition: width .4s ease;
+    }
+
+    /* ── RESULTS SCREEN ── */
+    #results-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .results-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      width: 100%;
+    }
+
+    .results-trophy { font-size: 5rem; margin-bottom: 8px; }
+
+    .results-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .results-score {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: var(--purple);
+      margin-bottom: 16px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: #f9f9f9;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .stat-box .stat-label { font-size: .78rem; color: #aaa; text-transform: uppercase; letter-spacing: .07em; }
+    .stat-box .stat-val { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--text); }
+
+    .play-again-btn {
+      padding: 16px 40px;
+      border: none;
+      border-radius: 20px;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #bf360c;
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .play-again-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #bf360c; }
+    .play-again-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #bf360c; }
+
+    /* ── CAUGHT TRACKER ── */
+    .caught-strip {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
+
+    .caught-snax { opacity: .25; transition: opacity .4s, transform .4s; }
+    .caught-snax.got { opacity: 1; transform: scale(1.2); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes bounce {
+      from { transform: translateY(0);   }
+      to   { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1);   }
+      to   { transform: scale(1.05); }
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+
+    .pop { animation: pop .35s ease; }
+  </style>
+</head>
+<body>
+
+<h1>🍔 Bugsnax Math Hunt! 🍓</h1>
+<p class="subtitle">Catch Bugsnax by solving math problems!</p>
+
+<!-- ── DIFFICULTY SCREEN ── -->
+<div id="difficulty-screen">
+  <button class="diff-btn easy"   onclick="startGame('easy')">
+    🌿 Easy
+    <div class="diff-desc">Addition &amp; Subtraction • 30 s per question</div>
+  </button>
+  <button class="diff-btn medium" onclick="startGame('medium')">
+    🔥 Medium
+    <div class="diff-desc">All four operations • 20 s per question</div>
+  </button>
+  <button class="diff-btn hard"   onclick="startGame('hard')">
+    💀 Hard
+    <div class="diff-desc">Bigger numbers • 15 s per question</div>
+  </button>
+</div>
+
+<!-- ── GAME SCREEN ── -->
+<div id="game-screen">
+  <div class="hud">
+    <div class="hud-box">
+      <div class="label">Score</div>
+      <div class="value" id="score-display">0</div>
+    </div>
+    <div class="hud-box">
+      <div class="label">Question</div>
+      <div class="value" id="q-display">1 / 10</div>
+    </div>
+    <div class="hud-box">
+      <div class="label">Time</div>
+      <div class="value" id="timer-display">30</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div class="caught-strip" id="caught-strip"></div>
+
+  <div class="bugsnax-card">
+    <span class="bugsnax-sprite" id="snax-sprite">🍔</span>
+    <div class="bugsnax-name"   id="snax-name">Bunger</div>
+    <div class="bugsnax-says"   id="snax-says">Catch me if you can!</div>
+    <div class="math-problem"   id="math-problem">? + ? = ?</div>
+    <div class="choices"        id="choices"></div>
+    <div class="feedback"       id="feedback"></div>
+  </div>
+</div>
+
+<!-- ── RESULTS SCREEN ── -->
+<div id="results-screen">
+  <div class="results-card">
+    <div class="results-trophy" id="trophy">🏆</div>
+    <div class="results-title"  id="results-title">Amazing!</div>
+    <div class="results-score"  id="results-score">Score: 0</div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-label">Correct</div>
+        <div class="stat-val" id="stat-correct">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Wrong</div>
+        <div class="stat-val" id="stat-wrong">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Bugsnax Caught</div>
+        <div class="stat-val" id="stat-caught">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Best Streak</div>
+        <div class="stat-val" id="stat-streak">0</div>
+      </div>
+    </div>
+    <div class="caught-strip" id="results-strip"></div>
+    <div id="results-msg" style="color:#795548;font-size:.95rem;margin-bottom:20px;"></div>
+    <button class="play-again-btn" onclick="showDifficulty()">Play Again!</button>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+const BUGSNAX = [
+  { emoji: '🍔', name: 'Bunger',    says: ['Bun bun bun!', 'Burgers rule!', 'Catch me, chef!'] },
+  { emoji: '🍓', name: 'Strabby',   says: ['Strab strab!', 'Berry sneaky!', 'So juicy!'] },
+  { emoji: '🌶️', name: 'Chillichuck', says: ['Too spicy!', 'Chili hot hot!', 'Sizzle sizzle!'] },
+  { emoji: '🍪', name: 'Cookiemon', says: ['Crunch time!', 'Cookie power!', 'Nom nom nom!'] },
+  { emoji: '🍉', name: 'Melony',    says: ['Melon madness!', 'Seeds for days!', 'Sum-mer fun!'] },
+  { emoji: '🥨', name: 'Pretzling', says: ['Twist and shout!', 'Salty style!', 'Knotty by nature!'] },
+  { emoji: '🍦', name: 'Scoopy Banoopy', says: ['Cool as ice!', 'Drip drop math!', 'Scoop it up!'] },
+  { emoji: '🍩', name: 'Donut Dude', says: ['Hole lotta fun!', 'Glaze and amaze!', 'Donut stop now!'] },
+  { emoji: '🌮', name: 'Tacroach',  says: ['Crunchy critter!', 'Taco Tuesday!', 'Shell yeah!'] },
+  { emoji: '🫐', name: 'Blueberry Buddy', says: ['Berry small!', 'Blueberry blast!', 'Tiny but mighty!'] },
+];
+
+const DIFFICULTY_CONFIG = {
+  easy:   { ops: ['+', '-'],           maxA: 20, maxB: 20, time: 30, label: 'Easy',   qs: 10 },
+  medium: { ops: ['+', '-', '×', '÷'], maxA: 20, maxB: 10, time: 20, label: 'Medium', qs: 10 },
+  hard:   { ops: ['+', '-', '×', '÷'], maxA: 50, maxB: 12, time: 15, label: 'Hard',   qs: 12 },
+};
+
+/* ── STATE ── */
+let state = {};
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function shuffle(arr)   { return arr.sort(() => Math.random() - .5); }
+
+/* ── PROBLEM GENERATOR ── */
+function generateProblem(difficulty) {
+  const cfg = DIFFICULTY_CONFIG[difficulty];
+  const op  = cfg.ops[rand(0, cfg.ops.length - 1)];
+  let a, b, answer;
+
+  if (op === '+') {
+    a = rand(1, cfg.maxA); b = rand(1, cfg.maxB);
+    answer = a + b;
+  } else if (op === '-') {
+    a = rand(1, cfg.maxA); b = rand(1, Math.min(a, cfg.maxB));
+    answer = a - b;
+  } else if (op === '×') {
+    a = rand(1, Math.min(cfg.maxA, 12)); b = rand(1, cfg.maxB);
+    answer = a * b;
+  } else { // ÷
+    b = rand(1, cfg.maxB);
+    answer = rand(1, Math.floor(cfg.maxA / b));
+    a = answer * b;
+  }
+
+  return { text: `${a} ${op} ${b} = ?`, answer };
+}
+
+function generateChoices(answer) {
+  const wrong = new Set();
+  while (wrong.size < 3) {
+    const delta = rand(-10, 10);
+    const w = answer + delta;
+    if (w !== answer && w >= 0) wrong.add(w);
+  }
+  return shuffle([answer, ...wrong]);
+}
+
+/* ── UI HELPERS ── */
+function $(id) { return document.getElementById(id); }
+
+function show(id)  { $(id).style.display = 'flex'; }
+function hide(id)  { $(id).style.display = 'none'; }
+
+function pickSnax() {
+  return BUGSNAX[rand(0, BUGSNAX.length - 1)];
+}
+
+/* ── GAME FLOW ── */
+function showDifficulty() {
+  hide('game-screen');
+  hide('results-screen');
+  $('difficulty-screen').style.display = 'flex';
+}
+
+function startGame(difficulty) {
+  $('difficulty-screen').style.display = 'none';
+  show('game-screen');
+
+  const cfg = DIFFICULTY_CONFIG[difficulty];
+
+  state = {
+    difficulty,
+    cfg,
+    qIndex: 0,
+    score: 0,
+    correct: 0,
+    wrong: 0,
+    streak: 0,
+    bestStreak: 0,
+    caught: [],
+    timerSecs: cfg.time,
+    timerInterval: null,
+    answered: false,
+  };
+
+  buildCaughtStrip();
+  loadQuestion();
+}
+
+function buildCaughtStrip() {
+  const strip = $('caught-strip');
+  strip.innerHTML = '';
+  for (let i = 0; i < state.cfg.qs; i++) {
+    const span = document.createElement('span');
+    span.className = 'caught-snax';
+    span.id = `caught-${i}`;
+    span.textContent = '?';
+    strip.appendChild(span);
+  }
+}
+
+function loadQuestion() {
+  const { qIndex, cfg } = state;
+
+  if (qIndex >= cfg.qs) { showResults(); return; }
+
+  state.answered = false;
+  clearInterval(state.timerInterval);
+
+  const snax    = pickSnax();
+  const problem = generateProblem(state.difficulty);
+  const choices = generateChoices(problem.answer);
+
+  state.currentAnswer = problem.answer;
+  state.currentSnax   = snax;
+
+  // update HUD
+  $('q-display').textContent    = `${qIndex + 1} / ${cfg.qs}`;
+  $('progress-fill').style.width = `${(qIndex / cfg.qs) * 100}%`;
+
+  // update card
+  $('snax-sprite').textContent = snax.emoji;
+  $('snax-name').textContent   = snax.name;
+  $('snax-says').textContent   = snax.says[rand(0, snax.says.length - 1)];
+  $('math-problem').textContent = problem.text;
+  $('feedback').textContent    = '';
+  $('feedback').className      = 'feedback';
+
+  // render choices
+  const choicesEl = $('choices');
+  choicesEl.innerHTML = '';
+  choices.forEach(val => {
+    const btn = document.createElement('button');
+    btn.className   = 'choice-btn';
+    btn.textContent = val;
+    btn.onclick     = () => handleAnswer(val, btn);
+    choicesEl.appendChild(btn);
+  });
+
+  // start timer
+  state.timerSecs = cfg.time;
+  updateTimerDisplay();
+  state.timerInterval = setInterval(tickTimer, 1000);
+}
+
+function tickTimer() {
+  state.timerSecs--;
+  updateTimerDisplay();
+  if (state.timerSecs <= 0) {
+    clearInterval(state.timerInterval);
+    if (!state.answered) handleAnswer(null, null);
+  }
+}
+
+function updateTimerDisplay() {
+  const el = $('timer-display');
+  el.textContent = state.timerSecs;
+  el.className = 'value' + (state.timerSecs <= 5 ? ' timer-warn' : '');
+}
+
+function handleAnswer(val, btn) {
+  if (state.answered) return;
+  state.answered = true;
+  clearInterval(state.timerInterval);
+
+  const correct = val === state.currentAnswer;
+  const qIndex  = state.qIndex;
+
+  // highlight buttons
+  document.querySelectorAll('.choice-btn').forEach(b => {
+    b.disabled = true;
+    if (+b.textContent === state.currentAnswer) b.classList.add('correct');
+  });
+
+  if (correct) {
+    if (btn) btn.classList.add('correct');
+    const points = 10 + state.timerSecs;
+    state.score  += points;
+    state.correct++;
+    state.streak++;
+    state.bestStreak = Math.max(state.bestStreak, state.streak);
+    state.caught.push(state.currentSnax);
+
+    // mark caught strip
+    const span = $(`caught-${qIndex}`);
+    span.textContent = state.currentSnax.emoji;
+    span.classList.add('got');
+
+    $('feedback').textContent = `+${points} pts — You caught ${state.currentSnax.name}! 🎉`;
+    $('feedback').className   = 'feedback correct-msg';
+  } else {
+    if (btn) btn.classList.add('wrong');
+    state.wrong++;
+    state.streak = 0;
+
+    $('feedback').textContent = val === null
+      ? `⏰ Time's up! The answer was ${state.currentAnswer}.`
+      : `❌ Not quite! The answer was ${state.currentAnswer}.`;
+    $('feedback').className = 'feedback wrong-msg';
+  }
+
+  $('score-display').textContent = state.score;
+  $('score-display').classList.remove('pop');
+  void $('score-display').offsetWidth; // force reflow
+  $('score-display').classList.add('pop');
+
+  state.qIndex++;
+  setTimeout(loadQuestion, 1800);
+}
+
+/* ── RESULTS ── */
+function showResults() {
+  hide('game-screen');
+  show('results-screen');
+
+  $('progress-fill').style.width = '100%';
+
+  const pct = Math.round((state.correct / state.cfg.qs) * 100);
+
+  let trophy = '🏅', title = 'Good effort!';
+  if (pct === 100) { trophy = '🏆'; title = 'Perfect Score!'; }
+  else if (pct >= 80) { trophy = '⭐'; title = 'Excellent!'; }
+  else if (pct >= 60) { trophy = '👍'; title = 'Nice work!'; }
+
+  $('trophy').textContent        = trophy;
+  $('results-title').textContent = title;
+  $('results-score').textContent = `Score: ${state.score} pts`;
+  $('stat-correct').textContent  = state.correct;
+  $('stat-wrong').textContent    = state.wrong;
+  $('stat-caught').textContent   = state.caught.length;
+  $('stat-streak').textContent   = state.bestStreak;
+
+  const msgs = {
+    100: `You caught ALL the Bugsnax! Legendary hunter! 🎊`,
+    80:  `Almost a full collection — you're a natural Bugsnax hunter!`,
+    60:  `A solid hunt! Keep practicing to catch 'em all!`,
+    0:   `Every great hunter starts somewhere. Try again!`,
+  };
+  const msgKey = pct === 100 ? 100 : pct >= 80 ? 80 : pct >= 60 ? 60 : 0;
+  $('results-msg').textContent = msgs[msgKey];
+
+  // show caught bugsnax
+  const strip = $('results-strip');
+  strip.innerHTML = '';
+  state.caught.forEach(s => {
+    const span = document.createElement('span');
+    span.textContent = s.emoji;
+    span.title = s.name;
+    strip.appendChild(span);
+  });
+}
+</script>
+</body>
+</html>
