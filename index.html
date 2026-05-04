@@ -322,16 +322,16 @@
 <!-- ── DIFFICULTY SCREEN ── -->
 <div id="difficulty-screen">
   <button class="diff-btn easy"   onclick="startGame('easy')">
-    🌿 Easy
-    <div class="diff-desc">Addition &amp; Subtraction • 30 s per question</div>
+    🌟 Easy
+    <div class="diff-desc">Addition • Numbers 1–5 • Lots of time!</div>
   </button>
   <button class="diff-btn medium" onclick="startGame('medium')">
     🔥 Medium
-    <div class="diff-desc">All four operations • 20 s per question</div>
+    <div class="diff-desc">Addition &amp; Subtraction • Numbers up to 10</div>
   </button>
   <button class="diff-btn hard"   onclick="startGame('hard')">
     💀 Hard
-    <div class="diff-desc">Bigger numbers • 15 s per question</div>
+    <div class="diff-desc">Addition &amp; Subtraction • Numbers up to 15</div>
   </button>
 </div>
 
@@ -414,9 +414,9 @@ const BUGSNAX = [
 ];
 
 const DIFFICULTY_CONFIG = {
-  easy:   { ops: ['+', '-'],           maxA: 20, maxB: 20, time: 30, label: 'Easy',   qs: 10 },
-  medium: { ops: ['+', '-', '×', '÷'], maxA: 20, maxB: 10, time: 20, label: 'Medium', qs: 10 },
-  hard:   { ops: ['+', '-', '×', '÷'], maxA: 50, maxB: 12, time: 15, label: 'Hard',   qs: 12 },
+  easy:   { ops: ['+'],        maxA: 5,  maxB: 5,  time: 45, label: 'Easy',   qs: 8  },
+  medium: { ops: ['+', '-'],  maxA: 10, maxB: 10, time: 35, label: 'Medium', qs: 10 },
+  hard:   { ops: ['+', '-'],  maxA: 15, maxB: 15, time: 25, label: 'Hard',   qs: 10 },
 };
 
 /* ── STATE ── */
@@ -451,11 +451,15 @@ function generateProblem(difficulty) {
 
 function generateChoices(answer) {
   const wrong = new Set();
-  while (wrong.size < 3) {
-    const delta = rand(-10, 10);
-    const w = answer + delta;
+  const deltas = shuffle([1, 2, 3, -1, -2, -3]);
+  for (const d of deltas) {
+    if (wrong.size >= 3) break;
+    const w = answer + d;
     if (w !== answer && w >= 0) wrong.add(w);
   }
+  // fallback: keep adding until we have 3
+  let k = 4;
+  while (wrong.size < 3) { wrong.add(answer + k); k++; }
   return shuffle([answer, ...wrong]);
 }
 
