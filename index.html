@@ -127,10 +127,11 @@
     }
 
     .bugsnax-sprite {
-      font-size: 5rem;
+      font-size: 7rem;
       display: block;
       margin-bottom: 8px;
       animation: bounce 1.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,.18));
     }
 
     .bugsnax-name {
@@ -233,7 +234,7 @@
       width: 100%;
     }
 
-    .results-trophy { font-size: 5rem; margin-bottom: 8px; }
+    .results-trophy { font-size: 6rem; margin-bottom: 8px; filter: drop-shadow(0 0 16px gold); }
 
     .results-title {
       font-family: 'Fredoka One', cursive;
@@ -284,15 +285,33 @@
     /* ── CAUGHT TRACKER ── */
     .caught-strip {
       display: flex;
-      gap: 6px;
+      gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 20px;
-      font-size: 1.6rem;
+      font-size: 2.2rem;
     }
 
-    .caught-snax { opacity: .25; transition: opacity .4s, transform .4s; }
-    .caught-snax.got { opacity: 1; transform: scale(1.2); }
+    .caught-snax {
+      opacity: .2;
+      transition: opacity .4s, transform .5s cubic-bezier(.34,1.56,.64,1);
+      filter: grayscale(1);
+      display: inline-block;
+    }
+    .caught-snax.got {
+      opacity: 1;
+      transform: scale(1.35);
+      filter: grayscale(0) drop-shadow(0 0 8px gold);
+      animation: starPop .5s ease;
+    }
+
+    /* results strip is bigger */
+    #results-strip { font-size: 3rem; gap: 12px; }
+    #results-strip span {
+      display: inline-block;
+      animation: starPop .4s ease both;
+      filter: drop-shadow(0 0 6px gold);
+    }
 
     /* ── ANIMATIONS ── */
     @keyframes bounce {
@@ -311,16 +330,23 @@
       100% { transform: scale(1); }
     }
 
+    @keyframes starPop {
+      0%   { transform: scale(0) rotate(-20deg); }
+      60%  { transform: scale(1.5) rotate(10deg); }
+      100% { transform: scale(1.35) rotate(0deg); }
+    }
+
     .pop { animation: pop .35s ease; }
   </style>
 </head>
 <body>
 
 <h1>🍔 Bugsnax Math Hunt! 🍓</h1>
-<p class="subtitle">Catch Bugsnax by solving math problems!</p>
+<p class="subtitle">Hey Winter, catch Bugsnax by solving math problems!</p>
 
 <!-- ── DIFFICULTY SCREEN ── -->
 <div id="difficulty-screen">
+  <p style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:#795548;margin-bottom:4px;">Which level do you want, Winter?</p>
   <button class="diff-btn easy"   onclick="startGame('easy')">
     🌟 Easy
     <div class="diff-desc">Addition • Numbers 1–5 • Lots of time!</div>
@@ -604,16 +630,18 @@ function handleAnswer(val, btn) {
     span.textContent = state.currentSnax.emoji;
     span.classList.add('got');
 
-    $('feedback').textContent = `+${points} pts — You caught ${state.currentSnax.name}! 🎉`;
+    const praise = shuffle(['Amazing, Winter!', 'You rock, Winter!', 'Brilliant!', 'Way to go, Winter!', 'Super smart!', 'Incredible!'])[0];
+    $('feedback').textContent = `${praise} +${points} pts — You caught ${state.currentSnax.name}! 🎉`;
     $('feedback').className   = 'feedback correct-msg';
   } else {
     if (btn) btn.classList.add('wrong');
     state.wrong++;
     state.streak = 0;
 
+    const encourage = shuffle(['Keep going, Winter!', "You've got this!", 'Almost there!', 'Try again, Winter!'])[0];
     $('feedback').textContent = val === null
-      ? `⏰ Time's up! The answer was ${state.currentAnswer}.`
-      : `❌ Not quite! The answer was ${state.currentAnswer}.`;
+      ? `⏰ Time's up! The answer was ${state.currentAnswer}. ${encourage}`
+      : `❌ Not quite! The answer was ${state.currentAnswer}. ${encourage}`;
     $('feedback').className = 'feedback wrong-msg';
   }
 
@@ -635,10 +663,10 @@ function showResults() {
 
   const pct = Math.round((state.correct / state.cfg.qs) * 100);
 
-  let trophy = '🏅', title = 'Good effort!';
-  if (pct === 100) { trophy = '🏆'; title = 'Perfect Score!'; }
-  else if (pct >= 80) { trophy = '⭐'; title = 'Excellent!'; }
-  else if (pct >= 60) { trophy = '👍'; title = 'Nice work!'; }
+  let trophy = '🏅', title = 'Good effort, Winter!';
+  if (pct === 100) { trophy = '🏆'; title = 'Perfect Score, Winter!'; }
+  else if (pct >= 80) { trophy = '⭐'; title = 'Excellent, Winter!'; }
+  else if (pct >= 60) { trophy = '👍'; title = 'Nice work, Winter!'; }
 
   $('trophy').textContent        = trophy;
   $('results-title').textContent = title;
@@ -649,10 +677,10 @@ function showResults() {
   $('stat-streak').textContent   = state.bestStreak;
 
   const msgs = {
-    100: `You caught ALL the Bugsnax! Legendary hunter! 🎊`,
-    80:  `Almost a full collection — you're a natural Bugsnax hunter!`,
-    60:  `A solid hunt! Keep practicing to catch 'em all!`,
-    0:   `Every great hunter starts somewhere. Try again!`,
+    100: `Winter caught ALL the Bugsnax! You're a legendary math hunter! 🎊`,
+    80:  `Almost a full collection, Winter — you're a natural Bugsnax hunter!`,
+    60:  `Great hunt, Winter! Keep practicing to catch 'em all!`,
+    0:   `Every great hunter starts somewhere, Winter. You can do it!`,
   };
   const msgKey = pct === 100 ? 100 : pct >= 80 ? 80 : pct >= 60 ? 60 : 0;
   $('results-msg').textContent = msgs[msgKey];
