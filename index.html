@@ -483,7 +483,6 @@ function generateChoices(answer) {
     const w = answer + d;
     if (w !== answer && w >= 0) wrong.add(w);
   }
-  // fallback: keep adding until we have 3
   let k = 4;
   while (wrong.size < 3) { wrong.add(answer + k); k++; }
   return shuffle([answer, ...wrong]);
@@ -558,11 +557,9 @@ function loadQuestion() {
   state.currentAnswer = problem.answer;
   state.currentSnax   = snax;
 
-  // update HUD
   $('q-display').textContent    = `${qIndex + 1} / ${cfg.qs}`;
   $('progress-fill').style.width = `${(qIndex / cfg.qs) * 100}%`;
 
-  // update card
   $('snax-sprite').textContent = snax.emoji;
   $('snax-name').textContent   = snax.name;
   $('snax-says').textContent   = snax.says[rand(0, snax.says.length - 1)];
@@ -570,7 +567,6 @@ function loadQuestion() {
   $('feedback').textContent    = '';
   $('feedback').className      = 'feedback';
 
-  // render choices
   const choicesEl = $('choices');
   choicesEl.innerHTML = '';
   choices.forEach(val => {
@@ -581,7 +577,6 @@ function loadQuestion() {
     choicesEl.appendChild(btn);
   });
 
-  // start timer
   state.timerSecs = cfg.time;
   updateTimerDisplay();
   state.timerInterval = setInterval(tickTimer, 1000);
@@ -610,7 +605,6 @@ function handleAnswer(val, btn) {
   const correct = val === state.currentAnswer;
   const qIndex  = state.qIndex;
 
-  // highlight buttons
   document.querySelectorAll('.choice-btn').forEach(b => {
     b.disabled = true;
     if (+b.textContent === state.currentAnswer) b.classList.add('correct');
@@ -625,7 +619,6 @@ function handleAnswer(val, btn) {
     state.bestStreak = Math.max(state.bestStreak, state.streak);
     state.caught.push(state.currentSnax);
 
-    // mark caught strip
     const span = $(`caught-${qIndex}`);
     span.textContent = state.currentSnax.emoji;
     span.classList.add('got');
@@ -647,7 +640,7 @@ function handleAnswer(val, btn) {
 
   $('score-display').textContent = state.score;
   $('score-display').classList.remove('pop');
-  void $('score-display').offsetWidth; // force reflow
+  void $('score-display').offsetWidth;
   $('score-display').classList.add('pop');
 
   state.qIndex++;
@@ -685,7 +678,6 @@ function showResults() {
   const msgKey = pct === 100 ? 100 : pct >= 80 ? 80 : pct >= 60 ? 60 : 0;
   $('results-msg').textContent = msgs[msgKey];
 
-  // show caught bugsnax
   const strip = $('results-strip');
   strip.innerHTML = '';
   state.caught.forEach(s => {
