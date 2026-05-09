@@ -9,8 +9,6 @@
 
     :root {
       --bg: #0d1117;
-      --metal: #78c8f0;
-      --metal-d: #4a98c8;
       --off-bg: #1e2240;
       --off-br: #2a2e55;
       --yellow: #ffd700;
@@ -57,63 +55,153 @@
     .screen { display: none; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px 16px; position: relative; z-index: 1; }
     .screen.active { display: flex; }
 
+    /* ── SHARED CARD ── */
+    .card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      padding: 20px 22px;
+      width: 100%; max-width: 480px;
+    }
+    .card-title {
+      font-family: 'Fredoka One', cursive;
+      color: var(--yellow); font-size: 1.05rem;
+      margin-bottom: 14px;
+    }
+
     /* ── WELCOME ── */
-    #welcome-screen { justify-content: center; text-align: center; gap: 20px; }
+    #welcome-screen { justify-content: center; text-align: center; gap: 18px; }
 
     .w-title {
       font-family: 'Fredoka One', cursive;
-      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
       color: var(--yellow);
       text-shadow: 3px 3px 0 rgba(0,0,0,.4);
     }
-
-    .w-sub {
-      color: #a0b4d0;
-      font-size: clamp(.95rem, 3vw, 1.25rem);
-      max-width: 380px;
-      line-height: 1.6;
+    .w-hi {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      color: #fff;
     }
-
+    .w-sub { color: #a0b4d0; font-size: clamp(.9rem, 2.5vw, 1.1rem); max-width: 360px; line-height: 1.6; }
     .w-sub strong { color: #fff; }
-
-    .how-to {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      padding: 18px 24px;
-      color: #c8d8e8;
-      font-size: .95rem;
-      max-width: 380px;
-      text-align: left;
-      line-height: 1.8;
-    }
-
-    .how-to h3 { font-family: 'Fredoka One', cursive; color: var(--yellow); margin-bottom: 6px; font-size: 1.1rem; }
 
     .start-btn {
       background: linear-gradient(135deg, var(--orange), #e64a19);
-      color: #fff;
-      border: none; border-radius: 24px;
+      color: #fff; border: none; border-radius: 24px;
       padding: 18px 48px;
-      font-family: 'Fredoka One', cursive;
-      font-size: 1.6rem;
+      font-family: 'Fredoka One', cursive; font-size: 1.6rem;
       cursor: pointer;
       box-shadow: 0 6px 0 #bf360c, 0 8px 24px rgba(255,112,67,.4);
       transition: transform .15s, box-shadow .15s;
     }
-    .start-btn:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 #bf360c, 0 12px 28px rgba(255,112,67,.4); }
+    .start-btn:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 #bf360c; }
     .start-btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 #bf360c; }
+
+    /* ── CUSTOMIZE SCREEN ── */
+    #customize-screen { gap: 14px; padding-top: 24px; padding-bottom: 32px; }
+
+    .cust-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      color: var(--yellow);
+      text-align: center;
+      text-shadow: 2px 2px 0 rgba(0,0,0,.3);
+    }
+
+    /* robot name */
+    .name-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .name-input {
+      flex: 1; min-width: 0;
+      background: rgba(255,255,255,.12);
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      color: #fff;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .name-input::placeholder { color: rgba(255,255,255,.3); }
+    .name-input:focus { border-color: var(--yellow); }
+
+    .name-suggestions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .name-tag {
+      background: rgba(255,215,0,.15);
+      border: 1px solid rgba(255,215,0,.3);
+      border-radius: 20px;
+      padding: 5px 12px;
+      color: var(--yellow);
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .name-tag:hover { background: rgba(255,215,0,.3); }
+
+    /* color picker */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .color-opt {
+      border: 3px solid transparent;
+      border-radius: 16px;
+      padding: 10px 6px;
+      cursor: pointer;
+      text-align: center;
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      color: #fff;
+      transition: transform .15s, border-color .15s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .color-opt:hover { transform: scale(1.05); }
+    .color-opt.selected { border-color: #fff; transform: scale(1.07); }
+    .color-swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.3); }
+
+    /* part picker (eyes + antenna) */
+    .part-opts { display: flex; gap: 10px; flex-wrap: wrap; }
+    .part-opt {
+      flex: 1; min-width: 70px;
+      border: 3px solid rgba(255,255,255,.15);
+      border-radius: 16px;
+      padding: 10px 8px;
+      cursor: pointer;
+      text-align: center;
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      color: rgba(255,255,255,.7);
+      transition: transform .15s, border-color .15s, color .15s;
+      background: rgba(255,255,255,.04);
+    }
+    .part-opt .part-icon { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .part-opt:hover { transform: scale(1.04); border-color: rgba(255,255,255,.4); }
+    .part-opt.selected { border-color: var(--yellow); color: #fff; background: rgba(255,215,0,.1); }
+
+    .build-btn {
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: #fff; border: none; border-radius: 24px;
+      padding: 16px 44px;
+      font-family: 'Fredoka One', cursive; font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #1b5e20, 0 8px 24px rgba(76,175,80,.4);
+      transition: transform .15s, box-shadow .15s;
+      width: 100%; max-width: 480px;
+    }
+    .build-btn:hover  { transform: translateY(-3px); }
+    .build-btn:active { transform: translateY(2px); }
 
     /* ── GAME SCREEN ── */
     #game-screen { gap: 14px; }
 
     .g-header {
       display: flex; justify-content: space-between; align-items: center;
-      width: 100%; max-width: 760px;
+      width: 100%; max-width: 760px; flex-wrap: wrap; gap: 6px;
     }
-
-    .g-title { font-family: 'Fredoka One', cursive; color: var(--yellow); font-size: 1.3rem; }
-
+    .g-title { font-family: 'Fredoka One', cursive; color: var(--yellow); font-size: 1.2rem; }
     .parts-pill {
       background: rgba(255,255,255,.1);
       border-radius: 20px; padding: 6px 14px;
@@ -131,39 +219,55 @@
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 24px;
       padding: 18px 16px;
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-      min-width: 160px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      min-width: 155px;
     }
-
-    .rp-title { font-family: 'Fredoka One', cursive; color: var(--yellow); font-size: .95rem; }
+    .rp-title { font-family: 'Fredoka One', cursive; color: var(--yellow); font-size: .9rem; text-align: center; }
+    .robot-name-tag {
+      font-family: 'Fredoka One', cursive;
+      font-size: .95rem; color: #fff;
+      background: rgba(255,215,0,.15);
+      border: 1px solid rgba(255,215,0,.3);
+      border-radius: 20px; padding: 3px 12px;
+    }
 
     /* ── ROBOT CSS ART ── */
     .robot { display: flex; flex-direction: column; align-items: center; }
 
-    /* All robot pieces default to dark/off */
+    /* CSS custom props for robot color — set by JS */
+    .robot {
+      --r-primary:  #78c8f0;
+      --r-secondary: #4a98c8;
+      --r-glow: rgba(120,200,240,.4);
+    }
+
     .rp {
       background: var(--off-bg);
       border: 3px solid var(--off-br);
-      transition: background .5s ease, border-color .5s ease, box-shadow .5s ease, opacity .5s ease;
+      transition: background .5s ease, border-color .5s ease, box-shadow .5s ease;
     }
-
-    /* Lit state */
     .rp.lit {
-      background: linear-gradient(150deg, var(--metal), var(--metal-d));
-      border-color: var(--metal-d);
-      box-shadow: 0 0 12px rgba(120,200,240,.4);
+      background: linear-gradient(150deg, var(--r-primary), var(--r-secondary));
+      border-color: var(--r-secondary);
+      box-shadow: 0 0 12px var(--r-glow);
       animation: partPop .6s cubic-bezier(.34,1.56,.64,1);
     }
 
     /* antenna */
     .ant-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: -2px; }
-
     .ant-ball {
-      width: 13px; height: 13px; border-radius: 50%;
+      width: 18px; height: 18px;
       background: #333; border: 2px solid #444;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; line-height: 1;
       transition: background .5s, border-color .5s, box-shadow .5s;
+      /* shape set by JS class */
     }
-    .ant-ball.lit { background: var(--yellow); border-color: #ffa000; box-shadow: 0 0 10px var(--yellow); animation: partPop .6s cubic-bezier(.34,1.56,.64,1); }
+    .ant-ball.ant-round     { border-radius: 50%; }
+    .ant-ball.ant-star      { border-radius: 4px; background: transparent !important; border-color: transparent !important; font-size: 18px; }
+    .ant-ball.ant-lightning { border-radius: 4px; background: transparent !important; border-color: transparent !important; font-size: 18px; }
+    .ant-ball.lit { background: var(--r-secondary); border-color: var(--r-primary); box-shadow: 0 0 10px var(--r-glow); animation: partPop .6s cubic-bezier(.34,1.56,.64,1); }
+    .ant-ball.ant-star.lit, .ant-ball.ant-lightning.lit { background: transparent !important; }
 
     .ant-stem { width: 5px; height: 18px; border-radius: 3px 3px 0 0; }
 
@@ -172,19 +276,19 @@
       width: 80px; height: 66px; border-radius: 14px;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
     }
-
     .r-eyes-row { display: flex; gap: 14px; }
-
     .r-eye {
-      width: 14px; height: 14px; border-radius: 50%;
+      width: 14px; height: 14px;
       background: #111; border: 2px solid #333;
-      transition: background .5s, box-shadow .5s, border-color .5s;
+      transition: background .5s, box-shadow .5s, border-color .5s, border-radius .3s;
     }
-    .r-eye.lit {
-      background: var(--yellow); border-color: #fff;
-      box-shadow: 0 0 10px var(--yellow), 0 0 20px rgba(255,215,0,.5);
-      animation: partPop .6s cubic-bezier(.34,1.56,.64,1);
-    }
+    /* eye shapes — class set by JS */
+    .r-eye.eye-round  { border-radius: 50%; }
+    .r-eye.eye-square { border-radius: 3px; }
+    .r-eye.eye-star   { border-radius: 50%; background: transparent !important; font-size: 13px; display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; }
+
+    .r-eye.lit { background: var(--r-primary); border-color: #fff; box-shadow: 0 0 10px var(--r-primary), 0 0 20px var(--r-glow); animation: partPop .6s cubic-bezier(.34,1.56,.64,1); }
+    .r-eye.eye-star.lit { background: transparent !important; }
 
     .r-mouth {
       width: 34px; height: 8px; background: #111;
@@ -192,29 +296,23 @@
       display: flex; align-items: center; justify-content: space-evenly; padding: 1px 4px;
     }
     .r-mouth .tooth { width: 4px; height: 5px; background: rgba(255,255,255,.15); border-radius: 1px; }
-    .r-head.lit .r-mouth { border-color: var(--metal-d); }
+    .r-head.lit .r-mouth { border-color: var(--r-secondary); }
     .r-head.lit .r-mouth .tooth { background: rgba(255,255,255,.35); }
 
-    /* mid row */
+    /* mid */
     .r-mid { display: flex; align-items: center; }
-
-    .r-arm {
-      width: 21px; height: 56px; border-radius: 7px;
-    }
+    .r-arm { width: 21px; height: 56px; border-radius: 7px; }
     .r-arm.left  { border-radius: 8px 4px 4px 8px; margin-right: -2px; z-index: 0; }
     .r-arm.right { border-radius: 4px 8px 8px 4px; margin-left: -2px;  z-index: 0; }
-
     .r-body {
       width: 80px; height: 68px; border-radius: 8px; z-index: 1;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
     }
-
     .r-body-btns { display: flex; gap: 5px; }
     .r-btn { width: 10px; height: 10px; border-radius: 50%; background: #222; transition: background .5s, box-shadow .5s; }
-    .r-body.lit .r-btn.rb { background: var(--red);    box-shadow: 0 0 6px var(--red); }
-    .r-body.lit .r-btn.gb { background: var(--green);  box-shadow: 0 0 6px var(--green); }
-    .r-body.lit .r-btn.bb { background: var(--blue);   box-shadow: 0 0 6px var(--blue); }
-
+    .r-body.lit .r-btn.rb { background: var(--red);   box-shadow: 0 0 6px var(--red); }
+    .r-body.lit .r-btn.gb { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .r-body.lit .r-btn.bb { background: var(--blue);  box-shadow: 0 0 6px var(--blue); }
     .r-screen {
       width: 42px; height: 18px; background: #111;
       border-radius: 4px; border: 1px solid #222;
@@ -222,21 +320,13 @@
       font-size: 9px; font-family: monospace; color: #333;
       transition: color .5s, border-color .5s;
     }
-    .r-body.lit .r-screen { color: var(--green); border-color: var(--metal-d); }
+    .r-body.lit .r-screen { color: var(--green); border-color: var(--r-secondary); }
 
     /* legs */
     .r-legs { display: flex; gap: 8px; margin-top: -2px; }
     .r-leg-g { display: flex; flex-direction: column; align-items: center; }
-
-    .r-leg {
-      width: 27px; height: 38px;
-      border-radius: 4px 4px 0 0;
-    }
-    .r-foot {
-      width: 34px; height: 11px;
-      border-radius: 3px 3px 6px 6px;
-      margin-top: -2px;
-    }
+    .r-leg  { width: 27px; height: 38px; border-radius: 4px 4px 0 0; }
+    .r-foot { width: 34px; height: 11px; border-radius: 3px 3px 6px 6px; margin-top: -2px; }
 
     /* parts checklist */
     .parts-list { display: flex; flex-direction: column; gap: 3px; width: 100%; }
@@ -251,35 +341,29 @@
       min-width: 280px; max-width: 460px;
       box-shadow: 0 8px 32px rgba(0,0,0,.3);
     }
-
+    .q-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
     .subj-badge {
       display: inline-flex; align-items: center; gap: 6px;
       border-radius: 20px; padding: 5px 14px;
       font-family: 'Fredoka One', cursive; font-size: .88rem; color: #fff;
-      margin-bottom: 6px;
     }
     .subj-badge.math    { background: #1565c0; }
     .subj-badge.reading { background: #6a1b9a; }
     .subj-badge.logic   { background: #e65100; }
 
     .earn-label { font-size: .8rem; color: #999; margin-bottom: 14px; }
-
     .q-emoji {
       font-size: clamp(2.2rem, 8vw, 3.8rem);
       display: block; text-align: center;
-      margin-bottom: 10px; min-height: 1.3em;
-      line-height: 1.2;
+      margin-bottom: 10px; min-height: 1.3em; line-height: 1.2;
     }
-
     .q-text {
       font-size: clamp(1.1rem, 4vw, 1.45rem);
       color: #1a1a2e; font-weight: 800;
       text-align: center; margin-bottom: 18px;
       min-height: 1.4em; line-height: 1.3;
     }
-
     .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-
     .cbtn {
       padding: 15px 8px;
       border: 3px solid #e0e0e0; border-radius: 16px;
@@ -294,7 +378,6 @@
     .cbtn.correct  { background: #c8e6c9 !important; border-color: #388e3c !important; color: #1b5e20 !important; }
     .cbtn.wrong    { background: #ffcdd2 !important; border-color: #c62828 !important; color: #b71c1c !important; }
     .cbtn:disabled { cursor: default; }
-
     .feedback {
       min-height: 1.6em;
       font-family: 'Fredoka One', cursive;
@@ -304,17 +387,13 @@
     .feedback.err { color: #c62828; }
 
     /* ── COMPLETE SCREEN ── */
-    #complete-screen { justify-content: center; text-align: center; gap: 18px; }
-
+    #complete-screen { justify-content: center; text-align: center; gap: 16px; }
     .c-title {
       font-family: 'Fredoka One', cursive;
-      font-size: clamp(2rem, 7vw, 3.5rem);
-      color: var(--yellow);
-      text-shadow: 3px 3px 0 rgba(0,0,0,.4);
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      color: var(--yellow); text-shadow: 3px 3px 0 rgba(0,0,0,.4);
     }
-
-    .c-msg { color: #a0b8d0; font-size: clamp(1rem, 3vw, 1.25rem); max-width: 380px; line-height: 1.6; }
-
+    .c-msg { color: #a0b8d0; font-size: clamp(1rem, 3vw, 1.2rem); max-width: 380px; line-height: 1.6; }
     .again-btn {
       background: linear-gradient(135deg, var(--green), #2e7d32);
       color: #fff; border: none; border-radius: 24px;
@@ -326,8 +405,7 @@
     }
     .again-btn:hover  { transform: translateY(-3px); }
     .again-btn:active { transform: translateY(2px); }
-
-    .stars-row { font-size: 1.6rem; letter-spacing: 4px; }
+    .stars-row { font-size: 1.5rem; letter-spacing: 4px; }
 
     /* ── ANIMATIONS ── */
     @keyframes partPop {
@@ -335,22 +413,17 @@
       65%  { transform: scale(1.18) rotate(5deg); }
       100% { transform: scale(1) rotate(0deg); filter: none; }
     }
-
     @keyframes robotBounce {
-      0%, 100% { transform: scale(1.3) translateY(0); }
-      50%       { transform: scale(1.3) translateY(-10px); }
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
     }
-
     @keyframes confettiFall {
       0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
       100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
     }
-
     .confetti-pc {
-      position: fixed; pointer-events: none;
-      border-radius: 2px;
-      animation: confettiFall linear forwards;
-      z-index: 999;
+      position: fixed; pointer-events: none; border-radius: 2px;
+      animation: confettiFall linear forwards; z-index: 999;
     }
 
     /* ── RESPONSIVE ── */
@@ -370,52 +443,83 @@
 <!-- ══════════════ WELCOME ══════════════ -->
 <div id="welcome-screen" class="screen active">
   <h1 class="w-title">🤖 Build-A-Bot!</h1>
+  <p class="w-hi">Hi Winter! 👋</p>
   <p class="w-sub">
-    Answer <strong>math</strong> and <strong>reading</strong> questions<br>
+    Answer <strong>math</strong>, <strong>reading</strong> and <strong>logic</strong> questions
     to build your very own robot!
   </p>
+  <div id="preview-robot" style="margin: 4px 0;"></div>
+  <button class="start-btn" onclick="showCustomize()">🔧 Let's Build!</button>
+</div>
 
-  <div id="preview-robot"></div>
+<!-- ══════════════ CUSTOMIZE ══════════════ -->
+<div id="customize-screen" class="screen">
+  <h2 class="cust-title">Design Your Robot!</h2>
 
-  <div class="how-to">
-    <h3>How to Play</h3>
-    🔢 Answer a <strong>math</strong> question → earn a robot part<br>
-    📖 Answer a <strong>reading</strong> question → earn a robot part<br>
-    🧩 Solve a <strong>logic</strong> puzzle → earn a robot part<br>
-    🏆 Collect all <strong>8 parts</strong> to finish your robot!
+  <!-- Robot name -->
+  <div class="card">
+    <div class="card-title">🏷️ Name your robot</div>
+    <div class="name-row">
+      <input id="robot-name-input" class="name-input" type="text" maxlength="12"
+             placeholder="Type a name…" oninput="syncPreview()"/>
+    </div>
+    <div class="name-suggestions" id="name-suggestions"></div>
   </div>
 
-  <button class="start-btn" onclick="startGame()">🔧 Start Building!</button>
+  <!-- Color picker -->
+  <div class="card">
+    <div class="card-title">🎨 Pick a color</div>
+    <div class="color-grid" id="color-grid"></div>
+  </div>
+
+  <!-- Eye style -->
+  <div class="card">
+    <div class="card-title">👁️ Pick robot eyes</div>
+    <div class="part-opts" id="eye-opts"></div>
+  </div>
+
+  <!-- Antenna style -->
+  <div class="card">
+    <div class="card-title">📡 Pick an antenna</div>
+    <div class="part-opts" id="ant-opts"></div>
+  </div>
+
+  <!-- Live preview -->
+  <div class="card" style="text-align:center;">
+    <div class="card-title">👀 Preview</div>
+    <div id="cust-preview" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div id="cust-robot"></div>
+      <div id="cust-name-tag" class="robot-name-tag">BOLT</div>
+    </div>
+  </div>
+
+  <button class="build-btn" onclick="startGame()">🚀 Start Building!</button>
 </div>
 
 <!-- ══════════════ GAME ══════════════ -->
 <div id="game-screen" class="screen">
   <div class="g-header">
-    <div class="g-title">🤖 Build-A-Bot!</div>
+    <div class="g-title" id="g-title">🤖 Build-A-Bot!</div>
     <div class="parts-pill" id="parts-pill">Parts: 0 / 8</div>
   </div>
 
   <div class="game-layout">
-    <!-- Left: Robot -->
     <div class="robot-panel">
-      <div class="rp-title">Your Robot</div>
-      <div class="robot" id="game-robot">
-        <!-- antenna -->
+      <div class="rp-title">Building…</div>
+      <div id="game-robot" class="robot">
         <div class="ant-wrap">
-          <div class="ant-ball" id="rp-antball"></div>
+          <div class="ant-ball ant-round" id="rp-antball"></div>
           <div class="ant-stem rp" id="rp-antstem"></div>
         </div>
-        <!-- head -->
         <div class="r-head rp" id="rp-head">
           <div class="r-eyes-row">
-            <div class="r-eye" id="rp-eyeleft"></div>
-            <div class="r-eye" id="rp-eyeright"></div>
+            <div class="r-eye eye-round" id="rp-eyeleft"></div>
+            <div class="r-eye eye-round" id="rp-eyeright"></div>
           </div>
           <div class="r-mouth">
             <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
           </div>
         </div>
-        <!-- body row -->
         <div class="r-mid">
           <div class="r-arm left rp"  id="rp-larm"></div>
           <div class="r-body rp" id="rp-body">
@@ -424,11 +528,10 @@
               <div class="r-btn gb"></div>
               <div class="r-btn bb"></div>
             </div>
-            <div class="r-screen">HI!</div>
+            <div class="r-screen" id="rp-screen">HI!</div>
           </div>
           <div class="r-arm right rp" id="rp-rarm"></div>
         </div>
-        <!-- legs -->
         <div class="r-legs">
           <div class="r-leg-g">
             <div class="r-leg rp"  id="rp-lleg"></div>
@@ -440,14 +543,15 @@
           </div>
         </div>
       </div>
-
+      <div class="robot-name-tag" id="game-robot-name">BOLT</div>
       <div class="parts-list" id="parts-list"></div>
     </div>
 
-    <!-- Right: Question -->
     <div class="q-panel">
-      <div id="subj-badge" class="subj-badge math">🔢 Math</div>
-      <div id="earn-label" class="earn-label">Earn: 📡 Antenna</div>
+      <div class="q-top">
+        <div id="subj-badge" class="subj-badge math">🔢 Math</div>
+        <div id="earn-label" class="earn-label">Earn: 📡 Antenna</div>
+      </div>
       <span id="q-emoji" class="q-emoji"></span>
       <div  id="q-text"  class="q-text"></div>
       <div class="choices" id="choices"></div>
@@ -458,43 +562,65 @@
 
 <!-- ══════════════ COMPLETE ══════════════ -->
 <div id="complete-screen" class="screen">
-  <div class="c-title">🎉 Robot Complete! 🎉</div>
+  <div class="c-title" id="c-title">🎉 Robot Complete! 🎉</div>
   <div id="complete-robot"></div>
+  <div class="robot-name-tag" id="complete-robot-name" style="font-size:1.1rem;padding:6px 18px;"></div>
   <div class="stars-row">⭐⭐⭐⭐⭐</div>
-  <p class="c-msg">
-    Amazing work! You answered all the questions and built your very own robot!
-    You're a superstar engineer! 🚀
-  </p>
+  <p class="c-msg" id="c-msg">Amazing work!</p>
   <button class="again-btn" onclick="resetGame()">🔧 Build Another Robot!</button>
 </div>
 
 <script>
+/* ─── CONFIG DATA ─── */
+const ROBOT_COLORS = [
+  { id:'blue',   label:'Blue',   swatch:'#4a98c8', primary:'#78c8f0', secondary:'#4a98c8', glow:'rgba(120,200,240,.5)' },
+  { id:'red',    label:'Red',    swatch:'#e53935', primary:'#ef9a9a', secondary:'#e53935', glow:'rgba(239,83,80,.5)'   },
+  { id:'green',  label:'Green',  swatch:'#43a047', primary:'#a5d6a7', secondary:'#43a047', glow:'rgba(76,175,80,.5)'   },
+  { id:'purple', label:'Purple', swatch:'#8e24aa', primary:'#ce93d8', secondary:'#8e24aa', glow:'rgba(171,71,188,.5)'  },
+  { id:'gold',   label:'Gold',   swatch:'#f9a825', primary:'#fff176', secondary:'#f9a825', glow:'rgba(255,215,0,.5)'   },
+  { id:'pink',   label:'Pink',   swatch:'#d81b60', primary:'#f48fb1', secondary:'#d81b60', glow:'rgba(244,143,177,.5)' },
+];
+
+const EYE_STYLES = [
+  { id:'round',   label:'Round',   icon:'●●',  cls:'eye-round'  },
+  { id:'square',  label:'Square',  icon:'■■',  cls:'eye-square' },
+  { id:'star',    label:'Star',    icon:'★★',  cls:'eye-star'   },
+];
+
+const ANTENNA_STYLES = [
+  { id:'round',     label:'Ball',      icon:'🔵', cls:'ant-round',     content:'' },
+  { id:'star',      label:'Star',      icon:'⭐', cls:'ant-star',      content:'⭐' },
+  { id:'lightning', label:'Lightning', icon:'⚡', cls:'ant-lightning', content:'⚡' },
+];
+
+const NAME_SUGGESTIONS = ['BOLT', 'SPARKY', 'ZIPPY', 'BEEP', 'CLANK', 'NOVA'];
+
 /* ─── ROBOT PARTS ─── */
 const PARTS = [
-  { id: 'antenna', label: 'Antenna',   emoji: '📡', els: ['rp-antball', 'rp-antstem'] },
-  { id: 'head',    label: 'Head',      emoji: '🤖', els: ['rp-head'] },
-  { id: 'eyes',    label: 'Eyes',      emoji: '👁️', els: ['rp-eyeleft', 'rp-eyeright'] },
-  { id: 'body',    label: 'Body',      emoji: '🔋', els: ['rp-body'] },
-  { id: 'larm',    label: 'Left Arm',  emoji: '💪', els: ['rp-larm'] },
-  { id: 'rarm',    label: 'Right Arm', emoji: '💪', els: ['rp-rarm'] },
-  { id: 'lleg',    label: 'Left Leg',  emoji: '🦿', els: ['rp-lleg', 'rp-lfoot'] },
-  { id: 'rleg',    label: 'Right Leg', emoji: '🦿', els: ['rp-rleg', 'rp-rfoot'] },
+  { id:'antenna', label:'Antenna',   emoji:'📡', els:['rp-antball','rp-antstem'] },
+  { id:'head',    label:'Head',      emoji:'🤖', els:['rp-head'] },
+  { id:'eyes',    label:'Eyes',      emoji:'👁️', els:['rp-eyeleft','rp-eyeright'] },
+  { id:'body',    label:'Body',      emoji:'🔋', els:['rp-body'] },
+  { id:'larm',    label:'Left Arm',  emoji:'💪', els:['rp-larm'] },
+  { id:'rarm',    label:'Right Arm', emoji:'💪', els:['rp-rarm'] },
+  { id:'lleg',    label:'Left Leg',  emoji:'🦿', els:['rp-lleg','rp-lfoot'] },
+  { id:'rleg',    label:'Right Leg', emoji:'🦿', els:['rp-rleg','rp-rfoot'] },
 ];
 
 /* ─── QUESTION POOL ─── */
 const QUESTIONS = [
   // ── MATH: counting (up to 10) ──
-  { type:'math', display:'⭐⭐⭐⭐⭐⭐',         text:'Count the stars! How many are there?',   choices:['5','6','7','8'],  answer:'6' },
-  { type:'math', display:'🔩🔩🔩🔩🔩🔩🔩🔩', text:'Count the bolts! How many are there?',   choices:['6','7','8','9'],  answer:'8' },
-  { type:'math', display:'⚙️⚙️⚙️⚙️⚙️⚙️⚙️', text:'Count the gears! How many are there?',   choices:['5','6','7','8'],  answer:'7' },
-  { type:'math', display:'🤖🤖🤖🤖🤖',         text:'Count the robots! How many are there?',  choices:['3','4','5','6'],  answer:'5' },
-  { type:'math', display:'🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧', text:'Count the wrenches! How many?',       choices:['8','9','10','11'], answer:'10' },
-  // ── MATH: addition (up to 10) ──
-  { type:'math', display:'4 + 3 = ?',  text:'What is 4 plus 3?',   choices:['5','6','7','8'],  answer:'7' },
-  { type:'math', display:'5 + 3 = ?',  text:'What is 5 plus 3?',   choices:['6','7','8','9'],  answer:'8' },
+  { type:'math', display:'⭐⭐⭐⭐⭐⭐',           text:'Count the stars! How many are there?',    choices:['5','6','7','8'],   answer:'6'  },
+  { type:'math', display:'🔩🔩🔩🔩🔩🔩🔩🔩',   text:'Count the bolts! How many are there?',    choices:['6','7','8','9'],   answer:'8'  },
+  { type:'math', display:'⚙️⚙️⚙️⚙️⚙️⚙️⚙️',  text:'Count the gears! How many are there?',    choices:['5','6','7','8'],   answer:'7'  },
+  { type:'math', display:'🤖🤖🤖🤖🤖',            text:'Count the robots! How many are there?',   choices:['3','4','5','6'],   answer:'5'  },
+  { type:'math', display:'🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧', text:'Count the wrenches! How many?',           choices:['8','9','10','11'], answer:'10' },
+  // ── MATH: addition ──
+  { type:'math', display:'4 + 3 = ?',  text:'What is 4 plus 3?',   choices:['5','6','7','8'],   answer:'7'  },
+  { type:'math', display:'5 + 3 = ?',  text:'What is 5 plus 3?',   choices:['6','7','8','9'],   answer:'8'  },
   { type:'math', display:'6 + 4 = ?',  text:'What is 6 plus 4?',   choices:['8','9','10','11'], answer:'10' },
-  { type:'math', display:'7 + 2 = ?',  text:'What is 7 plus 2?',   choices:['7','8','9','10'], answer:'9' },
-  { type:'math', display:'3 + 5 = ?',  text:'What is 3 plus 5?',   choices:['6','7','8','9'],  answer:'8' },
+  { type:'math', display:'7 + 2 = ?',  text:'What is 7 plus 2?',   choices:['7','8','9','10'],  answer:'9'  },
+  { type:'math', display:'3 + 5 = ?',  text:'What is 3 plus 5?',   choices:['6','7','8','9'],   answer:'8'  },
   { type:'math', display:'5 + 5 = ?',  text:'What is 5 plus 5?',   choices:['8','9','10','11'], answer:'10' },
   // ── MATH: subtraction ──
   { type:'math', display:'8 − 3 = ?',  text:'What is 8 minus 3?',  choices:['3','4','5','6'],  answer:'5' },
@@ -502,107 +628,217 @@ const QUESTIONS = [
   { type:'math', display:'9 − 5 = ?',  text:'What is 9 minus 5?',  choices:['3','4','5','6'],  answer:'4' },
   { type:'math', display:'7 − 3 = ?',  text:'What is 7 minus 3?',  choices:['3','4','5','6'],  answer:'4' },
   { type:'math', display:'6 − 2 = ?',  text:'What is 6 minus 2?',  choices:['2','3','4','5'],  answer:'4' },
-  // ── MATH: bigger / smaller ──
-  { type:'math', display:'7  vs  3',   text:'Which number is BIGGER?',   choices:['3','5','7','9'],  answer:'7' },
-  { type:'math', display:'4  vs  9',   text:'Which number is BIGGER?',   choices:['4','6','8','9'],  answer:'9' },
-  { type:'math', display:'2  vs  8  vs  5', text:'Which number is the SMALLEST?', choices:['2','5','6','8'], answer:'2' },
-
+  // ── MATH: bigger / smallest ──
+  { type:'math', display:'7  vs  3',        text:'Which number is BIGGER?',      choices:['3','5','7','9'],  answer:'7' },
+  { type:'math', display:'4  vs  9',        text:'Which number is BIGGER?',      choices:['4','6','8','9'],  answer:'9' },
+  { type:'math', display:'2  vs  8  vs  5', text:'Which number is the SMALLEST?',choices:['2','5','6','8'],  answer:'2' },
   // ── LOGIC: number patterns ──
-  { type:'logic', display:'2, 4, 6, ___', text:'What number comes next?',          choices:['7','8','9','10'], answer:'8' },
-  { type:'logic', display:'1, 3, 5, ___', text:'What number comes next?',          choices:['6','7','8','9'],  answer:'7' },
-  { type:'logic', display:'10, 8, 6, ___', text:'What number comes next?',         choices:['3','4','5','6'],  answer:'4' },
-  { type:'logic', display:'3, ___, 7',    text:'What is the missing number?',      choices:['4','5','6','8'],  answer:'5' },
-  { type:'logic', display:'2, 4, ___, 8', text:'What is the missing number?',      choices:['5','6','7','8'],  answer:'6' },
-  // ── LOGIC: patterns with shapes/colors ──
-  { type:'logic', display:'🔴🔵🔴🔵🔴___', text:'What shape comes next?',          choices:['🔴','🔵','🟡','🟢'], answer:'🔵' },
-  { type:'logic', display:'⭐🔷⭐🔷⭐___',  text:'What comes next in the pattern?', choices:['⭐','🔷','🔶','🟣'],  answer:'🔷' },
-  { type:'logic', display:'🐱🐱🐶🐱🐱🐶___', text:'What comes next in the pattern?', choices:['🐱','🐶','🐸','🐻'], answer:'🐱' },
+  { type:'logic', display:'2, 4, 6, ___',   text:'What number comes next?',     choices:['7','8','9','10'], answer:'8' },
+  { type:'logic', display:'1, 3, 5, ___',   text:'What number comes next?',     choices:['6','7','8','9'],  answer:'7' },
+  { type:'logic', display:'10, 8, 6, ___',  text:'What number comes next?',     choices:['3','4','5','6'],  answer:'4' },
+  { type:'logic', display:'3, ___, 7',      text:'What is the missing number?', choices:['4','5','6','8'],  answer:'5' },
+  { type:'logic', display:'2, 4, ___, 8',   text:'What is the missing number?', choices:['5','6','7','8'],  answer:'6' },
+  // ── LOGIC: shape / color patterns ──
+  { type:'logic', display:'🔴🔵🔴🔵🔴___',    text:'What comes next in the pattern?', choices:['🔴','🔵','🟡','🟢'], answer:'🔵' },
+  { type:'logic', display:'⭐🔷⭐🔷⭐___',     text:'What comes next in the pattern?', choices:['⭐','🔷','🔶','🟣'],  answer:'🔷' },
+  { type:'logic', display:'🐱🐱🐶🐱🐱🐶___',  text:'What comes next in the pattern?', choices:['🐱','🐶','🐸','🐻'], answer:'🐱' },
   // ── LOGIC: odd one out ──
-  { type:'logic', display:'🐱  🐶  ☀️  🐟', text:'Which one does NOT belong? (Pick the one that is NOT an animal)', choices:['🐱','🐶','☀️','🐟'], answer:'☀️' },
-  { type:'logic', display:'3  7  A  5',      text:'Which one does NOT belong? (Pick the one that is NOT a number)', choices:['3','7','A','5'],      answer:'A' },
-  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which one does NOT belong? (Pick the one that is NOT a fruit)',  choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
+  { type:'logic', display:'🐱  🐶  ☀️  🐟', text:'Which one does NOT belong? (not an animal)', choices:['🐱','🐶','☀️','🐟'], answer:'☀️' },
+  { type:'logic', display:'3  7  A  5',      text:'Which one does NOT belong? (not a number)',  choices:['3','7','A','5'],      answer:'A'  },
+  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which one does NOT belong? (not a fruit)',   choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
   // ── LOGIC: true / false ──
-  { type:'logic', display:'5 > 8 ?', text:'Is 5 BIGGER than 8?',     choices:['YES','NO'],           answer:'NO' },
-  { type:'logic', display:'9 > 6 ?', text:'Is 9 BIGGER than 6?',     choices:['YES','NO'],           answer:'YES' },
-  { type:'logic', display:'3 + 4 = 8 ?', text:'Is 3 + 4 equal to 8?', choices:['YES','NO'],          answer:'NO' },
-
+  { type:'logic', display:'5 > 8 ?',     text:'Is 5 BIGGER than 8?',     choices:['YES','NO'], answer:'NO'  },
+  { type:'logic', display:'9 > 6 ?',     text:'Is 9 BIGGER than 6?',     choices:['YES','NO'], answer:'YES' },
+  { type:'logic', display:'3 + 4 = 8 ?', text:'Is 3 + 4 equal to 8?',   choices:['YES','NO'], answer:'NO'  },
   // ── READING: starting letter ──
   { type:'reading', display:'🐱', text:'CAT — what letter does it START with?',    choices:['C','A','T','D'], answer:'C' },
   { type:'reading', display:'🐶', text:'DOG — what letter does it START with?',    choices:['D','O','G','B'], answer:'D' },
   { type:'reading', display:'🚀', text:'ROCKET — what letter does it START with?', choices:['R','O','C','K'], answer:'R' },
   { type:'reading', display:'🌊', text:'WAVE — what letter does it START with?',   choices:['W','A','V','E'], answer:'W' },
   { type:'reading', display:'🦁', text:'LION — what letter does it START with?',   choices:['L','I','O','N'], answer:'L' },
+  // ── READING: ending letter ──
   { type:'reading', display:'🍎', text:'APPLE — what letter does it END with?',    choices:['A','E','P','L'], answer:'E' },
   { type:'reading', display:'🐱', text:'CAT — what letter does it END with?',      choices:['C','A','T','D'], answer:'T' },
   // ── READING: rhyming ──
-  { type:'reading', display:'🎩', text:'Which word RHYMES with HAT?',   choices:['CAT','DOG','RUN','BIG'],   answer:'CAT' },
-  { type:'reading', display:'☀️', text:'Which word RHYMES with SUN?',   choices:['FUN','HAT','BIG','CAT'],   answer:'FUN' },
-  { type:'reading', display:'🍰', text:'Which word RHYMES with CAKE?',  choices:['LAKE','DOG','SUN','RUN'],  answer:'LAKE' },
-  { type:'reading', display:'🌙', text:'Which word RHYMES with MOON?',  choices:['SOON','HAT','BIG','CAT'],  answer:'SOON' },
+  { type:'reading', display:'🎩', text:'Which word RHYMES with HAT?',  choices:['CAT','DOG','RUN','BIG'],  answer:'CAT'  },
+  { type:'reading', display:'☀️', text:'Which word RHYMES with SUN?',  choices:['FUN','HAT','BIG','CAT'],  answer:'FUN'  },
+  { type:'reading', display:'🍰', text:'Which word RHYMES with CAKE?', choices:['LAKE','DOG','SUN','RUN'], answer:'LAKE' },
+  { type:'reading', display:'🌙', text:'Which word RHYMES with MOON?', choices:['SOON','HAT','BIG','CAT'], answer:'SOON' },
   // ── READING: sight words ──
   { type:'reading', display:'🛑', text:'Which word says STOP?',  choices:['STOP','STEP','SHOP','FLOP'], answer:'STOP' },
-  { type:'reading', display:'🏃', text:'Which word says RUN?',   choices:['FUN','BUN','RUN','SUN'],     answer:'RUN' },
-  { type:'reading', display:'🐶', text:'Which word says DOG?',   choices:['LOG','DOG','FOG','HOG'],     answer:'DOG' },
+  { type:'reading', display:'🏃', text:'Which word says RUN?',   choices:['FUN','BUN','RUN','SUN'],     answer:'RUN'  },
+  { type:'reading', display:'🐶', text:'Which word says DOG?',   choices:['LOG','DOG','FOG','HOG'],     answer:'DOG'  },
   { type:'reading', display:'🏠', text:'Which word says HOME?',  choices:['SOME','DOME','HOME','FOAM'], answer:'HOME' },
 ];
 
 /* ─── HELPERS ─── */
-const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const rand    = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
 const shuffle = arr => [...arr].sort(() => Math.random() - .5);
-const $ = id => document.getElementById(id);
+const $       = id  => document.getElementById(id);
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
 }
 
-/* ─── BUILD ROBOT HTML ─── (reusable for welcome + complete screens) */
-function robotHTML(allLit = false) {
-  const cls = allLit ? 'rp lit' : 'rp';
-  const eyeCls = allLit ? 'r-eye lit' : 'r-eye';
-  const antBallCls = allLit ? 'ant-ball lit' : 'ant-ball';
-  return `
-    <div class="robot" style="${allLit ? 'animation:robotBounce 2s ease-in-out infinite' : ''}">
-      <div class="ant-wrap">
-        <div class="${antBallCls}"></div>
-        <div class="ant-stem ${cls}"></div>
-      </div>
-      <div class="r-head ${cls}">
-        <div class="r-eyes-row">
-          <div class="${eyeCls}"></div>
-          <div class="${eyeCls}"></div>
-        </div>
-        <div class="r-mouth">
-          <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
-        </div>
-      </div>
-      <div class="r-mid">
-        <div class="r-arm left ${cls}"></div>
-        <div class="r-body ${cls}">
-          <div class="r-body-btns">
-            <div class="r-btn rb"></div>
-            <div class="r-btn gb"></div>
-            <div class="r-btn bb"></div>
-          </div>
-          <div class="r-screen">HI!</div>
-        </div>
-        <div class="r-arm right ${cls}"></div>
-      </div>
-      <div class="r-legs">
-        <div class="r-leg-g">
-          <div class="r-leg ${cls}"></div>
-          <div class="r-foot ${cls}"></div>
-        </div>
-        <div class="r-leg-g">
-          <div class="r-leg ${cls}"></div>
-          <div class="r-foot ${cls}"></div>
-        </div>
-      </div>
-    </div>`;
+/* ─── CUSTOMIZATION STATE ─── */
+let custom = {
+  name:    'BOLT',
+  color:   ROBOT_COLORS[0],
+  eye:     EYE_STYLES[0],
+  antenna: ANTENNA_STYLES[0],
+};
+
+/* ─── BUILD CUSTOMIZE SCREEN ─── */
+function buildCustomizeUI() {
+  // Name suggestions
+  const ns = $('name-suggestions');
+  ns.innerHTML = '';
+  NAME_SUGGESTIONS.forEach(n => {
+    const tag = document.createElement('span');
+    tag.className = 'name-tag';
+    tag.textContent = n;
+    tag.onclick = () => { $('robot-name-input').value = n; custom.name = n; syncPreview(); };
+    ns.appendChild(tag);
+  });
+
+  // Color grid
+  const cg = $('color-grid');
+  cg.innerHTML = '';
+  ROBOT_COLORS.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'color-opt' + (c.id === custom.color.id ? ' selected' : '');
+    div.innerHTML = `<div class="color-swatch" style="background:${c.swatch}"></div>${c.label}`;
+    div.onclick = () => {
+      document.querySelectorAll('.color-opt').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      custom.color = c;
+      syncPreview();
+    };
+    cg.appendChild(div);
+  });
+
+  // Eye opts
+  const eo = $('eye-opts');
+  eo.innerHTML = '';
+  EYE_STYLES.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'part-opt' + (e.id === custom.eye.id ? ' selected' : '');
+    div.innerHTML = `<span class="part-icon">${e.icon}</span>${e.label}`;
+    div.onclick = () => {
+      document.querySelectorAll('#eye-opts .part-opt').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      custom.eye = e;
+      syncPreview();
+    };
+    eo.appendChild(div);
+  });
+
+  // Antenna opts
+  const ao = $('ant-opts');
+  ao.innerHTML = '';
+  ANTENNA_STYLES.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'part-opt' + (a.id === custom.antenna.id ? ' selected' : '');
+    div.innerHTML = `<span class="part-icon">${a.icon}</span>${a.label}`;
+    div.onclick = () => {
+      document.querySelectorAll('#ant-opts .part-opt').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      custom.antenna = a;
+      syncPreview();
+    };
+    ao.appendChild(div);
+  });
+
+  syncPreview();
 }
 
-/* ─── INIT PREVIEW ON WELCOME ─── */
-$('preview-robot').innerHTML = robotHTML(true);
+function syncPreview() {
+  const nameVal = $('robot-name-input').value.trim().toUpperCase() || 'BOLT';
+  custom.name = nameVal;
+  $('cust-name-tag').textContent = nameVal;
+  $('cust-robot').innerHTML = buildRobotHTML(true, custom);
+}
+
+/* ─── ROBOT HTML BUILDER ─── */
+function buildRobotHTML(allLit, cfg) {
+  const c   = cfg || custom;
+  const eyeCls  = allLit ? `r-eye ${c.eye.cls} lit` : `r-eye ${c.eye.cls}`;
+  const eyeContent = c.eye.id === 'star' ? '★' : '';
+  const antCls  = allLit ? `ant-ball ${c.antenna.cls} lit` : `ant-ball ${c.antenna.cls}`;
+  const rpCls   = allLit ? 'rp lit' : 'rp';
+  const colorStyle = `--r-primary:${c.color.primary};--r-secondary:${c.color.secondary};--r-glow:${c.color.glow};`;
+  const bounceStyle = allLit ? 'animation:robotBounce 2s ease-in-out infinite;' : '';
+
+  return `
+  <div class="robot" style="${colorStyle}${bounceStyle}">
+    <div class="ant-wrap">
+      <div class="${antCls}">${c.antenna.content}</div>
+      <div class="ant-stem ${rpCls}"></div>
+    </div>
+    <div class="r-head ${rpCls}">
+      <div class="r-eyes-row">
+        <div class="${eyeCls}">${eyeContent}</div>
+        <div class="${eyeCls}">${eyeContent}</div>
+      </div>
+      <div class="r-mouth">
+        <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
+      </div>
+    </div>
+    <div class="r-mid">
+      <div class="r-arm left ${rpCls}"></div>
+      <div class="r-body ${rpCls}">
+        <div class="r-body-btns">
+          <div class="r-btn rb"></div>
+          <div class="r-btn gb"></div>
+          <div class="r-btn bb"></div>
+        </div>
+        <div class="r-screen">HI!</div>
+      </div>
+      <div class="r-arm right ${rpCls}"></div>
+    </div>
+    <div class="r-legs">
+      <div class="r-leg-g">
+        <div class="r-leg ${rpCls}"></div>
+        <div class="r-foot ${rpCls}"></div>
+      </div>
+      <div class="r-leg-g">
+        <div class="r-leg ${rpCls}"></div>
+        <div class="r-foot ${rpCls}"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* apply color + style to the live game robot */
+function applyRobotStyle() {
+  const r = $('game-robot');
+  r.style.setProperty('--r-primary',   custom.color.primary);
+  r.style.setProperty('--r-secondary', custom.color.secondary);
+  r.style.setProperty('--r-glow',      custom.color.glow);
+
+  // eye classes
+  ['rp-eyeleft','rp-eyeright'].forEach(id => {
+    const el = $(id);
+    el.classList.remove('eye-round','eye-square','eye-star');
+    el.classList.add(custom.eye.cls);
+    el.textContent = custom.eye.id === 'star' ? '★' : '';
+  });
+
+  // antenna class + content
+  const ball = $('rp-antball');
+  ball.classList.remove('ant-round','ant-star','ant-lightning');
+  ball.classList.add(custom.antenna.cls);
+  ball.textContent = custom.antenna.content;
+}
+
+/* ─── WELCOME INIT ─── */
+$('preview-robot').innerHTML = buildRobotHTML(true, { color: ROBOT_COLORS[0], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] });
+
+function showCustomize() {
+  buildCustomizeUI();
+  showScreen('customize-screen');
+}
 
 /* ─── GAME STATE ─── */
 let gs = {};
@@ -615,8 +851,12 @@ function startGame() {
 
   gs = { questions, qIndex: 0, partsEarned: 0, answered: false };
 
+  $('g-title').textContent       = `🤖 Go, Winter!`;
+  $('game-robot-name').textContent = custom.name;
+
   buildChecklist();
   resetRobot();
+  applyRobotStyle();
   loadQuestion();
   showScreen('game-screen');
 }
@@ -634,7 +874,6 @@ function buildChecklist() {
 }
 
 function resetRobot() {
-  // Remove lit from all robot part elements in game-robot
   $('game-robot').querySelectorAll('.rp, .ant-ball, .r-eye').forEach(el => el.classList.remove('lit'));
 }
 
@@ -646,22 +885,17 @@ function loadQuestion() {
   const q    = questions[qIndex];
   const part = PARTS[qIndex];
 
-  // Badge
   const badge = $('subj-badge');
-  if (q.type === 'math') {
-    badge.textContent = '🔢 Math'; badge.className = 'subj-badge math';
-  } else if (q.type === 'logic') {
-    badge.textContent = '🧩 Logic'; badge.className = 'subj-badge logic';
-  } else {
-    badge.textContent = '📖 Reading'; badge.className = 'subj-badge reading';
-  }
+  if (q.type === 'math')    { badge.textContent = '🔢 Math';    badge.className = 'subj-badge math'; }
+  else if (q.type === 'logic') { badge.textContent = '🧩 Logic'; badge.className = 'subj-badge logic'; }
+  else                      { badge.textContent = '📖 Reading'; badge.className = 'subj-badge reading'; }
 
-  $('earn-label').textContent  = `Earn: ${part.emoji} ${part.label}`;
-  $('q-emoji').textContent     = q.display;
-  $('q-text').textContent      = q.text;
-  $('feedback').textContent    = '';
-  $('feedback').className      = 'feedback';
-  $('parts-pill').textContent  = `Parts: ${gs.partsEarned} / 8`;
+  $('earn-label').textContent = `Earn: ${part.emoji} ${part.label}`;
+  $('q-emoji').textContent    = q.display;
+  $('q-text').textContent     = q.text;
+  $('feedback').textContent   = '';
+  $('feedback').className     = 'feedback';
+  $('parts-pill').textContent = `Parts: ${gs.partsEarned} / 8`;
 
   const choicesEl = $('choices');
   choicesEl.innerHTML = '';
@@ -678,7 +912,7 @@ function handleAnswer(val, clickedBtn) {
   if (gs.answered) return;
   gs.answered = true;
 
-  const q = gs.questions[gs.qIndex];
+  const q  = gs.questions[gs.qIndex];
   const ok = val === q.answer;
 
   document.querySelectorAll('.cbtn').forEach(b => {
@@ -688,63 +922,64 @@ function handleAnswer(val, clickedBtn) {
 
   if (ok) {
     clickedBtn.classList.add('correct');
-    const praise = ['Amazing! 🎉', 'Super! ⭐', 'Fantastic! 🤩', 'You got it! 🚀', 'Brilliant! 💫'];
+    const praise = [
+      `Amazing, Winter! 🎉`,
+      `Super work, Winter! ⭐`,
+      `You got it! ${custom.name} is lucky! 🚀`,
+      `Brilliant, Winter! 💫`,
+      `Way to go, Winter! 🤩`,
+    ];
     $('feedback').textContent = praise[rand(0, praise.length - 1)];
     $('feedback').className   = 'feedback';
   } else {
     clickedBtn.classList.add('wrong');
-    $('feedback').textContent = `Good try! The answer is "${q.answer}" 😊`;
+    $('feedback').textContent = `Good try, Winter! The answer is "${q.answer}" 😊`;
     $('feedback').className   = 'feedback err';
   }
 
   gs.partsEarned++;
   setTimeout(() => unlockPart(PARTS[gs.qIndex]), 500);
-  setTimeout(() => { gs.qIndex++; loadQuestion(); }, 1900);
+  setTimeout(() => { gs.qIndex++; loadQuestion(); }, 2000);
 }
 
 function unlockPart(part) {
   part.els.forEach(elId => {
     const el = $(elId);
-    if (el) { el.classList.add('lit'); }
+    if (el) el.classList.add('lit');
   });
-
   const item = $(`pitem-${part.id}`);
-  if (item) {
-    item.classList.add('done');
-    item.querySelector('.pcheck').textContent = '✅';
-  }
-
+  if (item) { item.classList.add('done'); item.querySelector('.pcheck').textContent = '✅'; }
   $('parts-pill').textContent = `Parts: ${gs.partsEarned} / 8`;
 }
 
 function showComplete() {
-  $('complete-robot').innerHTML = robotHTML(true);
-  $('complete-robot').style.cssText = 'transform:scale(1.25); margin:8px 0;';
+  $('c-title').textContent        = `🎉 ${custom.name} is Complete! 🎉`;
+  $('c-msg').textContent          = `Great job, Winter! You built ${custom.name} from scratch! You're a superstar engineer! 🚀`;
+  $('complete-robot-name').textContent = custom.name;
+  $('complete-robot').innerHTML   = buildRobotHTML(true, custom);
+  $('complete-robot').style.cssText = 'margin: 4px 0;';
   showScreen('complete-screen');
   launchConfetti();
 }
 
 function launchConfetti() {
-  const colors = ['#ffd700','#ff7043','#4ecdc4','#ff6b6b','#ab47bc','#4caf50','#42a5f5'];
+  const colors = [custom.color.swatch, '#ffd700','#ff7043','#4ecdc4','#ff6b6b','#4caf50'];
   for (let i = 0; i < 70; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'confetti-pc';
       const size = 6 + Math.random() * 8;
-      el.style.cssText = `
-        left:${Math.random() * 100}vw; top:-20px;
-        width:${size}px; height:${size}px;
-        background:${colors[rand(0, colors.length - 1)]};
-        animation-duration:${1.5 + Math.random() * 2}s;
-        transform:rotate(${Math.random() * 360}deg);
-      `;
+      el.style.cssText = `left:${Math.random()*100}vw;top:-20px;width:${size}px;height:${size}px;background:${colors[rand(0,colors.length-1)]};animation-duration:${1.5+Math.random()*2}s;transform:rotate(${Math.random()*360}deg);`;
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 4000);
     }, i * 40);
   }
 }
 
-function resetGame() { showScreen('welcome-screen'); }
+function resetGame() {
+  custom = { name: 'BOLT', color: ROBOT_COLORS[0], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] };
+  showScreen('welcome-screen');
+}
 </script>
 </body>
 </html>
