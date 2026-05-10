@@ -461,32 +461,37 @@
     }
 
     /* ── COMPLETE / CELEBRATION SCREEN ── */
-    #complete-screen { justify-content: center; text-align: center; gap: 10px; overflow: hidden; }
-
-    .celeb-status {
-      font-family: 'Fredoka One', cursive;
-      font-size: clamp(1.2rem, 4vw, 1.8rem);
-      color: var(--yellow);
-      text-shadow: 2px 2px 0 rgba(0,0,0,.4);
-      min-height: 2rem;
-      animation: statusPop .4s ease;
-    }
+    #complete-screen { justify-content: flex-start; padding-top: 24px; text-align: center; gap: 8px; overflow: hidden; }
 
     .celeb-robots-row {
       display: flex; justify-content: center; align-items: flex-end;
       gap: 20px; width: 100%; flex-wrap: wrap;
+      /* fixed height so text below is always below the robot's anchor point */
+      height: 200px; flex-shrink: 0;
     }
 
     .celeb-robot-wrap {
       position: relative;
-      display: flex; justify-content: center; align-items: center;
-      min-height: 180px;
+      display: flex; justify-content: center; align-items: flex-end;
+      height: 200px;
+    }
+
+    .celeb-status {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      color: var(--yellow);
+      text-shadow: 2px 2px 0 rgba(0,0,0,.4);
+      min-height: 2rem;
+      position: relative; z-index: 20;
+      animation: statusPop .4s ease;
+      max-width: 480px; padding: 0 12px;
     }
 
     .celeb-song {
       max-width: 440px; width: 100%;
       min-height: 60px;
       display: flex; flex-direction: column; gap: 4px; align-items: center;
+      position: relative; z-index: 20;
     }
     .song-line {
       font-family: 'Fredoka One', cursive;
@@ -797,11 +802,11 @@
 
 <!-- ══════════════ COMPLETE ══════════════ -->
 <div id="complete-screen" class="screen">
-  <div id="celeb-status" class="celeb-status"></div>
   <div class="celeb-robots-row">
     <div id="celeb-robot-wrap" class="celeb-robot-wrap"></div>
     <div id="celeb-ozzie-wrap" class="celeb-robot-wrap" style="display:none;"></div>
   </div>
+  <div id="celeb-status" class="celeb-status"></div>
   <div id="celeb-song" class="celeb-song"></div>
   <div id="celeb-bottom" class="celeb-bottom" style="display:none;">
     <div class="stars-row">⭐⭐⭐⭐⭐</div>
@@ -921,45 +926,54 @@ const QUESTIONS = [
   { type:'math', display:'4  vs  9',       text:'Which number is BIGGER?',    choices:['4','6','8','9'],   answer:'9' },
   { type:'math', display:'2  vs  8  vs  5',text:'Which number is SMALLEST?',  choices:['2','5','6','8'],   answer:'2' },
   { type:'math', display:'Half of 10 = ?', text:'What is HALF of 10?',        choices:['3','4','5','6'],   answer:'5' },
-  // ── LOGIC: number patterns ──
-  { type:'logic', display:'2, 4, 6, ___',  text:'What number comes next?',    choices:['7','8','9','10'],  answer:'8' },
-  { type:'logic', display:'1, 3, 5, ___',  text:'What number comes next?',    choices:['6','7','8','9'],   answer:'7' },
-  { type:'logic', display:'10, 8, 6, ___', text:'What number comes next?',    choices:['3','4','5','6'],   answer:'4' },
-  { type:'logic', display:'3, ___, 7',     text:'What is the missing number?',choices:['4','5','6','8'],   answer:'5' },
-  { type:'logic', display:'2, 4, ___, 8',  text:'What is the missing number?',choices:['5','6','7','8'],   answer:'6' },
-  { type:'logic', display:'5, 10, 15, ___',text:'Count by 5s! What comes next?',choices:['16','18','20','25'],answer:'20'},
-  // ── LOGIC: shape / color patterns ──
-  { type:'logic', display:'🔴🔵🔴🔵🔴___',   text:'What comes next in the pattern?', choices:['🔴','🔵','🟡','🟢'], answer:'🔵' },
-  { type:'logic', display:'⭐🔷⭐🔷⭐___',    text:'What comes next in the pattern?', choices:['⭐','🔷','🔶','🟣'],  answer:'🔷' },
+  // ── LOGIC: number patterns (harder) ──
+  { type:'logic', display:'2, 4, ___, 8',   text:'What is the missing number?',      choices:['5','6','7','8'],    answer:'6'  },
+  { type:'logic', display:'3, ___, 7',      text:'What is the missing number?',      choices:['4','5','6','8'],    answer:'5'  },
+  { type:'logic', display:'3, 6, 9, ___',   text:'Count by 3s! What comes next?',   choices:['10','11','12','13'],answer:'12' },
+  { type:'logic', display:'5, 10, 15, ___', text:'Count by 5s! What comes next?',   choices:['16','18','20','25'],answer:'20' },
+  { type:'logic', display:'20, 15, 10, ___',text:'Count DOWN by 5s! What comes next?', choices:['4','5','6','8'], answer:'5'  },
+  { type:'logic', display:'1, 2, 4, 8, ___',text:'It doubles each time! What comes next?', choices:['9','12','16','20'], answer:'16' },
+  // ── LOGIC: harder patterns ──
+  { type:'logic', display:'🔺🔺🟦🔺🔺🟦___', text:'What comes next in the pattern?', choices:['🔺','🟦','🟣','🔶'], answer:'🔺' },
   { type:'logic', display:'🐱🐱🐶🐱🐱🐶___', text:'What comes next in the pattern?', choices:['🐱','🐶','🐸','🐻'], answer:'🐱' },
-  // ── LOGIC: odd one out ──
-  { type:'logic', display:'🐱  🐶  ☀️  🐟', text:'Which does NOT belong? (not an animal)', choices:['🐱','🐶','☀️','🐟'], answer:'☀️' },
-  { type:'logic', display:'3  7  A  5',      text:'Which does NOT belong? (not a number)',  choices:['3','7','A','5'],      answer:'A'  },
-  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which does NOT belong? (not a fruit)',   choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
-  // ── LOGIC: true / false ──
-  { type:'logic', display:'5 > 8 ?',      text:'Is 5 BIGGER than 8?',       choices:['YES','NO'], answer:'NO'  },
-  { type:'logic', display:'9 > 6 ?',      text:'Is 9 BIGGER than 6?',       choices:['YES','NO'], answer:'YES' },
-  { type:'logic', display:'3 + 4 = 8 ?',  text:'Is 3 + 4 equal to 8?',     choices:['YES','NO'], answer:'NO'  },
-  { type:'logic', display:'4 + 4 = 8 ?',  text:'Is 4 + 4 equal to 8?',     choices:['YES','NO'], answer:'YES' },
-  // ── READING: starting letter ──
-  { type:'reading', display:'🐱', text:'CAT — what letter does it START with?',    choices:['C','A','T','D'], answer:'C' },
-  { type:'reading', display:'🐶', text:'DOG — what letter does it START with?',    choices:['D','O','G','B'], answer:'D' },
-  { type:'reading', display:'🚀', text:'ROCKET — what letter does it START with?', choices:['R','O','C','K'], answer:'R' },
-  { type:'reading', display:'🌊', text:'WAVE — what letter does it START with?',   choices:['W','A','V','E'], answer:'W' },
-  { type:'reading', display:'🦁', text:'LION — what letter does it START with?',   choices:['L','I','O','N'], answer:'L' },
-  // ── READING: ending letter ──
-  { type:'reading', display:'🍎', text:'APPLE — what letter does it END with?',    choices:['A','E','P','L'], answer:'E' },
-  { type:'reading', display:'🐱', text:'CAT — what letter does it END with?',      choices:['C','A','T','D'], answer:'T' },
-  // ── READING: rhyming ──
-  { type:'reading', display:'🎩', text:'Which word RHYMES with HAT?',   choices:['CAT','DOG','RUN','BIG'],  answer:'CAT'  },
-  { type:'reading', display:'☀️', text:'Which word RHYMES with SUN?',   choices:['FUN','HAT','BIG','CAT'],  answer:'FUN'  },
-  { type:'reading', display:'🍰', text:'Which word RHYMES with CAKE?',  choices:['LAKE','DOG','SUN','RUN'], answer:'LAKE' },
-  { type:'reading', display:'🌙', text:'Which word RHYMES with MOON?',  choices:['SOON','HAT','BIG','CAT'], answer:'SOON' },
-  // ── READING: sight words ──
-  { type:'reading', display:'🛑', text:'Which word says STOP?',   choices:['STOP','STEP','SHOP','FLOP'], answer:'STOP' },
-  { type:'reading', display:'🏃', text:'Which word says RUN?',    choices:['FUN','BUN','RUN','SUN'],     answer:'RUN'  },
-  { type:'reading', display:'🐶', text:'Which word says DOG?',    choices:['LOG','DOG','FOG','HOG'],     answer:'DOG'  },
-  { type:'reading', display:'🏠', text:'Which word says HOME?',   choices:['SOME','DOME','HOME','FOAM'], answer:'HOME' },
+  // ── LOGIC: odd one out (harder) ──
+  { type:'logic', display:'2  4  6  9',     text:'Which does NOT belong? (not even)',    choices:['2','4','6','9'],      answer:'9'  },
+  { type:'logic', display:'3  7  A  5',     text:'Which does NOT belong? (not a number)',choices:['3','7','A','5'],      answer:'A'  },
+  { type:'logic', display:'🌊  🌧️  🍵  🔥', text:'Which does NOT belong? (not water)',  choices:['🌊','🌧️','🍵','🔥'],  answer:'🔥' },
+  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which does NOT belong? (not a fruit)',choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
+  // ── LOGIC: analogies ──
+  { type:'logic', display:'🌞 → Day   🌙 → ?',  text:'Sun goes with Day. Moon goes with…?', choices:['Morning','Night','Noon','Week'],       answer:'Night'     },
+  { type:'logic', display:'🐦 → Wings  🐟 → ?', text:'Birds have Wings. Fish have…?',        choices:['Paws','Wings','Fins','Legs'],          answer:'Fins'      },
+  { type:'logic', display:'🍎 → Fruit  🥕 → ?', text:'Apple is a Fruit. Carrot is a…?',      choices:['Fruit','Grain','Vegetable','Nut'],     answer:'Vegetable' },
+  // ── LOGIC: true / false (harder) ──
+  { type:'logic', display:'3 × 2 = 7 ?',   text:'Is 3 times 2 equal to 7?',    choices:['YES','NO'], answer:'NO'  },
+  { type:'logic', display:'Half of 8 = 4 ?',text:'Is half of 8 equal to 4?',   choices:['YES','NO'], answer:'YES' },
+  { type:'logic', display:'9 > 6 ?',        text:'Is 9 bigger than 6?',         choices:['YES','NO'], answer:'YES' },
+  { type:'logic', display:'4 + 4 = 8 ?',    text:'Is 4 + 4 equal to 8?',       choices:['YES','NO'], answer:'YES' },
+  // ── READING: blends & digraphs ──
+  { type:'reading', display:'🚢', text:'SHIP — which two letters make the beginning sound?',   choices:['SH','CH','TH','WH'], answer:'SH' },
+  { type:'reading', display:'🌳', text:'TREE — which two letters make the beginning sound?',   choices:['TR','TH','CH','BR'], answer:'TR' },
+  { type:'reading', display:'🐸', text:'FROG — which two letters make the beginning sound?',   choices:['FL','FR','BL','GL'], answer:'FR' },
+  { type:'reading', display:'🧀', text:'CHEESE — which two letters make the beginning sound?', choices:['SH','CH','TH','WH'], answer:'CH' },
+  { type:'reading', display:'🪁', text:'THROW — which two letters make the beginning sound?',  choices:['TH','TR','SH','CH'], answer:'TH' },
+  // ── READING: opposites ──
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of BIG?',  choices:['HUGE','SMALL','TALL','WIDE'],   answer:'SMALL' },
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of HOT?',  choices:['WARM','COLD','COOL','WET'],     answer:'COLD'  },
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of FAST?', choices:['QUICK','SLOW','STOP','ZOOM'],   answer:'SLOW'  },
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of DAY?',  choices:['MORNING','NIGHT','NOON','DAWN'],answer:'NIGHT' },
+  // ── READING: syllables ──
+  { type:'reading', display:'🤖', text:'How many syllables in ROBOT? (clap it: RO-BOT)',              choices:['1','2','3','4'], answer:'2' },
+  { type:'reading', display:'🦋', text:'How many syllables in BUTTERFLY? (clap it: BUT-TER-FLY)',     choices:['1','2','3','4'], answer:'3' },
+  { type:'reading', display:'🐉', text:'How many syllables in DRAGON? (clap it: DRA-GON)',            choices:['1','2','3','4'], answer:'2' },
+  { type:'reading', display:'🌈', text:'How many syllables in RAINBOW? (clap it: RAIN-BOW)',          choices:['1','2','3','4'], answer:'2' },
+  // ── READING: word families ──
+  { type:'reading', display:'📚', text:'Which word belongs in the -AT family? (cat, bat, hat…)', choices:['BIG','MAT','RUN','SIT'],  answer:'MAT' },
+  { type:'reading', display:'📚', text:'Which word belongs in the -OG family? (dog, log, fog…)', choices:['CAT','PIN','HOG','BIG'],  answer:'HOG' },
+  { type:'reading', display:'📚', text:'Which word belongs in the -ING family? (ring, sing…)',   choices:['CAT','RUN','KING','TOP'], answer:'KING'},
+  // ── READING: sentence completion ──
+  { type:'reading', display:'🌤️', text:'The sun is very ___. Which word fits best?',    choices:['BRIGHT','SWIM','LOUD','PURPLE'], answer:'BRIGHT' },
+  { type:'reading', display:'🐟', text:'Fish live in the ___. Which word fits best?',   choices:['SKY','WATER','TREE','SNOW'],     answer:'WATER'  },
+  { type:'reading', display:'🌧️', text:'It is raining so I need an ___.',              choices:['HAT','UMBRELLA','SHOE','SOCK'],  answer:'UMBRELLA'},
 ];
 
 /* ─── HELPERS ─── */
