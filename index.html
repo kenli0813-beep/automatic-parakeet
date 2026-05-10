@@ -109,7 +109,6 @@
       text-shadow: 2px 2px 0 rgba(0,0,0,.3);
     }
 
-    /* robot name */
     .name-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .name-input {
       flex: 1; min-width: 0;
@@ -140,7 +139,6 @@
     }
     .name-tag:hover { background: rgba(255,215,0,.3); }
 
-    /* color picker */
     .color-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -162,7 +160,6 @@
     .color-opt.selected { border-color: #fff; transform: scale(1.07); }
     .color-swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.3); }
 
-    /* part picker (eyes + antenna) */
     .part-opts { display: flex; gap: 10px; flex-wrap: wrap; }
     .part-opt {
       flex: 1; min-width: 70px;
@@ -231,10 +228,25 @@
       border-radius: 20px; padding: 3px 12px;
     }
 
+    /* ── POWER-UPS DISPLAY ── */
+    #powerups-display {
+      display: flex; flex-direction: column; gap: 5px;
+      width: 100%;
+    }
+    .power-up-item {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Fredoka One', cursive;
+      font-size: .8rem; color: var(--yellow);
+      background: rgba(255,215,0,.12);
+      border: 1px solid rgba(255,215,0,.3);
+      border-radius: 12px; padding: 4px 10px;
+      animation: powerUpPop .6s cubic-bezier(.34,1.56,.64,1);
+    }
+    .pu-desc { color: #fff; font-size: .75rem; }
+
     /* ── ROBOT CSS ART ── */
     .robot { display: flex; flex-direction: column; align-items: center; }
 
-    /* CSS custom props for robot color — set by JS */
     .robot {
       --r-primary:  #78c8f0;
       --r-secondary: #4a98c8;
@@ -253,7 +265,6 @@
       animation: partPop .6s cubic-bezier(.34,1.56,.64,1);
     }
 
-    /* antenna */
     .ant-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: -2px; }
     .ant-ball {
       width: 18px; height: 18px;
@@ -261,7 +272,6 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 13px; line-height: 1;
       transition: background .5s, border-color .5s, box-shadow .5s;
-      /* shape set by JS class */
     }
     .ant-ball.ant-round     { border-radius: 50%; }
     .ant-ball.ant-star      { border-radius: 4px; background: transparent !important; border-color: transparent !important; font-size: 18px; }
@@ -271,7 +281,6 @@
 
     .ant-stem { width: 5px; height: 18px; border-radius: 3px 3px 0 0; }
 
-    /* head */
     .r-head {
       width: 80px; height: 66px; border-radius: 14px;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
@@ -282,7 +291,6 @@
       background: #111; border: 2px solid #333;
       transition: background .5s, box-shadow .5s, border-color .5s, border-radius .3s;
     }
-    /* eye shapes — class set by JS */
     .r-eye.eye-round  { border-radius: 50%; }
     .r-eye.eye-square { border-radius: 3px; }
     .r-eye.eye-star   { border-radius: 50%; background: transparent !important; font-size: 13px; display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; }
@@ -299,7 +307,6 @@
     .r-head.lit .r-mouth { border-color: var(--r-secondary); }
     .r-head.lit .r-mouth .tooth { background: rgba(255,255,255,.35); }
 
-    /* mid */
     .r-mid { display: flex; align-items: center; }
     .r-arm { width: 21px; height: 56px; border-radius: 7px; }
     .r-arm.left  { border-radius: 8px 4px 4px 8px; margin-right: -2px; z-index: 0; }
@@ -322,13 +329,11 @@
     }
     .r-body.lit .r-screen { color: var(--green); border-color: var(--r-secondary); }
 
-    /* legs */
     .r-legs { display: flex; gap: 8px; margin-top: -2px; }
     .r-leg-g { display: flex; flex-direction: column; align-items: center; }
     .r-leg  { width: 27px; height: 38px; border-radius: 4px 4px 0 0; }
     .r-foot { width: 34px; height: 11px; border-radius: 3px 3px 6px 6px; margin-top: -2px; }
 
-    /* parts checklist */
     .parts-list { display: flex; flex-direction: column; gap: 3px; width: 100%; }
     .pitem { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: rgba(255,255,255,.3); transition: color .4s; }
     .pitem.done { color: rgba(255,255,255,.9); }
@@ -350,6 +355,8 @@
     .subj-badge.math    { background: #1565c0; }
     .subj-badge.reading { background: #6a1b9a; }
     .subj-badge.logic   { background: #e65100; }
+    .subj-badge.bonus   { background: #c62828; }
+    .subj-badge.trivia  { background: #00695c; }
 
     .earn-label { font-size: .8rem; color: #999; margin-bottom: 14px; }
     .q-emoji {
@@ -386,6 +393,73 @@
     }
     .feedback.err { color: #c62828; }
 
+    /* ── OZZIE SCREEN ── */
+    #ozzie-screen { gap: 14px; padding-top: 24px; padding-bottom: 32px; justify-content: center; }
+
+    .ozzie-intro {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      color: #a0d8ef; text-align: center;
+      max-width: 440px; line-height: 1.6;
+    }
+    .ozzie-score-badge {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      color: var(--yellow);
+      background: rgba(255,215,0,.12);
+      border: 2px solid rgba(255,215,0,.3);
+      border-radius: 20px; padding: 8px 22px;
+    }
+    .ozzie-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .ozzie-nametag {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem; color: #fff;
+      background: rgba(255,100,200,.2);
+      border: 1px solid rgba(255,100,200,.4);
+      border-radius: 20px; padding: 3px 14px;
+    }
+
+    /* ── BONUS ROUND SCREEN ── */
+    #bonus-screen { gap: 14px; }
+
+    .bonus-header {
+      display: flex; justify-content: space-between; align-items: center;
+      width: 100%; max-width: 760px; flex-wrap: wrap; gap: 6px;
+    }
+    .bonus-title {
+      font-family: 'Fredoka One', cursive; color: #ff6b6b; font-size: 1.2rem;
+    }
+    .bonus-score-pill {
+      background: rgba(255,107,107,.2);
+      border: 1px solid rgba(255,107,107,.4);
+      border-radius: 20px; padding: 6px 14px;
+      color: #ff6b6b; font-weight: 700; font-size: .9rem;
+    }
+    .bonus-robots-row {
+      display: flex; align-items: flex-end; justify-content: center; gap: 24px;
+      flex-wrap: wrap;
+    }
+    .ozzie-panel {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      background: rgba(255,100,200,.08);
+      border: 1px solid rgba(255,100,200,.2);
+      border-radius: 20px; padding: 14px 12px;
+    }
+    .ozzie-panel-title {
+      font-family: 'Fredoka One', cursive; font-size: .85rem;
+      color: #ff9de2;
+    }
+    .topic-badge {
+      font-family: 'Fredoka One', cursive;
+      font-size: .8rem; color: #fff;
+      background: rgba(0,200,150,.3);
+      border: 1px solid rgba(0,200,150,.5);
+      border-radius: 12px; padding: 3px 10px;
+      margin-bottom: 4px;
+    }
+
     /* ── COMPLETE / CELEBRATION SCREEN ── */
     #complete-screen { justify-content: center; text-align: center; gap: 10px; overflow: hidden; }
 
@@ -398,10 +472,15 @@
       animation: statusPop .4s ease;
     }
 
+    .celeb-robots-row {
+      display: flex; justify-content: center; align-items: flex-end;
+      gap: 20px; width: 100%; flex-wrap: wrap;
+    }
+
     .celeb-robot-wrap {
       position: relative;
       display: flex; justify-content: center; align-items: center;
-      min-height: 180px; width: 100%;
+      min-height: 180px;
     }
 
     .celeb-song {
@@ -462,8 +541,17 @@
       position: fixed; pointer-events: none; border-radius: 2px;
       animation: confettiFall linear forwards; z-index: 999;
     }
+    @keyframes powerUpPop {
+      0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+      60%  { transform: scale(1.2) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    @keyframes ozzieSlide {
+      0%   { transform: translateX(220px) scale(.7); opacity: 0; }
+      60%  { transform: translateX(-12px) scale(1.05); opacity: 1; }
+      100% { transform: translateX(0) scale(1); opacity: 1; }
+    }
 
-    /* celebration keyframes */
     @keyframes robotDance {
       0%   { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
       18%  { transform: scale(1.35) rotate(9deg)  translateY(-14px);}
@@ -472,6 +560,13 @@
       72%  { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
       90%  { transform: scale(1.35) rotate(9deg)  translateY(-14px);}
       100% { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
+    }
+    @keyframes ozzieDance {
+      0%   { transform: scale(.85) rotate(9deg)  translateY(0);    }
+      25%  { transform: scale(.9)  rotate(-9deg) translateY(-10px);}
+      50%  { transform: scale(.85) rotate(7deg)  translateY(2px);  }
+      75%  { transform: scale(.9)  rotate(-8deg) translateY(-8px); }
+      100% { transform: scale(.85) rotate(9deg)  translateY(0);    }
     }
     @keyframes robotChomp {
       0%   { transform: scale(1.35) translateY(0)   rotate(0deg);  }
@@ -537,7 +632,7 @@
   <p class="w-hi">Hi Winter! 👋</p>
   <p class="w-sub">
     Answer <strong>math</strong>, <strong>reading</strong> and <strong>logic</strong> questions
-    to build your very own robot!
+    to build your very own robot — then unlock epic power-ups and meet Ozzie-bot!
   </p>
   <div id="preview-robot" style="margin: 4px 0;"></div>
   <button class="start-btn" onclick="showCustomize()">🔧 Let's Build!</button>
@@ -547,7 +642,6 @@
 <div id="customize-screen" class="screen">
   <h2 class="cust-title">Design Your Robot!</h2>
 
-  <!-- Robot name -->
   <div class="card">
     <div class="card-title">🏷️ Name your robot</div>
     <div class="name-row">
@@ -557,25 +651,21 @@
     <div class="name-suggestions" id="name-suggestions"></div>
   </div>
 
-  <!-- Color picker -->
   <div class="card">
     <div class="card-title">🎨 Pick a color</div>
     <div class="color-grid" id="color-grid"></div>
   </div>
 
-  <!-- Eye style -->
   <div class="card">
     <div class="card-title">👁️ Pick robot eyes</div>
     <div class="part-opts" id="eye-opts"></div>
   </div>
 
-  <!-- Antenna style -->
   <div class="card">
     <div class="card-title">📡 Pick an antenna</div>
     <div class="part-opts" id="ant-opts"></div>
   </div>
 
-  <!-- Live preview -->
   <div class="card" style="text-align:center;">
     <div class="card-title">👀 Preview</div>
     <div id="cust-preview" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
@@ -596,7 +686,7 @@
 
   <div class="game-layout">
     <div class="robot-panel">
-      <div class="rp-title">Building…</div>
+      <div class="rp-title" id="rp-title">Building…</div>
       <div id="game-robot" class="robot">
         <div class="ant-wrap">
           <div class="ant-ball ant-round" id="rp-antball"></div>
@@ -636,6 +726,7 @@
       </div>
       <div class="robot-name-tag" id="game-robot-name">BOLT</div>
       <div class="parts-list" id="parts-list"></div>
+      <div id="powerups-display"></div>
     </div>
 
     <div class="q-panel">
@@ -651,10 +742,66 @@
   </div>
 </div>
 
+<!-- ══════════════ OZZIE SCREEN ══════════════ -->
+<div id="ozzie-screen" class="screen">
+  <h2 class="cust-title">🤖 Meet Ozzie-bot!</h2>
+  <div class="ozzie-score-badge" id="ozzie-score-badge">You got 8 / 8 right!</div>
+  <p class="ozzie-intro" id="ozzie-intro">Ozzie-bot has been waiting for you!</p>
+
+  <div class="ozzie-wrap">
+    <div id="ozzie-robot-preview"></div>
+    <div class="ozzie-nametag">OZZIE-BOT</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎨 Pick Ozzie's color!</div>
+    <div class="color-grid" id="ozzie-color-grid"></div>
+  </div>
+
+  <button class="build-btn" style="background:linear-gradient(135deg,#c62828,#b71c1c);box-shadow:0 6px 0 #7f0000;" onclick="startBonusRound()">
+    🎯 Start Bonus Round!
+  </button>
+</div>
+
+<!-- ══════════════ BONUS ROUND ══════════════ -->
+<div id="bonus-screen" class="screen">
+  <div class="bonus-header">
+    <div class="bonus-title">🎯 Bonus Round! Get 2 right to REUNITE!</div>
+    <div class="bonus-score-pill" id="bonus-score-pill">Score: 0 / 3</div>
+  </div>
+
+  <div class="bonus-robots-row">
+    <div class="robot-panel" style="min-width:120px;">
+      <div class="rp-title" id="bonus-main-label">BOLT</div>
+      <div id="bonus-main-robot"></div>
+    </div>
+    <div style="font-family:'Fredoka One',cursive;color:rgba(255,255,255,.3);font-size:2rem;align-self:center;">↔️</div>
+    <div class="ozzie-panel">
+      <div class="ozzie-panel-title">Ozzie-bot 🤖</div>
+      <div id="bonus-ozzie-robot"></div>
+    </div>
+  </div>
+
+  <div class="q-panel" style="max-width:480px;">
+    <div class="q-top">
+      <div class="subj-badge trivia" id="bonus-badge">🌟 Trivia</div>
+      <div class="topic-badge" id="bonus-topic">Bluey 🐕</div>
+    </div>
+    <div class="earn-label">Get 2 right → Ozzie reunites with <span id="bonus-robot-name-span">BOLT</span>!</div>
+    <span id="bonus-q-emoji" class="q-emoji"></span>
+    <div  id="bonus-q-text"  class="q-text"></div>
+    <div class="choices" id="bonus-choices"></div>
+    <div id="bonus-feedback" class="feedback"></div>
+  </div>
+</div>
+
 <!-- ══════════════ COMPLETE ══════════════ -->
 <div id="complete-screen" class="screen">
   <div id="celeb-status" class="celeb-status"></div>
-  <div id="celeb-robot-wrap" class="celeb-robot-wrap"></div>
+  <div class="celeb-robots-row">
+    <div id="celeb-robot-wrap" class="celeb-robot-wrap"></div>
+    <div id="celeb-ozzie-wrap" class="celeb-robot-wrap" style="display:none;"></div>
+  </div>
   <div id="celeb-song" class="celeb-song"></div>
   <div id="celeb-bottom" class="celeb-bottom" style="display:none;">
     <div class="stars-row">⭐⭐⭐⭐⭐</div>
@@ -700,49 +847,100 @@ const PARTS = [
   { id:'rleg',    label:'Right Leg', emoji:'🦿', els:['rp-rleg','rp-rfoot'] },
 ];
 
-/* ─── QUESTION POOL ─── */
+/* ─── POWER-UPS ─── */
+const POWER_UPS = [
+  { id:'rocket', label:'Rocket Booster', emoji:'🚀', desc:'ZOOM ZOOM!' },
+  { id:'wings',  label:'Super Wings',    emoji:'🦅', desc:'I CAN FLY!' },
+  { id:'laser',  label:'Ice Laser',      emoji:'❄️', desc:'ZAP ZAP!' },
+  { id:'drone',  label:'Drone Buddy',    emoji:'🚁', desc:'BZZZZZ!' },
+];
+
+/* ─── BONUS POWER-UP QUESTIONS (earn during main round) ─── */
+const BONUS_POWERUP_QUESTIONS = [
+  {
+    type:'bonus', display:'🤖 + 🤖 + 🤖 = ?',
+    text:'3 robots plus 3 more robots equals how many?',
+    choices:['4','5','6','7'], answer:'6', powerUpIdx:0
+  },
+  {
+    type:'bonus', display:'🔢 Tricky!',
+    text:'What is 10 minus 3 minus 2?',
+    choices:['3','4','5','6'], answer:'5', powerUpIdx:1
+  },
+  {
+    type:'bonus', display:'🧠 Big Brain!',
+    text:'Double 6 equals how many?',
+    choices:['10','11','12','13'], answer:'12', powerUpIdx:2
+  },
+];
+
+/* ─── BONUS TRIVIA QUESTIONS ─── */
+const BONUS_TRIVIA = [
+  // Bluey
+  { topic:'Bluey 🐕', display:'💙🐕', text:'What is Bluey\'s little sister\'s name?', choices:['Bingo','Muffin','Judo','Stripe'], answer:'Bingo' },
+  { topic:'Bluey 🐕', display:'🏠🐕', text:'What does Bluey\'s dad LOVE to do?', choices:['Play games','Watch TV','Sleep','Cook'], answer:'Play games' },
+  { topic:'Bluey 🐕', display:'🎮🐕', text:'What kind of animal is Bluey?', choices:['Cat','Dog','Fox','Bear'], answer:'Dog' },
+  // The Wild Robot
+  { topic:'Wild Robot 🤖', display:'🤖🌿', text:'In The Wild Robot, what is the robot\'s name?', choices:['Roz','Bolt','Nova','Zip'], answer:'Roz' },
+  { topic:'Wild Robot 🤖', display:'🦢🤖', text:'What baby animal does Roz take care of?', choices:['A gosling','A duckling','A fox kit','A bear cub'], answer:'A gosling' },
+  { topic:'Wild Robot 🤖', display:'🌲🤖', text:'Where does Roz live in The Wild Robot?', choices:['In the wild','In a city','Under the sea','On the moon'], answer:'In the wild' },
+  // Wall-E
+  { topic:'Wall-E 🛸', display:'🤖❤️', text:'What is the name of the girl robot Wall-E loves?', choices:['EVE','Nova','Dot','Star'], answer:'EVE' },
+  { topic:'Wall-E 🛸', display:'🌱🤖', text:'What tiny living thing does Wall-E find?', choices:['A plant','A bug','A fish','A bird'], answer:'A plant' },
+  { topic:'Wall-E 🛸', display:'🗑️🤖', text:'What does Wall-E do all day on Earth?', choices:['Collect trash','Dance','Paint','Sing'], answer:'Collect trash' },
+  // Animals
+  { topic:'Animals 🦁', display:'🦒', text:'Which animal has the longest neck?', choices:['Elephant','Giraffe','Horse','Camel'], answer:'Giraffe' },
+  { topic:'Animals 🦁', display:'🦈', text:'What do fish breathe through?', choices:['Lungs','Gills','Skin','Nose'], answer:'Gills' },
+  { topic:'Animals 🦁', display:'🐧', text:'Which bird CANNOT fly but loves to swim?', choices:['Eagle','Parrot','Penguin','Flamingo'], answer:'Penguin' },
+  { topic:'Animals 🦁', display:'🦋', text:'What does a caterpillar turn into?', choices:['A bee','A butterfly','A moth','A firefly'], answer:'A butterfly' },
+  // K-pop
+  { topic:'K-Pop 🎵', display:'🎵🌟', text:'K-pop music comes from which country?', choices:['Japan','Korea','China','Brazil'], answer:'Korea' },
+  { topic:'K-Pop 🎵', display:'🎤💜', text:'What does "K" stand for in K-pop?', choices:['Kawaii','Kinetic','Korean','Kool'], answer:'Korean' },
+  { topic:'K-Pop 🎵', display:'🎶🕺', text:'K-pop groups are famous for amazing what?', choices:['Dance moves','Magic tricks','Cooking','Sports'], answer:'Dance moves' },
+];
+
+/* ─── QUESTION POOL (no counting questions) ─── */
 const QUESTIONS = [
-  // ── MATH: counting (up to 10) ──
-  { type:'math', display:'⭐⭐⭐⭐⭐⭐',           text:'Count the stars! How many are there?',    choices:['5','6','7','8'],   answer:'6'  },
-  { type:'math', display:'🔩🔩🔩🔩🔩🔩🔩🔩',   text:'Count the bolts! How many are there?',    choices:['6','7','8','9'],   answer:'8'  },
-  { type:'math', display:'⚙️⚙️⚙️⚙️⚙️⚙️⚙️',  text:'Count the gears! How many are there?',    choices:['5','6','7','8'],   answer:'7'  },
-  { type:'math', display:'🤖🤖🤖🤖🤖',            text:'Count the robots! How many are there?',   choices:['3','4','5','6'],   answer:'5'  },
-  { type:'math', display:'🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧', text:'Count the wrenches! How many?',           choices:['8','9','10','11'], answer:'10' },
   // ── MATH: addition ──
-  { type:'math', display:'4 + 3 = ?',  text:'What is 4 plus 3?',   choices:['5','6','7','8'],   answer:'7'  },
-  { type:'math', display:'5 + 3 = ?',  text:'What is 5 plus 3?',   choices:['6','7','8','9'],   answer:'8'  },
-  { type:'math', display:'6 + 4 = ?',  text:'What is 6 plus 4?',   choices:['8','9','10','11'], answer:'10' },
-  { type:'math', display:'7 + 2 = ?',  text:'What is 7 plus 2?',   choices:['7','8','9','10'],  answer:'9'  },
-  { type:'math', display:'3 + 5 = ?',  text:'What is 3 plus 5?',   choices:['6','7','8','9'],   answer:'8'  },
-  { type:'math', display:'5 + 5 = ?',  text:'What is 5 plus 5?',   choices:['8','9','10','11'], answer:'10' },
+  { type:'math', display:'4 + 3 = ?',      text:'What is 4 plus 3?',          choices:['5','6','7','8'],   answer:'7'  },
+  { type:'math', display:'5 + 3 = ?',      text:'What is 5 plus 3?',          choices:['6','7','8','9'],   answer:'8'  },
+  { type:'math', display:'6 + 4 = ?',      text:'What is 6 plus 4?',          choices:['8','9','10','11'], answer:'10' },
+  { type:'math', display:'7 + 2 = ?',      text:'What is 7 plus 2?',          choices:['7','8','9','10'],  answer:'9'  },
+  { type:'math', display:'5 + 5 = ?',      text:'What is 5 plus 5?',          choices:['8','9','10','11'], answer:'10' },
   // ── MATH: subtraction ──
-  { type:'math', display:'8 − 3 = ?',  text:'What is 8 minus 3?',  choices:['3','4','5','6'],  answer:'5' },
-  { type:'math', display:'10 − 4 = ?', text:'What is 10 minus 4?', choices:['5','6','7','8'],  answer:'6' },
-  { type:'math', display:'9 − 5 = ?',  text:'What is 9 minus 5?',  choices:['3','4','5','6'],  answer:'4' },
-  { type:'math', display:'7 − 3 = ?',  text:'What is 7 minus 3?',  choices:['3','4','5','6'],  answer:'4' },
-  { type:'math', display:'6 − 2 = ?',  text:'What is 6 minus 2?',  choices:['2','3','4','5'],  answer:'4' },
-  // ── MATH: bigger / smallest ──
-  { type:'math', display:'7  vs  3',        text:'Which number is BIGGER?',      choices:['3','5','7','9'],  answer:'7' },
-  { type:'math', display:'4  vs  9',        text:'Which number is BIGGER?',      choices:['4','6','8','9'],  answer:'9' },
-  { type:'math', display:'2  vs  8  vs  5', text:'Which number is the SMALLEST?',choices:['2','5','6','8'],  answer:'2' },
+  { type:'math', display:'8 − 3 = ?',      text:'What is 8 minus 3?',         choices:['3','4','5','6'],   answer:'5' },
+  { type:'math', display:'10 − 4 = ?',     text:'What is 10 minus 4?',        choices:['5','6','7','8'],   answer:'6' },
+  { type:'math', display:'9 − 5 = ?',      text:'What is 9 minus 5?',         choices:['3','4','5','6'],   answer:'4' },
+  { type:'math', display:'7 − 3 = ?',      text:'What is 7 minus 3?',         choices:['3','4','5','6'],   answer:'4' },
+  // ── MATH: multiplication intro ──
+  { type:'math', display:'2 × 3 = ?',      text:'What is 2 times 3?',         choices:['4','5','6','7'],   answer:'6' },
+  { type:'math', display:'2 × 4 = ?',      text:'What is 2 times 4?',         choices:['6','7','8','9'],   answer:'8' },
+  { type:'math', display:'Double 5 = ?',   text:'What is DOUBLE 5?',          choices:['8','9','10','11'], answer:'10' },
+  // ── MATH: bigger / smaller ──
+  { type:'math', display:'7  vs  3',       text:'Which number is BIGGER?',    choices:['3','5','7','9'],   answer:'7' },
+  { type:'math', display:'4  vs  9',       text:'Which number is BIGGER?',    choices:['4','6','8','9'],   answer:'9' },
+  { type:'math', display:'2  vs  8  vs  5',text:'Which number is SMALLEST?',  choices:['2','5','6','8'],   answer:'2' },
+  { type:'math', display:'Half of 10 = ?', text:'What is HALF of 10?',        choices:['3','4','5','6'],   answer:'5' },
   // ── LOGIC: number patterns ──
-  { type:'logic', display:'2, 4, 6, ___',   text:'What number comes next?',     choices:['7','8','9','10'], answer:'8' },
-  { type:'logic', display:'1, 3, 5, ___',   text:'What number comes next?',     choices:['6','7','8','9'],  answer:'7' },
-  { type:'logic', display:'10, 8, 6, ___',  text:'What number comes next?',     choices:['3','4','5','6'],  answer:'4' },
-  { type:'logic', display:'3, ___, 7',      text:'What is the missing number?', choices:['4','5','6','8'],  answer:'5' },
-  { type:'logic', display:'2, 4, ___, 8',   text:'What is the missing number?', choices:['5','6','7','8'],  answer:'6' },
+  { type:'logic', display:'2, 4, 6, ___',  text:'What number comes next?',    choices:['7','8','9','10'],  answer:'8' },
+  { type:'logic', display:'1, 3, 5, ___',  text:'What number comes next?',    choices:['6','7','8','9'],   answer:'7' },
+  { type:'logic', display:'10, 8, 6, ___', text:'What number comes next?',    choices:['3','4','5','6'],   answer:'4' },
+  { type:'logic', display:'3, ___, 7',     text:'What is the missing number?',choices:['4','5','6','8'],   answer:'5' },
+  { type:'logic', display:'2, 4, ___, 8',  text:'What is the missing number?',choices:['5','6','7','8'],   answer:'6' },
+  { type:'logic', display:'5, 10, 15, ___',text:'Count by 5s! What comes next?',choices:['16','18','20','25'],answer:'20'},
   // ── LOGIC: shape / color patterns ──
-  { type:'logic', display:'🔴🔵🔴🔵🔴___',    text:'What comes next in the pattern?', choices:['🔴','🔵','🟡','🟢'], answer:'🔵' },
-  { type:'logic', display:'⭐🔷⭐🔷⭐___',     text:'What comes next in the pattern?', choices:['⭐','🔷','🔶','🟣'],  answer:'🔷' },
-  { type:'logic', display:'🐱🐱🐶🐱🐱🐶___',  text:'What comes next in the pattern?', choices:['🐱','🐶','🐸','🐻'], answer:'🐱' },
+  { type:'logic', display:'🔴🔵🔴🔵🔴___',   text:'What comes next in the pattern?', choices:['🔴','🔵','🟡','🟢'], answer:'🔵' },
+  { type:'logic', display:'⭐🔷⭐🔷⭐___',    text:'What comes next in the pattern?', choices:['⭐','🔷','🔶','🟣'],  answer:'🔷' },
+  { type:'logic', display:'🐱🐱🐶🐱🐱🐶___', text:'What comes next in the pattern?', choices:['🐱','🐶','🐸','🐻'], answer:'🐱' },
   // ── LOGIC: odd one out ──
-  { type:'logic', display:'🐱  🐶  ☀️  🐟', text:'Which one does NOT belong? (not an animal)', choices:['🐱','🐶','☀️','🐟'], answer:'☀️' },
-  { type:'logic', display:'3  7  A  5',      text:'Which one does NOT belong? (not a number)',  choices:['3','7','A','5'],      answer:'A'  },
-  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which one does NOT belong? (not a fruit)',   choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
+  { type:'logic', display:'🐱  🐶  ☀️  🐟', text:'Which does NOT belong? (not an animal)', choices:['🐱','🐶','☀️','🐟'], answer:'☀️' },
+  { type:'logic', display:'3  7  A  5',      text:'Which does NOT belong? (not a number)',  choices:['3','7','A','5'],      answer:'A'  },
+  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which does NOT belong? (not a fruit)',   choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
   // ── LOGIC: true / false ──
-  { type:'logic', display:'5 > 8 ?',     text:'Is 5 BIGGER than 8?',     choices:['YES','NO'], answer:'NO'  },
-  { type:'logic', display:'9 > 6 ?',     text:'Is 9 BIGGER than 6?',     choices:['YES','NO'], answer:'YES' },
-  { type:'logic', display:'3 + 4 = 8 ?', text:'Is 3 + 4 equal to 8?',   choices:['YES','NO'], answer:'NO'  },
+  { type:'logic', display:'5 > 8 ?',      text:'Is 5 BIGGER than 8?',       choices:['YES','NO'], answer:'NO'  },
+  { type:'logic', display:'9 > 6 ?',      text:'Is 9 BIGGER than 6?',       choices:['YES','NO'], answer:'YES' },
+  { type:'logic', display:'3 + 4 = 8 ?',  text:'Is 3 + 4 equal to 8?',     choices:['YES','NO'], answer:'NO'  },
+  { type:'logic', display:'4 + 4 = 8 ?',  text:'Is 4 + 4 equal to 8?',     choices:['YES','NO'], answer:'YES' },
   // ── READING: starting letter ──
   { type:'reading', display:'🐱', text:'CAT — what letter does it START with?',    choices:['C','A','T','D'], answer:'C' },
   { type:'reading', display:'🐶', text:'DOG — what letter does it START with?',    choices:['D','O','G','B'], answer:'D' },
@@ -753,15 +951,15 @@ const QUESTIONS = [
   { type:'reading', display:'🍎', text:'APPLE — what letter does it END with?',    choices:['A','E','P','L'], answer:'E' },
   { type:'reading', display:'🐱', text:'CAT — what letter does it END with?',      choices:['C','A','T','D'], answer:'T' },
   // ── READING: rhyming ──
-  { type:'reading', display:'🎩', text:'Which word RHYMES with HAT?',  choices:['CAT','DOG','RUN','BIG'],  answer:'CAT'  },
-  { type:'reading', display:'☀️', text:'Which word RHYMES with SUN?',  choices:['FUN','HAT','BIG','CAT'],  answer:'FUN'  },
-  { type:'reading', display:'🍰', text:'Which word RHYMES with CAKE?', choices:['LAKE','DOG','SUN','RUN'], answer:'LAKE' },
-  { type:'reading', display:'🌙', text:'Which word RHYMES with MOON?', choices:['SOON','HAT','BIG','CAT'], answer:'SOON' },
+  { type:'reading', display:'🎩', text:'Which word RHYMES with HAT?',   choices:['CAT','DOG','RUN','BIG'],  answer:'CAT'  },
+  { type:'reading', display:'☀️', text:'Which word RHYMES with SUN?',   choices:['FUN','HAT','BIG','CAT'],  answer:'FUN'  },
+  { type:'reading', display:'🍰', text:'Which word RHYMES with CAKE?',  choices:['LAKE','DOG','SUN','RUN'], answer:'LAKE' },
+  { type:'reading', display:'🌙', text:'Which word RHYMES with MOON?',  choices:['SOON','HAT','BIG','CAT'], answer:'SOON' },
   // ── READING: sight words ──
-  { type:'reading', display:'🛑', text:'Which word says STOP?',  choices:['STOP','STEP','SHOP','FLOP'], answer:'STOP' },
-  { type:'reading', display:'🏃', text:'Which word says RUN?',   choices:['FUN','BUN','RUN','SUN'],     answer:'RUN'  },
-  { type:'reading', display:'🐶', text:'Which word says DOG?',   choices:['LOG','DOG','FOG','HOG'],     answer:'DOG'  },
-  { type:'reading', display:'🏠', text:'Which word says HOME?',  choices:['SOME','DOME','HOME','FOAM'], answer:'HOME' },
+  { type:'reading', display:'🛑', text:'Which word says STOP?',   choices:['STOP','STEP','SHOP','FLOP'], answer:'STOP' },
+  { type:'reading', display:'🏃', text:'Which word says RUN?',    choices:['FUN','BUN','RUN','SUN'],     answer:'RUN'  },
+  { type:'reading', display:'🐶', text:'Which word says DOG?',    choices:['LOG','DOG','FOG','HOG'],     answer:'DOG'  },
+  { type:'reading', display:'🏠', text:'Which word says HOME?',   choices:['SOME','DOME','HOME','FOAM'], answer:'HOME' },
 ];
 
 /* ─── HELPERS ─── */
@@ -782,9 +980,14 @@ let custom = {
   antenna: ANTENNA_STYLES[0],
 };
 
+let ozzieCfg = {
+  color:   ROBOT_COLORS[1],
+  eye:     EYE_STYLES[0],
+  antenna: ANTENNA_STYLES[0],
+};
+
 /* ─── BUILD CUSTOMIZE SCREEN ─── */
 function buildCustomizeUI() {
-  // Name suggestions
   const ns = $('name-suggestions');
   ns.innerHTML = '';
   NAME_SUGGESTIONS.forEach(n => {
@@ -795,7 +998,6 @@ function buildCustomizeUI() {
     ns.appendChild(tag);
   });
 
-  // Color grid
   const cg = $('color-grid');
   cg.innerHTML = '';
   ROBOT_COLORS.forEach(c => {
@@ -811,7 +1013,6 @@ function buildCustomizeUI() {
     cg.appendChild(div);
   });
 
-  // Eye opts
   const eo = $('eye-opts');
   eo.innerHTML = '';
   EYE_STYLES.forEach(e => {
@@ -827,7 +1028,6 @@ function buildCustomizeUI() {
     eo.appendChild(div);
   });
 
-  // Antenna opts
   const ao = $('ant-opts');
   ao.innerHTML = '';
   ANTENNA_STYLES.forEach(a => {
@@ -856,11 +1056,11 @@ function syncPreview() {
 /* ─── ROBOT HTML BUILDER ─── */
 function buildRobotHTML(allLit, cfg) {
   const c   = cfg || custom;
-  const eyeCls  = allLit ? `r-eye ${c.eye.cls} lit` : `r-eye ${c.eye.cls}`;
+  const eyeCls     = allLit ? `r-eye ${c.eye.cls} lit` : `r-eye ${c.eye.cls}`;
   const eyeContent = c.eye.id === 'star' ? '★' : '';
-  const antCls  = allLit ? `ant-ball ${c.antenna.cls} lit` : `ant-ball ${c.antenna.cls}`;
-  const rpCls   = allLit ? 'rp lit' : 'rp';
-  const colorStyle = `--r-primary:${c.color.primary};--r-secondary:${c.color.secondary};--r-glow:${c.color.glow};`;
+  const antCls     = allLit ? `ant-ball ${c.antenna.cls} lit` : `ant-ball ${c.antenna.cls}`;
+  const rpCls      = allLit ? 'rp lit' : 'rp';
+  const colorStyle  = `--r-primary:${c.color.primary};--r-secondary:${c.color.secondary};--r-glow:${c.color.glow};`;
   const bounceStyle = allLit ? 'animation:robotBounce 2s ease-in-out infinite;' : '';
 
   return `
@@ -903,6 +1103,59 @@ function buildRobotHTML(allLit, cfg) {
   </div>`;
 }
 
+/* ─── OZZIE-BOT HTML BUILDER (size scales with level 1–3) ─── */
+function buildOzzieHTML(level, cfg) {
+  const c = cfg || ozzieCfg;
+  const eyeCls     = `r-eye ${c.eye.cls} lit`;
+  const eyeContent = c.eye.id === 'star' ? '★' : '';
+  const antCls     = `ant-ball ${c.antenna.cls} lit`;
+  const colorStyle  = `--r-primary:${c.color.primary};--r-secondary:${c.color.secondary};--r-glow:${c.color.glow};`;
+
+  const scales    = [.52, .72, .88];
+  const scaleVal  = scales[Math.min(level - 1, 2)];
+  const bounceAni = level === 3 ? 'animation:robotBounce 1.8s ease-in-out infinite;' : '';
+  const showAnt   = level >= 2;
+  const showArms  = level >= 2;
+  const showLegs  = level >= 3;
+
+  return `
+  <div class="robot" style="${colorStyle}${bounceAni}transform:scale(${scaleVal});transform-origin:top center;">
+    ${showAnt ? `<div class="ant-wrap">
+      <div class="${antCls}">${c.antenna.content}</div>
+      <div class="ant-stem rp lit"></div>
+    </div>` : '<div style="height:20px"></div>'}
+    <div class="r-head rp lit">
+      <div class="r-eyes-row">
+        <div class="${eyeCls}">${eyeContent}</div>
+        <div class="${eyeCls}">${eyeContent}</div>
+      </div>
+      <div class="r-mouth">
+        <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
+      </div>
+    </div>
+    ${showArms ? `<div class="r-mid">
+      <div class="r-arm left rp lit"></div>
+      <div class="r-body rp lit">
+        <div class="r-body-btns">
+          <div class="r-btn rb"></div><div class="r-btn gb"></div><div class="r-btn bb"></div>
+        </div>
+        <div class="r-screen" style="color:var(--green);border-color:var(--r-secondary)">HI!</div>
+      </div>
+      <div class="r-arm right rp lit"></div>
+    </div>` : ''}
+    ${showLegs ? `<div class="r-legs">
+      <div class="r-leg-g">
+        <div class="r-leg rp lit"></div>
+        <div class="r-foot rp lit"></div>
+      </div>
+      <div class="r-leg-g">
+        <div class="r-leg rp lit"></div>
+        <div class="r-foot rp lit"></div>
+      </div>
+    </div>` : ''}
+  </div>`;
+}
+
 /* apply color + style to the live game robot */
 function applyRobotStyle() {
   const r = $('game-robot');
@@ -910,7 +1163,6 @@ function applyRobotStyle() {
   r.style.setProperty('--r-secondary', custom.color.secondary);
   r.style.setProperty('--r-glow',      custom.color.glow);
 
-  // eye classes
   ['rp-eyeleft','rp-eyeright'].forEach(id => {
     const el = $(id);
     el.classList.remove('eye-round','eye-square','eye-star');
@@ -918,7 +1170,6 @@ function applyRobotStyle() {
     el.textContent = custom.eye.id === 'star' ? '★' : '';
   });
 
-  // antenna class + content
   const ball = $('rp-antball');
   ball.classList.remove('ant-round','ant-star','ant-lightning');
   ball.classList.add(custom.antenna.cls);
@@ -937,15 +1188,27 @@ function showCustomize() {
 let gs = {};
 
 function startGame() {
-  const mathPool  = shuffle(QUESTIONS.filter(q => q.type === 'math')).slice(0, 3);
-  const readPool  = shuffle(QUESTIONS.filter(q => q.type === 'reading')).slice(0, 3);
-  const logicPool = shuffle(QUESTIONS.filter(q => q.type === 'logic')).slice(0, 2);
-  const questions = shuffle([...mathPool, ...readPool, ...logicPool]);
+  const mathPool   = shuffle(QUESTIONS.filter(q => q.type === 'math')).slice(0, 3);
+  const readPool   = shuffle(QUESTIONS.filter(q => q.type === 'reading')).slice(0, 3);
+  const logicPool  = shuffle(QUESTIONS.filter(q => q.type === 'logic')).slice(0, 2);
+  const mainQs     = shuffle([...mathPool, ...readPool, ...logicPool]);
+  const bonusPowerQs = shuffle([...BONUS_POWERUP_QUESTIONS]).slice(0, 2);
 
-  gs = { questions, qIndex: 0, partsEarned: 0, answered: false };
+  gs = {
+    questions:    mainQs,
+    bonusQs:      bonusPowerQs,
+    qIndex:       0,
+    bonusIndex:   0,
+    partsEarned:  0,
+    correctCount: 0,
+    answered:     false,
+    phase:        'main',   // 'main' | 'bonus_powerup'
+    powerUps:     [],
+  };
 
-  $('g-title').textContent       = `🤖 Go, Winter!`;
+  $('g-title').textContent        = `🤖 Go, Winter!`;
   $('game-robot-name').textContent = custom.name;
+  $('powerups-display').innerHTML  = '';
 
   buildChecklist();
   resetRobot();
@@ -971,24 +1234,50 @@ function resetRobot() {
 }
 
 function loadQuestion() {
-  const { questions, qIndex } = gs;
-  if (qIndex >= questions.length) { showComplete(); return; }
-
   gs.answered = false;
-  const q    = questions[qIndex];
-  const part = PARTS[qIndex];
 
-  const badge = $('subj-badge');
-  if (q.type === 'math')    { badge.textContent = '🔢 Math';    badge.className = 'subj-badge math'; }
-  else if (q.type === 'logic') { badge.textContent = '🧩 Logic'; badge.className = 'subj-badge logic'; }
-  else                      { badge.textContent = '📖 Reading'; badge.className = 'subj-badge reading'; }
+  if (gs.phase === 'main') {
+    if (gs.qIndex >= gs.questions.length) {
+      gs.phase = 'bonus_powerup';
+      loadQuestion();
+      return;
+    }
+    const q    = gs.questions[gs.qIndex];
+    const part = PARTS[gs.qIndex];
 
-  $('earn-label').textContent = `Earn: ${part.emoji} ${part.label}`;
-  $('q-emoji').textContent    = q.display;
-  $('q-text').textContent     = q.text;
-  $('feedback').textContent   = '';
-  $('feedback').className     = 'feedback';
-  $('parts-pill').textContent = `Parts: ${gs.partsEarned} / 8`;
+    $('rp-title').textContent = 'Building…';
+    const badge = $('subj-badge');
+    if (q.type === 'math')       { badge.textContent = '🔢 Math';    badge.className = 'subj-badge math'; }
+    else if (q.type === 'logic') { badge.textContent = '🧩 Logic';   badge.className = 'subj-badge logic'; }
+    else                         { badge.textContent = '📖 Reading'; badge.className = 'subj-badge reading'; }
+
+    $('earn-label').textContent = `Earn: ${part.emoji} ${part.label}`;
+    $('parts-pill').textContent = `Parts: ${gs.partsEarned} / 8`;
+    renderQuestion(q);
+
+  } else {
+    // bonus_powerup phase
+    if (gs.bonusIndex >= gs.bonusQs.length) {
+      showOzzieScreen();
+      return;
+    }
+    const bq = gs.bonusQs[gs.bonusIndex];
+    const pu = POWER_UPS[bq.powerUpIdx];
+
+    $('rp-title').textContent = '⚡ Bonus!';
+    const badge = $('subj-badge');
+    badge.textContent = '⚡ Bonus!';
+    badge.className = 'subj-badge bonus';
+    $('earn-label').textContent = `Earn: ${pu.emoji} ${pu.label} power-up!`;
+    renderQuestion(bq);
+  }
+}
+
+function renderQuestion(q) {
+  $('q-emoji').textContent  = q.display;
+  $('q-text').textContent   = q.text;
+  $('feedback').textContent = '';
+  $('feedback').className   = 'feedback';
 
   const choicesEl = $('choices');
   choicesEl.innerHTML = '';
@@ -1005,7 +1294,9 @@ function handleAnswer(val, clickedBtn) {
   if (gs.answered) return;
   gs.answered = true;
 
-  const q  = gs.questions[gs.qIndex];
+  const q = gs.phase === 'main'
+    ? gs.questions[gs.qIndex]
+    : gs.bonusQs[gs.bonusIndex];
   const ok = val === q.answer;
 
   document.querySelectorAll('.cbtn').forEach(b => {
@@ -1030,9 +1321,18 @@ function handleAnswer(val, clickedBtn) {
     $('feedback').className   = 'feedback err';
   }
 
-  gs.partsEarned++;
-  setTimeout(() => unlockPart(PARTS[gs.qIndex]), 500);
-  setTimeout(() => { gs.qIndex++; loadQuestion(); }, 2000);
+  if (gs.phase === 'main') {
+    if (ok) gs.correctCount++;
+    gs.partsEarned++;
+    setTimeout(() => unlockPart(PARTS[gs.qIndex]), 500);
+    setTimeout(() => { gs.qIndex++; loadQuestion(); }, 2000);
+  } else {
+    if (ok) {
+      const pu = POWER_UPS[gs.bonusQs[gs.bonusIndex].powerUpIdx];
+      setTimeout(() => unlockPowerUp(pu), 500);
+    }
+    setTimeout(() => { gs.bonusIndex++; loadQuestion(); }, 2000);
+  }
 }
 
 function unlockPart(part) {
@@ -1045,24 +1345,149 @@ function unlockPart(part) {
   $('parts-pill').textContent = `Parts: ${gs.partsEarned} / 8`;
 }
 
-/* ── CELEBRATION SONG ── */
-const SONG_LINES = [
-  '🎵 I am a candy robot, huge and bright!',
-  `🍬 Winter built me just right!`,
-  '🌈 I munch on gummies, pink and blue,',
-  '✨ Hip hip hooray for Winter — WOO!',
-  '🌟 You are so clever, smart and cool,',
-  `🤖 ${custom.name} says: WINTER YOU RULE!`,
-  '🎉 Now let\'s dance and shout HOORAY!',
-  '🍭 I\'m YOUR robot every day! 🎉',
-];
+function unlockPowerUp(pu) {
+  gs.powerUps.push(pu);
+  const display = $('powerups-display');
+  const el = document.createElement('div');
+  el.className = 'power-up-item';
+  el.innerHTML = `${pu.emoji} ${pu.label} <span class="pu-desc">${pu.desc}</span>`;
+  display.appendChild(el);
+}
 
-function showComplete() {
+/* ─── OZZIE SCREEN ─── */
+function getOzzieLevel() {
+  const c = gs.correctCount;
+  if (c <= 2) return 1;
+  if (c <= 5) return 2;
+  return 3;
+}
+
+function showOzzieScreen() {
+  const level = getOzzieLevel();
+  const intros = [
+    'You worked really hard! Ozzie-bot is tiny but MIGHTY!',
+    'Great job! Ozzie-bot is medium-sized and ready to roll!',
+    'INCREDIBLE! You got almost everything right — Ozzie-bot is FULL SIZE and AWESOME!',
+  ];
+  $('ozzie-score-badge').textContent = `You got ${gs.correctCount} / 8 right!`;
+  $('ozzie-intro').textContent       = intros[level - 1];
+
+  ozzieCfg = {
+    color:   ROBOT_COLORS.find(c => c.id !== custom.color.id) || ROBOT_COLORS[1],
+    eye:     custom.eye,
+    antenna: custom.antenna,
+  };
+
+  $('ozzie-robot-preview').innerHTML = buildOzzieHTML(level, ozzieCfg);
+  buildOzzieColorUI(level);
+  showScreen('ozzie-screen');
+}
+
+function buildOzzieColorUI(level) {
+  const grid = $('ozzie-color-grid');
+  grid.innerHTML = '';
+  ROBOT_COLORS.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'color-opt' + (c.id === ozzieCfg.color.id ? ' selected' : '');
+    div.innerHTML = `<div class="color-swatch" style="background:${c.swatch}"></div>${c.label}`;
+    div.onclick = () => {
+      document.querySelectorAll('#ozzie-color-grid .color-opt').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      ozzieCfg.color = c;
+      $('ozzie-robot-preview').innerHTML = buildOzzieHTML(level, ozzieCfg);
+    };
+    grid.appendChild(div);
+  });
+}
+
+/* ─── BONUS ROUND ─── */
+let bonusGs = {};
+
+function startBonusRound() {
+  const triviaPool = shuffle([...BONUS_TRIVIA]).slice(0, 3);
+  bonusGs = { questions: triviaPool, qIndex: 0, bonusCorrect: 0, answered: false };
+
+  $('bonus-main-label').textContent   = custom.name;
+  $('bonus-robot-name-span').textContent = custom.name;
+  $('bonus-main-robot').innerHTML     = buildRobotHTML(true, custom);
+  $('bonus-ozzie-robot').innerHTML    = buildOzzieHTML(getOzzieLevel(), ozzieCfg);
+
+  loadBonusQuestion();
+  showScreen('bonus-screen');
+}
+
+function loadBonusQuestion() {
+  bonusGs.answered = false;
+
+  if (bonusGs.qIndex >= bonusGs.questions.length) {
+    finishBonusRound();
+    return;
+  }
+
+  const q = bonusGs.questions[bonusGs.qIndex];
+  $('bonus-score-pill').textContent = `Score: ${bonusGs.bonusCorrect} / ${bonusGs.questions.length}`;
+  $('bonus-topic').textContent      = q.topic;
+  $('bonus-q-emoji').textContent    = q.display;
+  $('bonus-q-text').textContent     = q.text;
+  $('bonus-feedback').textContent   = '';
+  $('bonus-feedback').className     = 'feedback';
+
+  const choicesEl = $('bonus-choices');
+  choicesEl.innerHTML = '';
+  shuffle(q.choices).forEach(val => {
+    const btn = document.createElement('button');
+    btn.className = 'cbtn';
+    btn.textContent = val;
+    btn.onclick = () => handleBonusAnswer(val, btn);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function handleBonusAnswer(val, clickedBtn) {
+  if (bonusGs.answered) return;
+  bonusGs.answered = true;
+
+  const q  = bonusGs.questions[bonusGs.qIndex];
+  const ok = val === q.answer;
+
+  document.querySelectorAll('#bonus-choices .cbtn').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.answer) b.classList.add('correct');
+  });
+
+  if (ok) {
+    bonusGs.bonusCorrect++;
+    clickedBtn.classList.add('correct');
+    const praise = ['Brilliant, Winter! 🎉', 'You know everything! ⭐', 'So smart! 💫', 'Incredible! 🤩'];
+    $('bonus-feedback').textContent = praise[rand(0, praise.length - 1)];
+    $('bonus-feedback').className   = 'feedback';
+  } else {
+    clickedBtn.classList.add('wrong');
+    $('bonus-feedback').textContent = `Good try! The answer is "${q.answer}" 😊`;
+    $('bonus-feedback').className   = 'feedback err';
+  }
+
+  setTimeout(() => { bonusGs.qIndex++; loadBonusQuestion(); }, 2100);
+}
+
+function finishBonusRound() {
+  const dual = bonusGs.bonusCorrect >= 2;
+  showComplete(dual);
+}
+
+/* ─── CELEBRATION ─── */
+function showComplete(dual) {
   showScreen('complete-screen');
-  // reset song board
   $('celeb-song').innerHTML = '';
   $('celeb-bottom').style.display = 'none';
-  runCelebration();
+
+  if (dual) {
+    $('celeb-ozzie-wrap').style.display = 'flex';
+    runDualCelebration();
+  } else {
+    $('celeb-ozzie-wrap').style.display = 'none';
+    runCelebration();
+  }
 }
 
 function setStatus(txt) {
@@ -1079,18 +1504,15 @@ function runCelebration() {
   const robot = wrap.querySelector('.robot');
   robot.style.transformOrigin = 'center bottom';
 
-  /* Stage 1 — Dance (0 – 3 s) */
   setStatus('🎉 Robot Complete! Let\'s DANCE! 💃');
   robot.style.animation = 'robotDance .55s ease-in-out infinite';
 
-  /* Stage 2 — Eat candy (3 – 5.5 s) */
   setTimeout(() => {
     setStatus('🍬 Ooh CANDY! Nom nom nom nom! 🍬');
     robot.style.animation = 'robotChomp .32s ease-in-out infinite';
     for (let i = 0; i < 14; i++) setTimeout(() => dropCandy(wrap), i * 160);
   }, 3000);
 
-  /* Stage 3 — Transform (5.5 – 8 s) */
   setTimeout(() => {
     setStatus('⚡ TRANSFORMING INTO CANDY ROBOT!! ⚡');
     robot.style.animation = 'candyGrow 2.2s ease forwards';
@@ -1101,31 +1523,102 @@ function runCelebration() {
     }, 700);
   }, 5500);
 
-  /* Stage 4 — Enormous candy robot grooves (8 – 8.8 s) */
   setTimeout(() => {
     setStatus('🍭 I AM THE ENORMOUS CANDY ROBOT!! 🍭');
     robot.style.animation = 'candyGroove .65s ease-in-out infinite';
     addCandyDecor(wrap);
   }, 8000);
 
-  /* Stage 5 — Sing for Winter (8.8 – 16.8 s) */
   setTimeout(() => {
     setStatus('🎤 Singing a song for Winter! 🎤');
-    singLyrics();
+    singLyrics(false);
   }, 8800);
 
-  /* Stage 6 — Spit candy continuously (9 s → 16 s) */
   setTimeout(() => {
     const loop = setInterval(() => spitBurst(wrap), 650);
     setTimeout(() => clearInterval(loop), 7000);
   }, 9000);
 
-  /* Stage 7 — Final message (17 s) */
   setTimeout(() => {
     setStatus('');
     $('c-msg').textContent = `Great job, Winter! You built ${custom.name} AND turned it into a giant candy robot! You are a SUPERSTAR! 🚀🍭`;
     $('celeb-bottom').style.display = 'flex';
   }, 17000);
+}
+
+function runDualCelebration() {
+  const wrap      = $('celeb-robot-wrap');
+  const ozzieWrap = $('celeb-ozzie-wrap');
+
+  wrap.innerHTML      = buildRobotHTML(true, custom);
+  ozzieWrap.innerHTML = buildOzzieHTML(getOzzieLevel(), ozzieCfg);
+
+  const robot = wrap.querySelector('.robot');
+  const ozzie = ozzieWrap.querySelector('.robot');
+  robot.style.transformOrigin = 'center bottom';
+  ozzie.style.transformOrigin = 'center bottom';
+
+  // Ozzie starts off to the right, slides in
+  ozzieWrap.style.animation = 'ozzieSlide 1.4s cubic-bezier(.34,1.56,.64,1) forwards';
+
+  setStatus('🎉 IT\'S A REUNION!! Ozzie found ' + custom.name + '!! 🤖💕🤖');
+
+  // Both dance together
+  setTimeout(() => {
+    setStatus('🎉 Let\'s ALL DANCE TOGETHER!! 💃🕺');
+    robot.style.animation = 'robotDance .55s ease-in-out infinite';
+    ozzie.style.animation = 'ozzieDance .55s ease-in-out infinite';
+  }, 2000);
+
+  // Eat candy
+  setTimeout(() => {
+    setStatus('🍬 CANDY PARTY!! Nom nom nom!! 🍬');
+    robot.style.animation = 'robotChomp .32s ease-in-out infinite';
+    ozzie.style.animation = 'robotChomp .4s ease-in-out infinite';
+    for (let i = 0; i < 18; i++) setTimeout(() => dropCandy(wrap), i * 130);
+  }, 4000);
+
+  // Transform
+  setTimeout(() => {
+    setStatus('⚡ DOUBLE CANDY ROBOT TRANSFORMATION!! ⚡');
+    robot.style.animation = 'candyGrow 2.2s ease forwards';
+    ozzie.style.animation = 'candyGrow 2.2s ease forwards';
+    setTimeout(() => {
+      robot.style.setProperty('--r-primary',   '#ffb3de');
+      robot.style.setProperty('--r-secondary', '#ff4da6');
+      robot.style.setProperty('--r-glow',      'rgba(255,77,166,1)');
+      ozzie.style.setProperty('--r-primary',   '#b3ffec');
+      ozzie.style.setProperty('--r-secondary', '#00e5a0');
+      ozzie.style.setProperty('--r-glow',      'rgba(0,229,160,1)');
+    }, 700);
+  }, 6500);
+
+  setTimeout(() => {
+    setStatus('🍭🍭 TWO ENORMOUS CANDY ROBOTS GROOVE!! 🍭🍭');
+    robot.style.animation = 'candyGroove .65s ease-in-out infinite';
+    ozzie.style.animation = 'candyGroove .8s ease-in-out infinite';
+    addCandyDecor(wrap);
+    addCandyDecor(ozzieWrap);
+  }, 9000);
+
+  setTimeout(() => {
+    setStatus('🎤 Winter — this song is for YOU! 🎤');
+    singLyrics(true);
+  }, 9800);
+
+  setTimeout(() => {
+    const loop = setInterval(() => {
+      spitBurst(wrap);
+      spitBurst(ozzieWrap);
+    }, 600);
+    setTimeout(() => clearInterval(loop), 7000);
+  }, 10000);
+
+  setTimeout(() => {
+    setStatus('');
+    $('c-msg').textContent = `DOUBLE AMAZING, Winter!! ${custom.name} and Ozzie-bot reunited and turned into GIANT CANDY ROBOTS — all because of YOU!! You are the ULTIMATE ROBOT BUILDER! 🚀🍭🤖💕🤖`;
+    $('celeb-bottom').style.display = 'flex';
+  }, 18000);
 }
 
 function dropCandy(wrap) {
@@ -1151,9 +1644,18 @@ function addCandyDecor(wrap) {
   }
 }
 
-function singLyrics() {
-  // Rebuild with current custom (name may differ)
-  const lines = [
+function singLyrics(dual) {
+  const dualLines = [
+    '🎵 Two candy robots, huge and bright!',
+    `🍬 Winter built us both just right!`,
+    '🌈 ${custom.name} and Ozzie munch on gummies too,',
+    '✨ Hip hip hooray for Winter — WOO!',
+    '🌟 You are so clever, smart and cool,',
+    `🤖 We BOTH say: WINTER YOU RULE!`,
+    '🎉 Let\'s dance and shout HOORAY!',
+    '🍭 We\'re YOUR robots every day! 🎉',
+  ];
+  const soloLines = [
     '🎵 I am a candy robot, huge and bright!',
     `🍬 Winter built me just right!`,
     '🌈 I munch on gummies, pink and blue,',
@@ -1163,6 +1665,7 @@ function singLyrics() {
     '🎉 Now let\'s dance and shout HOORAY!',
     '🍭 I\'m YOUR robot every day! 🎉',
   ];
+  const lines = dual ? dualLines : soloLines;
   const box = $('celeb-song');
   lines.forEach((line, i) => {
     setTimeout(() => {
@@ -1197,7 +1700,10 @@ function spitBurst(wrap) {
 }
 
 function resetGame() {
-  custom = { name: 'BOLT', color: ROBOT_COLORS[0], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] };
+  custom   = { name: 'BOLT', color: ROBOT_COLORS[0], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] };
+  ozzieCfg = { color: ROBOT_COLORS[1], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] };
+  gs = {};
+  bonusGs = {};
   showScreen('welcome-screen');
 }
 </script>
