@@ -386,14 +386,42 @@
     }
     .feedback.err { color: #c62828; }
 
-    /* ── COMPLETE SCREEN ── */
-    #complete-screen { justify-content: center; text-align: center; gap: 16px; }
-    .c-title {
+    /* ── COMPLETE / CELEBRATION SCREEN ── */
+    #complete-screen { justify-content: center; text-align: center; gap: 10px; overflow: hidden; }
+
+    .celeb-status {
       font-family: 'Fredoka One', cursive;
-      font-size: clamp(2rem, 7vw, 3.2rem);
-      color: var(--yellow); text-shadow: 3px 3px 0 rgba(0,0,0,.4);
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: var(--yellow);
+      text-shadow: 2px 2px 0 rgba(0,0,0,.4);
+      min-height: 2rem;
+      animation: statusPop .4s ease;
     }
-    .c-msg { color: #a0b8d0; font-size: clamp(1rem, 3vw, 1.2rem); max-width: 380px; line-height: 1.6; }
+
+    .celeb-robot-wrap {
+      position: relative;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 180px; width: 100%;
+    }
+
+    .celeb-song {
+      max-width: 440px; width: 100%;
+      min-height: 60px;
+      display: flex; flex-direction: column; gap: 4px; align-items: center;
+    }
+    .song-line {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(.95rem, 3vw, 1.2rem);
+      color: #fff;
+      animation: lyricIn .5s ease forwards;
+      opacity: 0;
+    }
+
+    .celeb-bottom {
+      flex-direction: column; align-items: center; gap: 12px;
+      animation: fadeInUp .7s ease forwards;
+    }
+    .c-msg { color: #a0b8d0; font-size: clamp(.95rem, 3vw, 1.15rem); max-width: 380px; line-height: 1.6; }
     .again-btn {
       background: linear-gradient(135deg, var(--green), #2e7d32);
       color: #fff; border: none; border-radius: 24px;
@@ -406,6 +434,15 @@
     .again-btn:hover  { transform: translateY(-3px); }
     .again-btn:active { transform: translateY(2px); }
     .stars-row { font-size: 1.5rem; letter-spacing: 4px; }
+
+    .falling-candy {
+      position: fixed; pointer-events: none; z-index: 500;
+      animation: candyFall linear forwards;
+    }
+    .flying-candy {
+      position: fixed; pointer-events: none; z-index: 1000;
+      animation: candySpit ease-out forwards;
+    }
 
     /* ── ANIMATIONS ── */
     @keyframes partPop {
@@ -424,6 +461,60 @@
     .confetti-pc {
       position: fixed; pointer-events: none; border-radius: 2px;
       animation: confettiFall linear forwards; z-index: 999;
+    }
+
+    /* celebration keyframes */
+    @keyframes robotDance {
+      0%   { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
+      18%  { transform: scale(1.35) rotate(9deg)  translateY(-14px);}
+      36%  { transform: scale(1.3) rotate(-6deg)  translateY(2px);  }
+      54%  { transform: scale(1.35) rotate(7deg)  translateY(-11px);}
+      72%  { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
+      90%  { transform: scale(1.35) rotate(9deg)  translateY(-14px);}
+      100% { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
+    }
+    @keyframes robotChomp {
+      0%   { transform: scale(1.35) translateY(0)   rotate(0deg);  }
+      25%  { transform: scale(1.42) translateY(-9px) rotate(4deg); }
+      50%  { transform: scale(1.35) translateY(3px)  rotate(-3deg);}
+      75%  { transform: scale(1.42) translateY(-7px) rotate(3deg); }
+      100% { transform: scale(1.35) translateY(0)   rotate(0deg);  }
+    }
+    @keyframes candyGrow {
+      0%   { transform: scale(1.35); filter: none; }
+      15%  { transform: scale(1.5);  filter: brightness(3) saturate(0); }
+      40%  { transform: scale(2.0);  filter: brightness(1.6) hue-rotate(80deg)  saturate(4); }
+      70%  { transform: scale(2.4);  filter: brightness(1.8) hue-rotate(160deg) saturate(5); }
+      100% { transform: scale(2.6);  filter: saturate(3) brightness(1.2); }
+    }
+    @keyframes candyGroove {
+      0%,100%{ transform: scale(2.6) rotate(-4deg) translateY(0);    }
+      25%    { transform: scale(2.6) rotate(4deg)  translateY(-14px); }
+      50%    { transform: scale(2.6) rotate(-3deg) translateY(3px);   }
+      75%    { transform: scale(2.6) rotate(4deg)  translateY(-10px); }
+    }
+    @keyframes candyFall {
+      0%   { transform: translateY(-40px) rotate(0deg);   opacity:1; }
+      85%  { opacity:1; }
+      100% { transform: translateY(160px) rotate(400deg); opacity:0; }
+    }
+    @keyframes candySpit {
+      0%   { transform: translate(0,0) scale(1.2) rotate(0deg);              opacity:1; }
+      100% { transform: translate(var(--dx),var(--dy)) scale(.4) rotate(540deg); opacity:0; }
+    }
+    @keyframes lyricIn {
+      0%   { opacity:0; transform: translateY(12px) scale(.92); }
+      35%  { opacity:1; transform: translateY(0)    scale(1);   }
+      100% { opacity:1; transform: translateY(0)    scale(1);   }
+    }
+    @keyframes statusPop {
+      0%   { transform: scale(.6);  opacity:0; }
+      60%  { transform: scale(1.1); opacity:1; }
+      100% { transform: scale(1);   opacity:1; }
+    }
+    @keyframes fadeInUp {
+      0%   { opacity:0; transform: translateY(22px); }
+      100% { opacity:1; transform: translateY(0);    }
     }
 
     /* ── RESPONSIVE ── */
@@ -562,12 +653,14 @@
 
 <!-- ══════════════ COMPLETE ══════════════ -->
 <div id="complete-screen" class="screen">
-  <div class="c-title" id="c-title">🎉 Robot Complete! 🎉</div>
-  <div id="complete-robot"></div>
-  <div class="robot-name-tag" id="complete-robot-name" style="font-size:1.1rem;padding:6px 18px;"></div>
-  <div class="stars-row">⭐⭐⭐⭐⭐</div>
-  <p class="c-msg" id="c-msg">Amazing work!</p>
-  <button class="again-btn" onclick="resetGame()">🔧 Build Another Robot!</button>
+  <div id="celeb-status" class="celeb-status"></div>
+  <div id="celeb-robot-wrap" class="celeb-robot-wrap"></div>
+  <div id="celeb-song" class="celeb-song"></div>
+  <div id="celeb-bottom" class="celeb-bottom" style="display:none;">
+    <div class="stars-row">⭐⭐⭐⭐⭐</div>
+    <p class="c-msg" id="c-msg"></p>
+    <button class="again-btn" onclick="resetGame()">🔧 Build Another Robot!</button>
+  </div>
 </div>
 
 <script>
@@ -952,27 +1045,154 @@ function unlockPart(part) {
   $('parts-pill').textContent = `Parts: ${gs.partsEarned} / 8`;
 }
 
+/* ── CELEBRATION SONG ── */
+const SONG_LINES = [
+  '🎵 I am a candy robot, huge and bright!',
+  `🍬 Winter built me just right!`,
+  '🌈 I munch on gummies, pink and blue,',
+  '✨ Hip hip hooray for Winter — WOO!',
+  '🌟 You are so clever, smart and cool,',
+  `🤖 ${custom.name} says: WINTER YOU RULE!`,
+  '🎉 Now let\'s dance and shout HOORAY!',
+  '🍭 I\'m YOUR robot every day! 🎉',
+];
+
 function showComplete() {
-  $('c-title').textContent        = `🎉 ${custom.name} is Complete! 🎉`;
-  $('c-msg').textContent          = `Great job, Winter! You built ${custom.name} from scratch! You're a superstar engineer! 🚀`;
-  $('complete-robot-name').textContent = custom.name;
-  $('complete-robot').innerHTML   = buildRobotHTML(true, custom);
-  $('complete-robot').style.cssText = 'margin: 4px 0;';
   showScreen('complete-screen');
-  launchConfetti();
+  // reset song board
+  $('celeb-song').innerHTML = '';
+  $('celeb-bottom').style.display = 'none';
+  runCelebration();
 }
 
-function launchConfetti() {
-  const colors = [custom.color.swatch, '#ffd700','#ff7043','#4ecdc4','#ff6b6b','#4caf50'];
-  for (let i = 0; i < 70; i++) {
+function setStatus(txt) {
+  const el = $('celeb-status');
+  el.textContent = txt;
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = 'statusPop .4s ease';
+}
+
+function runCelebration() {
+  const wrap = $('celeb-robot-wrap');
+  wrap.innerHTML = buildRobotHTML(true, custom);
+  const robot = wrap.querySelector('.robot');
+  robot.style.transformOrigin = 'center bottom';
+
+  /* Stage 1 — Dance (0 – 3 s) */
+  setStatus('🎉 Robot Complete! Let\'s DANCE! 💃');
+  robot.style.animation = 'robotDance .55s ease-in-out infinite';
+
+  /* Stage 2 — Eat candy (3 – 5.5 s) */
+  setTimeout(() => {
+    setStatus('🍬 Ooh CANDY! Nom nom nom nom! 🍬');
+    robot.style.animation = 'robotChomp .32s ease-in-out infinite';
+    for (let i = 0; i < 14; i++) setTimeout(() => dropCandy(wrap), i * 160);
+  }, 3000);
+
+  /* Stage 3 — Transform (5.5 – 8 s) */
+  setTimeout(() => {
+    setStatus('⚡ TRANSFORMING INTO CANDY ROBOT!! ⚡');
+    robot.style.animation = 'candyGrow 2.2s ease forwards';
+    setTimeout(() => {
+      robot.style.setProperty('--r-primary',   '#ffb3de');
+      robot.style.setProperty('--r-secondary', '#ff4da6');
+      robot.style.setProperty('--r-glow',      'rgba(255,77,166,1)');
+    }, 700);
+  }, 5500);
+
+  /* Stage 4 — Enormous candy robot grooves (8 – 8.8 s) */
+  setTimeout(() => {
+    setStatus('🍭 I AM THE ENORMOUS CANDY ROBOT!! 🍭');
+    robot.style.animation = 'candyGroove .65s ease-in-out infinite';
+    addCandyDecor(wrap);
+  }, 8000);
+
+  /* Stage 5 — Sing for Winter (8.8 – 16.8 s) */
+  setTimeout(() => {
+    setStatus('🎤 Singing a song for Winter! 🎤');
+    singLyrics();
+  }, 8800);
+
+  /* Stage 6 — Spit candy continuously (9 s → 16 s) */
+  setTimeout(() => {
+    const loop = setInterval(() => spitBurst(wrap), 650);
+    setTimeout(() => clearInterval(loop), 7000);
+  }, 9000);
+
+  /* Stage 7 — Final message (17 s) */
+  setTimeout(() => {
+    setStatus('');
+    $('c-msg').textContent = `Great job, Winter! You built ${custom.name} AND turned it into a giant candy robot! You are a SUPERSTAR! 🚀🍭`;
+    $('celeb-bottom').style.display = 'flex';
+  }, 17000);
+}
+
+function dropCandy(wrap) {
+  const pool = ['🍬','🍭','🍫','🍩','🧁','🍪','🍰','🎂'];
+  const el   = document.createElement('div');
+  el.className = 'falling-candy';
+  el.textContent = pool[rand(0, pool.length - 1)];
+  const rect = wrap.getBoundingClientRect();
+  el.style.cssText = `left:${rect.left + rand(10, rect.width - 20)}px;top:${rect.top - 20}px;font-size:${1.1 + Math.random() * .8}rem;animation-duration:${.55 + Math.random() * .35}s;`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1100);
+}
+
+function addCandyDecor(wrap) {
+  const pool = ['🍬','🍭','🍫','⭐','🌈','✨','🎊'];
+  for (let i = 0; i < 8; i++) {
+    const el = document.createElement('div');
+    el.style.cssText = `position:absolute;font-size:1.2rem;pointer-events:none;
+      top:${rand(5,95)}%;left:${i < 4 ? rand(-60,-5) : rand(105,160)}%;
+      animation:robotBounce ${.5 + Math.random() * .4}s ease-in-out infinite alternate;`;
+    el.textContent = pool[rand(0, pool.length - 1)];
+    wrap.appendChild(el);
+  }
+}
+
+function singLyrics() {
+  // Rebuild with current custom (name may differ)
+  const lines = [
+    '🎵 I am a candy robot, huge and bright!',
+    `🍬 Winter built me just right!`,
+    '🌈 I munch on gummies, pink and blue,',
+    '✨ Hip hip hooray for Winter — WOO!',
+    '🌟 You are so clever, smart and cool,',
+    `🤖 ${custom.name} says: WINTER YOU RULE!`,
+    '🎉 Now let\'s dance and shout HOORAY!',
+    '🍭 I\'m YOUR robot every day! 🎉',
+  ];
+  const box = $('celeb-song');
+  lines.forEach((line, i) => {
     setTimeout(() => {
       const el = document.createElement('div');
-      el.className = 'confetti-pc';
-      const size = 6 + Math.random() * 8;
-      el.style.cssText = `left:${Math.random()*100}vw;top:-20px;width:${size}px;height:${size}px;background:${colors[rand(0,colors.length-1)]};animation-duration:${1.5+Math.random()*2}s;transform:rotate(${Math.random()*360}deg);`;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 4000);
-    }, i * 40);
+      el.className = 'song-line';
+      el.textContent = line;
+      box.appendChild(el);
+    }, i * 1050);
+  });
+}
+
+function spitBurst(wrap) {
+  const pool = ['🍬','🍭','🍫','🍩','🧁','🍪','🌈','⭐','✨','🎊'];
+  const rect = wrap.getBoundingClientRect();
+  const cx   = rect.left + rect.width  / 2;
+  const cy   = rect.top  + rect.height / 2;
+  const n    = rand(5, 9);
+  for (let i = 0; i < n; i++) {
+    const el    = document.createElement('div');
+    el.className = 'flying-candy';
+    el.textContent = pool[rand(0, pool.length - 1)];
+    const angle = (i / n) * 360 + rand(-25, 25);
+    const dist  = rand(130, 300);
+    const dur   = (.4 + Math.random() * .55).toFixed(2);
+    el.style.cssText = `left:${cx}px;top:${cy}px;font-size:${1 + Math.random() * 1.3}rem;
+      --dx:${(Math.cos(angle * Math.PI / 180) * dist).toFixed(1)}px;
+      --dy:${(Math.sin(angle * Math.PI / 180) * dist).toFixed(1)}px;
+      animation-duration:${dur}s;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000 + 100);
   }
 }
 
