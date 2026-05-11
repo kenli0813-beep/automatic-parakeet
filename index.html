@@ -204,6 +204,14 @@
       border-radius: 20px; padding: 6px 14px;
       color: #fff; font-weight: 700; font-size: .9rem;
     }
+    .streak-pill {
+      background: rgba(255,165,0,.2);
+      border: 1px solid rgba(255,165,0,.5);
+      border-radius: 20px; padding: 6px 14px;
+      color: #ffb347; font-weight: 700; font-size: .9rem;
+      font-family: 'Fredoka One', cursive;
+      display: none;
+    }
 
     .game-layout {
       display: flex; gap: 18px; width: 100%; max-width: 760px;
@@ -334,6 +342,69 @@
     .r-leg  { width: 27px; height: 38px; border-radius: 4px 4px 0 0; }
     .r-foot { width: 34px; height: 11px; border-radius: 3px 3px 6px 6px; margin-top: -2px; }
 
+    /* ── ROBOT SHAPE VARIANTS ── */
+    /* Chunky: wide and squat */
+    .robot.robot-chunky .r-head { width: 98px; height: 60px; border-radius: 8px; }
+    .robot.robot-chunky .r-body { width: 102px; height: 82px; border-radius: 6px; }
+    .robot.robot-chunky .r-arm  { width: 28px; height: 52px; }
+    .robot.robot-chunky .r-leg  { width: 34px; height: 32px; }
+    .robot.robot-chunky .r-foot { width: 46px; height: 15px; }
+    .robot.robot-chunky .r-eyes-row { gap: 22px; }
+    .robot.robot-chunky .r-mouth { width: 42px; }
+
+    /* Slim Tower: tall and narrow */
+    .robot.robot-slim .r-head { width: 58px; height: 80px; border-radius: 18px; }
+    .robot.robot-slim .r-body { width: 56px; height: 98px; border-radius: 10px; }
+    .robot.robot-slim .r-arm  { width: 16px; height: 72px; border-radius: 6px; }
+    .robot.robot-slim .r-leg  { width: 20px; height: 46px; }
+    .robot.robot-slim .r-foot { width: 28px; height: 10px; }
+    .robot.robot-slim .r-eyes-row { gap: 10px; }
+    .robot.robot-slim .r-mouth { width: 26px; }
+    .robot.robot-slim .r-screen { width: 32px; }
+
+    /* Bubble Bot: very round */
+    .robot.robot-bubble .r-head { width: 90px; height: 90px; border-radius: 50%; }
+    .robot.robot-bubble .r-body { width: 88px; height: 74px; border-radius: 44px; }
+    .robot.robot-bubble .r-arm  { width: 22px; height: 46px; border-radius: 14px; }
+    .robot.robot-bubble .r-leg  { width: 28px; height: 30px; border-radius: 14px 14px 0 0; }
+    .robot.robot-bubble .r-foot { width: 38px; height: 14px; border-radius: 8px; }
+    .robot.robot-bubble .r-eyes-row { gap: 18px; }
+
+    /* ── UPGRADE MODAL ── */
+    .upgrade-modal {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(0,0,0,.82);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .upgrade-box {
+      background: linear-gradient(135deg, #1a1a3e, #2a1a4e);
+      border: 3px solid gold; border-radius: 28px;
+      padding: 28px 24px; max-width: 440px; width: 92%;
+      text-align: center;
+    }
+    .upgrade-title {
+      font-family: 'Fredoka One', cursive;
+      color: gold; font-size: 1.5rem; margin-bottom: 6px;
+    }
+    .upgrade-streak {
+      font-family: 'Fredoka One', cursive;
+      color: #ff9de2; font-size: 1rem; margin-bottom: 18px;
+    }
+    .upgrade-opts {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    .upgrade-opt {
+      border: 2px solid rgba(255,215,0,.3); border-radius: 16px;
+      padding: 14px 6px; cursor: pointer;
+      font-family: 'Fredoka One', cursive;
+      background: rgba(255,255,255,.06); color: #fff;
+      transition: all .15s;
+    }
+    .upgrade-opt:hover { border-color: gold; background: rgba(255,215,0,.18); transform: scale(1.06); }
+    .upgrade-opt .u-emoji { font-size: 1.8rem; display: block; margin-bottom: 5px; }
+    .upgrade-opt .u-label { font-size: .75rem; }
+
+    /* ── PARTS LIST ── */
     .parts-list { display: flex; flex-direction: column; gap: 3px; width: 100%; }
     .pitem { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: rgba(255,255,255,.3); transition: color .4s; }
     .pitem.done { color: rgba(255,255,255,.9); }
@@ -365,10 +436,10 @@
       margin-bottom: 10px; min-height: 1.3em; line-height: 1.2;
     }
     .q-text {
-      font-size: clamp(1.1rem, 4vw, 1.45rem);
+      font-size: clamp(1.05rem, 3.8vw, 1.38rem);
       color: #1a1a2e; font-weight: 800;
       text-align: center; margin-bottom: 18px;
-      min-height: 1.4em; line-height: 1.3;
+      min-height: 1.4em; line-height: 1.35;
     }
     .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
     .cbtn {
@@ -376,7 +447,7 @@
       border: 3px solid #e0e0e0; border-radius: 16px;
       background: #f5f5f5;
       font-family: 'Fredoka One', cursive;
-      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      font-size: clamp(1rem, 3.5vw, 1.45rem);
       color: #1a1a2e; cursor: pointer;
       transition: all .15s;
     }
@@ -437,15 +508,28 @@
       border-radius: 20px; padding: 6px 14px;
       color: #ff6b6b; font-weight: 700; font-size: .9rem;
     }
-    .bonus-robots-row {
-      display: flex; align-items: flex-end; justify-content: center; gap: 24px;
-      flex-wrap: wrap;
+
+    /* Bonus track: main robot stays fixed, Ozzie slides in */
+    .bonus-track {
+      display: flex; align-items: flex-end; justify-content: center;
+      gap: 24px; flex-wrap: nowrap; position: relative; overflow: visible;
+      width: 100%; max-width: 560px;
     }
-    .ozzie-panel {
+    .bonus-main-panel {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 14px 12px;
+      min-width: 120px; flex-shrink: 0;
+    }
+    #bonus-ozzie-panel {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
       background: rgba(255,100,200,.08);
       border: 1px solid rgba(255,100,200,.2);
       border-radius: 20px; padding: 14px 12px;
+      flex-shrink: 0;
+      transform: translateX(260px);
+      transition: transform 1s cubic-bezier(.34,1.56,.64,1);
     }
     .ozzie-panel-title {
       font-family: 'Fredoka One', cursive; font-size: .85rem;
@@ -466,7 +550,6 @@
     .celeb-robots-row {
       display: flex; justify-content: center; align-items: flex-end;
       gap: 20px; width: 100%; flex-wrap: wrap;
-      /* fixed height so text below is always below the robot's anchor point */
       height: 200px; flex-shrink: 0;
     }
 
@@ -556,7 +639,6 @@
       60%  { transform: translateX(-12px) scale(1.05); opacity: 1; }
       100% { transform: translateX(0) scale(1); opacity: 1; }
     }
-
     @keyframes robotDance {
       0%   { transform: scale(1.3) rotate(-9deg)  translateY(0);    }
       18%  { transform: scale(1.35) rotate(9deg)  translateY(-14px);}
@@ -626,10 +708,20 @@
       }
       .robot { transform: scale(.82); transform-origin: top center; }
       .parts-list { flex-direction: row; flex-wrap: wrap; gap: 6px 14px; }
+      #bonus-ozzie-panel { transform: translateX(140px); }
     }
   </style>
 </head>
 <body>
+
+<!-- ══════════════ UPGRADE MODAL ══════════════ -->
+<div id="upgrade-modal" class="upgrade-modal" style="display:none;">
+  <div class="upgrade-box">
+    <div class="upgrade-title">🔥 3 IN A ROW!</div>
+    <div class="upgrade-streak">Pick a robot upgrade, Winter!</div>
+    <div class="upgrade-opts" id="upgrade-opts"></div>
+  </div>
+</div>
 
 <!-- ══════════════ WELCOME ══════════════ -->
 <div id="welcome-screen" class="screen active">
@@ -686,6 +778,7 @@
 <div id="game-screen" class="screen">
   <div class="g-header">
     <div class="g-title" id="g-title">🤖 Build-A-Bot!</div>
+    <div class="streak-pill" id="streak-pill">🔥 Streak: 0</div>
     <div class="parts-pill" id="parts-pill">Parts: 0 / 8</div>
   </div>
 
@@ -775,13 +868,12 @@
     <div class="bonus-score-pill" id="bonus-score-pill">Score: 0 / 3</div>
   </div>
 
-  <div class="bonus-robots-row">
-    <div class="robot-panel" style="min-width:120px;">
+  <div class="bonus-track">
+    <div class="bonus-main-panel">
       <div class="rp-title" id="bonus-main-label">BOLT</div>
       <div id="bonus-main-robot"></div>
     </div>
-    <div style="font-family:'Fredoka One',cursive;color:rgba(255,255,255,.3);font-size:2rem;align-self:center;">↔️</div>
-    <div class="ozzie-panel">
+    <div id="bonus-ozzie-panel">
       <div class="ozzie-panel-title">Ozzie-bot 🤖</div>
       <div id="bonus-ozzie-robot"></div>
     </div>
@@ -840,6 +932,8 @@ const ANTENNA_STYLES = [
 
 const NAME_SUGGESTIONS = ['BOLT', 'SPARKY', 'ZIPPY', 'BEEP', 'CLANK', 'NOVA'];
 
+const ROBOT_STYLE_CLASSES = ['', 'robot-chunky', 'robot-slim', 'robot-bubble'];
+
 /* ─── ROBOT PARTS ─── */
 const PARTS = [
   { id:'antenna', label:'Antenna',   emoji:'📡', els:['rp-antball','rp-antstem'] },
@@ -852,6 +946,15 @@ const PARTS = [
   { id:'rleg',    label:'Right Leg', emoji:'🦿', els:['rp-rleg','rp-rfoot'] },
 ];
 
+/* ─── UPGRADES (streak reward) ─── */
+const UPGRADES = [
+  { id:'lightsaber', label:'Lightsaber',     emoji:'⚔️',  desc:'JEDI POWER!' },
+  { id:'rocket',     label:'Rocket Booster', emoji:'🚀',  desc:'TO THE MOON!' },
+  { id:'missiles',   label:'Missiles',       emoji:'💥',  desc:'BOOM BOOM!' },
+  { id:'laser',      label:'Laser Cannon',   emoji:'🔦',  desc:'PEW PEW!' },
+  { id:'shield',     label:'Light Shield',   emoji:'🛡️',  desc:'PROTECTED!' },
+];
+
 /* ─── POWER-UPS ─── */
 const POWER_UPS = [
   { id:'rocket', label:'Rocket Booster', emoji:'🚀', desc:'ZOOM ZOOM!' },
@@ -862,24 +965,12 @@ const POWER_UPS = [
 
 /* ─── BONUS POWER-UP QUESTIONS (earn during main round) ─── */
 const BONUS_POWERUP_QUESTIONS = [
-  {
-    type:'bonus', display:'🤖 + 🤖 + 🤖 = ?',
-    text:'3 robots plus 3 more robots equals how many?',
-    choices:['4','5','6','7'], answer:'6', powerUpIdx:0
-  },
-  {
-    type:'bonus', display:'🔢 Tricky!',
-    text:'What is 10 minus 3 minus 2?',
-    choices:['3','4','5','6'], answer:'5', powerUpIdx:1
-  },
-  {
-    type:'bonus', display:'🧠 Big Brain!',
-    text:'Double 6 equals how many?',
-    choices:['10','11','12','13'], answer:'12', powerUpIdx:2
-  },
+  { type:'bonus', display:'🤖 + 🤖 + 🤖 = ?', text:'3 robots plus 3 more robots equals how many?', choices:['4','5','6','7'], answer:'6', powerUpIdx:0 },
+  { type:'bonus', display:'🔢 Tricky!',         text:'What is 10 minus 3 minus 2?',                  choices:['3','4','5','6'], answer:'5', powerUpIdx:1 },
+  { type:'bonus', display:'🧠 Big Brain!',       text:'Double 6 equals how many?',                    choices:['10','11','12','13'], answer:'12', powerUpIdx:2 },
 ];
 
-/* ─── BONUS TRIVIA QUESTIONS ─── */
+/* ─── BONUS TRIVIA ─── */
 const BONUS_TRIVIA = [
   // Bluey
   { topic:'Bluey 🐕', display:'💙🐕', text:'What is Bluey\'s little sister\'s name?', choices:['Bingo','Muffin','Judo','Stripe'], answer:'Bingo' },
@@ -902,9 +993,20 @@ const BONUS_TRIVIA = [
   { topic:'K-Pop 🎵', display:'🎵🌟', text:'K-pop music comes from which country?', choices:['Japan','Korea','China','Brazil'], answer:'Korea' },
   { topic:'K-Pop 🎵', display:'🎤💜', text:'What does "K" stand for in K-pop?', choices:['Kawaii','Kinetic','Korean','Kool'], answer:'Korean' },
   { topic:'K-Pop 🎵', display:'🎶🕺', text:'K-pop groups are famous for amazing what?', choices:['Dance moves','Magic tricks','Cooking','Sports'], answer:'Dance moves' },
+  // Star Wars
+  { topic:'Star Wars ⚔️', display:'⚔️🌟', text:'What color is Luke Skywalker\'s lightsaber?', choices:['Red','Green','Blue','Purple'], answer:'Blue' },
+  { topic:'Star Wars ⚔️', display:'🤖⚔️', text:'What sounds does R2-D2 make?', choices:['Beep boop','La la la','ROAR','Click clack'], answer:'Beep boop' },
+  { topic:'Star Wars ⚔️', display:'🌑⚔️', text:'What is the giant round weapon called?', choices:['Moon Station','Death Star','Space Ball','Boom Sphere'], answer:'Death Star' },
+  { topic:'Star Wars ⚔️', display:'🎭⚔️', text:'Who is Luke Skywalker\'s father?', choices:['Obi-Wan','Yoda','Darth Vader','Han Solo'], answer:'Darth Vader' },
+  { topic:'Star Wars ⚔️', display:'💚⚔️', text:'What color is Yoda?', choices:['Blue','Red','Purple','Green'], answer:'Green' },
+  // Teen Titans Go
+  { topic:'Teen Titans Go! 🦸', display:'🦸🏻', text:'Which Teen Titan has NO superpowers?', choices:['Cyborg','Raven','Starfire','Robin'], answer:'Robin' },
+  { topic:'Teen Titans Go! 🦸', display:'🧇🦸', text:'Which Teen Titan LOVES waffles the most?', choices:['Robin','Raven','Cyborg','Starfire'], answer:'Cyborg' },
+  { topic:'Teen Titans Go! 🦸', display:'📚🦸', text:'Which Teen Titan loves to read books?', choices:['Starfire','Beast Boy','Cyborg','Raven'], answer:'Raven' },
+  { topic:'Teen Titans Go! 🦸', display:'🟠🦸', text:'Which Titan has long red hair and can fly into space?', choices:['Raven','Robin','Terra','Starfire'], answer:'Starfire' },
 ];
 
-/* ─── QUESTION POOL (no counting questions) ─── */
+/* ─── MAIN QUESTION POOL ─── */
 const QUESTIONS = [
   // ── MATH: addition ──
   { type:'math', display:'4 + 3 = ?',      text:'What is 4 plus 3?',          choices:['5','6','7','8'],   answer:'7'  },
@@ -912,68 +1014,97 @@ const QUESTIONS = [
   { type:'math', display:'6 + 4 = ?',      text:'What is 6 plus 4?',          choices:['8','9','10','11'], answer:'10' },
   { type:'math', display:'7 + 2 = ?',      text:'What is 7 plus 2?',          choices:['7','8','9','10'],  answer:'9'  },
   { type:'math', display:'5 + 5 = ?',      text:'What is 5 plus 5?',          choices:['8','9','10','11'], answer:'10' },
+  { type:'math', display:'8 + 7 = ?',      text:'What is 8 plus 7?',          choices:['13','14','15','16'], answer:'15' },
+  { type:'math', display:'9 + 6 = ?',      text:'What is 9 plus 6?',          choices:['13','14','15','16'], answer:'15' },
   // ── MATH: subtraction ──
   { type:'math', display:'8 − 3 = ?',      text:'What is 8 minus 3?',         choices:['3','4','5','6'],   answer:'5' },
   { type:'math', display:'10 − 4 = ?',     text:'What is 10 minus 4?',        choices:['5','6','7','8'],   answer:'6' },
   { type:'math', display:'9 − 5 = ?',      text:'What is 9 minus 5?',         choices:['3','4','5','6'],   answer:'4' },
-  { type:'math', display:'7 − 3 = ?',      text:'What is 7 minus 3?',         choices:['3','4','5','6'],   answer:'4' },
-  // ── MATH: multiplication intro ──
+  { type:'math', display:'15 − 7 = ?',     text:'What is 15 minus 7?',        choices:['6','7','8','9'],   answer:'8' },
+  { type:'math', display:'12 − 5 = ?',     text:'What is 12 minus 5?',        choices:['5','6','7','8'],   answer:'7' },
+  // ── MATH: multiplication ──
   { type:'math', display:'2 × 3 = ?',      text:'What is 2 times 3?',         choices:['4','5','6','7'],   answer:'6' },
   { type:'math', display:'2 × 4 = ?',      text:'What is 2 times 4?',         choices:['6','7','8','9'],   answer:'8' },
+  { type:'math', display:'3 × 3 = ?',      text:'What is 3 times 3?',         choices:['6','7','8','9'],   answer:'9' },
   { type:'math', display:'Double 5 = ?',   text:'What is DOUBLE 5?',          choices:['8','9','10','11'], answer:'10' },
-  // ── MATH: bigger / smaller ──
+  // ── MATH: bigger / smaller / half ──
   { type:'math', display:'7  vs  3',       text:'Which number is BIGGER?',    choices:['3','5','7','9'],   answer:'7' },
   { type:'math', display:'4  vs  9',       text:'Which number is BIGGER?',    choices:['4','6','8','9'],   answer:'9' },
-  { type:'math', display:'2  vs  8  vs  5',text:'Which number is SMALLEST?',  choices:['2','5','6','8'],   answer:'2' },
   { type:'math', display:'Half of 10 = ?', text:'What is HALF of 10?',        choices:['3','4','5','6'],   answer:'5' },
-  // ── LOGIC: number patterns (harder) ──
-  { type:'logic', display:'2, 4, ___, 8',   text:'What is the missing number?',      choices:['5','6','7','8'],    answer:'6'  },
-  { type:'logic', display:'3, ___, 7',      text:'What is the missing number?',      choices:['4','5','6','8'],    answer:'5'  },
-  { type:'logic', display:'3, 6, 9, ___',   text:'Count by 3s! What comes next?',   choices:['10','11','12','13'],answer:'12' },
-  { type:'logic', display:'5, 10, 15, ___', text:'Count by 5s! What comes next?',   choices:['16','18','20','25'],answer:'20' },
-  { type:'logic', display:'20, 15, 10, ___',text:'Count DOWN by 5s! What comes next?', choices:['4','5','6','8'], answer:'5'  },
-  { type:'logic', display:'1, 2, 4, 8, ___',text:'It doubles each time! What comes next?', choices:['9','12','16','20'], answer:'16' },
-  // ── LOGIC: harder patterns ──
+  { type:'math', display:'Half of 14 = ?', text:'What is HALF of 14?',        choices:['5','6','7','8'],   answer:'7' },
+  // ── LOGIC: number patterns ──
+  { type:'logic', display:'2, 4, ___, 8',   text:'What is the missing number?',           choices:['5','6','7','8'],    answer:'6'  },
+  { type:'logic', display:'3, 6, 9, ___',   text:'Count by 3s! What comes next?',         choices:['10','11','12','13'],answer:'12' },
+  { type:'logic', display:'5, 10, 15, ___', text:'Count by 5s! What comes next?',         choices:['16','18','20','25'],answer:'20' },
+  { type:'logic', display:'20, 15, 10, ___',text:'Count DOWN by 5s! What comes next?',    choices:['4','5','6','8'],    answer:'5'  },
+  { type:'logic', display:'1, 2, 4, 8, ___',text:'It doubles each time! What comes next?',choices:['9','12','16','20'], answer:'16' },
+  // ── LOGIC: multi-step word problems ──
+  { type:'logic', display:'🍪🍪🍪', text:'Mia has 5 cookies. She eats 2, then gets 4 more. How many does she have now?', choices:['5','6','7','8'], answer:'7' },
+  { type:'logic', display:'🐦🌿',   text:'6 birds sit on a branch. 3 fly away, then 5 come back. How many birds are there now?', choices:['6','7','8','9'], answer:'8' },
+  { type:'logic', display:'🍎🎒',   text:'Tom has 10 apples. He gives 3 to his friend and eats 2. How many are left?', choices:['3','4','5','6'], answer:'5' },
+  // ── LOGIC: days of the week ──
+  { type:'logic', display:'📅',      text:'Today is Wednesday. What day will it be in 2 days?', choices:['Monday','Thursday','Friday','Saturday'], answer:'Friday' },
+  { type:'logic', display:'📅',      text:'Today is Friday. What day was it yesterday?', choices:['Wednesday','Thursday','Saturday','Sunday'], answer:'Thursday' },
+  { type:'logic', display:'📅',      text:'There are 7 days in a week. If Monday is day 1, what day is day 4?', choices:['Tuesday','Wednesday','Thursday','Friday'], answer:'Thursday' },
+  // ── LOGIC: inference ──
+  { type:'logic', display:'☔',       text:"Sam's boots are muddy and wet. What was Sam probably doing?", choices:['Sleeping','Playing outside','Reading','Cooking'], answer:'Playing outside' },
+  { type:'logic', display:'🌡️',      text:'Lena is wearing a coat, hat, and gloves. What is the weather probably like?', choices:['Hot and sunny','Cold and chilly','Warm and breezy','Stormy'], answer:'Cold and chilly' },
+  { type:'logic', display:'🏆',       text:'Lions are faster than horses. Cheetahs are faster than lions. Who is FASTEST?', choices:['Horse','Lion','Cheetah','All the same'], answer:'Cheetah' },
+  // ── LOGIC: sorting / ordering ──
+  { type:'logic', display:'🔢',       text:'Which set goes from SMALLEST to BIGGEST?', choices:['9, 5, 2','1, 4, 8','7, 3, 6','4, 2, 9'], answer:'1, 4, 8' },
+  // ── LOGIC: patterns with shapes ──
   { type:'logic', display:'🔺🔺🟦🔺🔺🟦___', text:'What comes next in the pattern?', choices:['🔺','🟦','🟣','🔶'], answer:'🔺' },
   { type:'logic', display:'🐱🐱🐶🐱🐱🐶___', text:'What comes next in the pattern?', choices:['🐱','🐶','🐸','🐻'], answer:'🐱' },
-  // ── LOGIC: odd one out (harder) ──
-  { type:'logic', display:'2  4  6  9',     text:'Which does NOT belong? (not even)',    choices:['2','4','6','9'],      answer:'9'  },
-  { type:'logic', display:'3  7  A  5',     text:'Which does NOT belong? (not a number)',choices:['3','7','A','5'],      answer:'A'  },
-  { type:'logic', display:'🌊  🌧️  🍵  🔥', text:'Which does NOT belong? (not water)',  choices:['🌊','🌧️','🍵','🔥'],  answer:'🔥' },
-  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which does NOT belong? (not a fruit)',choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
+  // ── LOGIC: odd one out ──
+  { type:'logic', display:'2  4  6  9',     text:'Which does NOT belong? (not even)',     choices:['2','4','6','9'],      answer:'9'  },
+  { type:'logic', display:'🌊  🌧️  🍵  🔥', text:'Which does NOT belong? (not water)',   choices:['🌊','🌧️','🍵','🔥'],  answer:'🔥' },
+  { type:'logic', display:'🍎  🍌  🍕  🍇',  text:'Which does NOT belong? (not a fruit)', choices:['🍎','🍌','🍕','🍇'],  answer:'🍕' },
   // ── LOGIC: analogies ──
-  { type:'logic', display:'🌞 → Day   🌙 → ?',  text:'Sun goes with Day. Moon goes with…?', choices:['Morning','Night','Noon','Week'],       answer:'Night'     },
-  { type:'logic', display:'🐦 → Wings  🐟 → ?', text:'Birds have Wings. Fish have…?',        choices:['Paws','Wings','Fins','Legs'],          answer:'Fins'      },
-  { type:'logic', display:'🍎 → Fruit  🥕 → ?', text:'Apple is a Fruit. Carrot is a…?',      choices:['Fruit','Grain','Vegetable','Nut'],     answer:'Vegetable' },
-  // ── LOGIC: true / false (harder) ──
-  { type:'logic', display:'3 × 2 = 7 ?',   text:'Is 3 times 2 equal to 7?',    choices:['YES','NO'], answer:'NO'  },
-  { type:'logic', display:'Half of 8 = 4 ?',text:'Is half of 8 equal to 4?',   choices:['YES','NO'], answer:'YES' },
-  { type:'logic', display:'9 > 6 ?',        text:'Is 9 bigger than 6?',         choices:['YES','NO'], answer:'YES' },
-  { type:'logic', display:'4 + 4 = 8 ?',    text:'Is 4 + 4 equal to 8?',       choices:['YES','NO'], answer:'YES' },
+  { type:'logic', display:'🌞 → Day   🌙 → ?',  text:'Sun goes with Day. Moon goes with…?', choices:['Morning','Night','Noon','Week'], answer:'Night' },
+  { type:'logic', display:'🐦 → Wings  🐟 → ?', text:'Birds have Wings. Fish have…?',        choices:['Paws','Wings','Fins','Legs'],   answer:'Fins'  },
+  // ── LOGIC: true / false ──
+  { type:'logic', display:'3 × 2 = 7 ?',   text:'Is 3 times 2 equal to 7?',   choices:['YES','NO'], answer:'NO'  },
+  { type:'logic', display:'Half of 8 = 4 ?',text:'Is half of 8 equal to 4?',  choices:['YES','NO'], answer:'YES' },
+  { type:'logic', display:'9 > 6 ?',        text:'Is 9 bigger than 6?',        choices:['YES','NO'], answer:'YES' },
   // ── READING: blends & digraphs ──
-  { type:'reading', display:'🚢', text:'SHIP — which two letters make the beginning sound?',   choices:['SH','CH','TH','WH'], answer:'SH' },
-  { type:'reading', display:'🌳', text:'TREE — which two letters make the beginning sound?',   choices:['TR','TH','CH','BR'], answer:'TR' },
-  { type:'reading', display:'🐸', text:'FROG — which two letters make the beginning sound?',   choices:['FL','FR','BL','GL'], answer:'FR' },
-  { type:'reading', display:'🧀', text:'CHEESE — which two letters make the beginning sound?', choices:['SH','CH','TH','WH'], answer:'CH' },
-  { type:'reading', display:'🪁', text:'THROW — which two letters make the beginning sound?',  choices:['TH','TR','SH','CH'], answer:'TH' },
+  { type:'reading', display:'🚢', text:'SHIP — which two letters make the "SH" beginning sound?',    choices:['SH','CH','TH','WH'], answer:'SH' },
+  { type:'reading', display:'🌳', text:'TREE — which two letters make the beginning sound?',          choices:['TR','TH','CH','BR'], answer:'TR' },
+  { type:'reading', display:'🐸', text:'FROG — which two letters make the beginning sound?',          choices:['FL','FR','BL','GL'], answer:'FR' },
+  { type:'reading', display:'🧀', text:'CHEESE — which two letters make the beginning sound?',        choices:['SH','CH','TH','WH'], answer:'CH' },
+  { type:'reading', display:'🪁', text:'THROW — which two letters make the beginning sound?',         choices:['TH','TR','SH','CH'], answer:'TH' },
   // ── READING: opposites ──
-  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of BIG?',  choices:['HUGE','SMALL','TALL','WIDE'],   answer:'SMALL' },
-  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of HOT?',  choices:['WARM','COLD','COOL','WET'],     answer:'COLD'  },
-  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of FAST?', choices:['QUICK','SLOW','STOP','ZOOM'],   answer:'SLOW'  },
-  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of DAY?',  choices:['MORNING','NIGHT','NOON','DAWN'],answer:'NIGHT' },
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of BIG?',  choices:['HUGE','SMALL','TALL','WIDE'],    answer:'SMALL' },
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of HOT?',  choices:['WARM','COLD','COOL','WET'],      answer:'COLD'  },
+  { type:'reading', display:'🔡', text:'Which word means the OPPOSITE of FAST?', choices:['QUICK','SLOW','STOP','ZOOM'],    answer:'SLOW'  },
   // ── READING: syllables ──
-  { type:'reading', display:'🤖', text:'How many syllables in ROBOT? (clap it: RO-BOT)',              choices:['1','2','3','4'], answer:'2' },
-  { type:'reading', display:'🦋', text:'How many syllables in BUTTERFLY? (clap it: BUT-TER-FLY)',     choices:['1','2','3','4'], answer:'3' },
-  { type:'reading', display:'🐉', text:'How many syllables in DRAGON? (clap it: DRA-GON)',            choices:['1','2','3','4'], answer:'2' },
-  { type:'reading', display:'🌈', text:'How many syllables in RAINBOW? (clap it: RAIN-BOW)',          choices:['1','2','3','4'], answer:'2' },
-  // ── READING: word families ──
-  { type:'reading', display:'📚', text:'Which word belongs in the -AT family? (cat, bat, hat…)', choices:['BIG','MAT','RUN','SIT'],  answer:'MAT' },
-  { type:'reading', display:'📚', text:'Which word belongs in the -OG family? (dog, log, fog…)', choices:['CAT','PIN','HOG','BIG'],  answer:'HOG' },
-  { type:'reading', display:'📚', text:'Which word belongs in the -ING family? (ring, sing…)',   choices:['CAT','RUN','KING','TOP'], answer:'KING'},
-  // ── READING: sentence completion ──
-  { type:'reading', display:'🌤️', text:'The sun is very ___. Which word fits best?',    choices:['BRIGHT','SWIM','LOUD','PURPLE'], answer:'BRIGHT' },
-  { type:'reading', display:'🐟', text:'Fish live in the ___. Which word fits best?',   choices:['SKY','WATER','TREE','SNOW'],     answer:'WATER'  },
-  { type:'reading', display:'🌧️', text:'It is raining so I need an ___.',              choices:['HAT','UMBRELLA','SHOE','SOCK'],  answer:'UMBRELLA'},
+  { type:'reading', display:'🤖', text:'How many syllables in ROBOT? (clap it: RO-BOT)',          choices:['1','2','3','4'], answer:'2' },
+  { type:'reading', display:'🦋', text:'How many syllables in BUTTERFLY? (BUT-TER-FLY)',          choices:['1','2','3','4'], answer:'3' },
+  { type:'reading', display:'🦕', text:'How many syllables in DINOSAUR? (DI-NO-SAUR)',            choices:['1','2','3','4'], answer:'3' },
+  { type:'reading', display:'🌈', text:'How many syllables in RAINBOW? (RAIN-BOW)',               choices:['1','2','3','4'], answer:'2' },
+  // ── READING: compound words ──
+  { type:'reading', display:'🌦️', text:'What two words make up "RAINBOW"?',     choices:['Ran + bow','Rain + bow','Ran + boa','Rein + bow'],       answer:'Rain + bow'   },
+  { type:'reading', display:'🦋', text:'What two words make up "BUTTERFLY"?',   choices:['Butter + fly','But + erfly','Butt + fly','Butter + fry'], answer:'Butter + fly' },
+  { type:'reading', display:'☀️', text:'What two words make up "SUNLIGHT"?',    choices:['Sun + light','Son + light','Sum + light','Bun + light'],  answer:'Sun + light'  },
+  { type:'reading', display:'🌙', text:'What two words make up "MOONSHINE"?',   choices:['Moon + shine','More + shine','Moan + shine','Moon + ship'], answer:'Moon + shine' },
+  // ── READING: contractions ──
+  { type:'reading', display:'📝', text:'"Can\'t" is short for which two words?', choices:['Can not','Can it','Cannot it','Can now'], answer:'Can not' },
+  { type:'reading', display:'📝', text:'"I\'m" is short for which two words?',   choices:['I might','I am','I make','I move'],       answer:'I am'    },
+  { type:'reading', display:'📝', text:'"Don\'t" is short for which two words?', choices:['Do not','Done it','Do now','Do note'],    answer:'Do not'  },
+  // ── READING: irregular plurals ──
+  { type:'reading', display:'🖊️', text:'What is more than one MOUSE called?',   choices:['Mouses','Meese','Mice','Mousen'],     answer:'Mice'     },
+  { type:'reading', display:'🖊️', text:'What is more than one CHILD called?',   choices:['Childs','Children','Childen','Kids'], answer:'Children' },
+  { type:'reading', display:'🖊️', text:'What is more than one FOOT called?',    choices:['Foots','Feets','Feet','Footses'],     answer:'Feet'     },
+  // ── READING: past tense ──
+  { type:'reading', display:'⏳', text:'Yesterday, I ___ to the park. Which word fits?',     choices:['go','goes','went','going'],     answer:'went' },
+  { type:'reading', display:'⏳', text:'Last night, she ___ a book. Which word fits?',       choices:['reads','reading','red','read'], answer:'read' },
+  { type:'reading', display:'⏳', text:'He ___ his hands before dinner. Which word fits?',   choices:['wash','washes','washed','washing'], answer:'washed' },
+  // ── READING: mini-story comprehension ──
+  { type:'reading', display:'📖', text:'Maya found a key on the floor. She looked around for a lock. What is Maya trying to do?', choices:['Find more keys','Open something','Make a key','Draw a lock'], answer:'Open something' },
+  { type:'reading', display:'📖', text:'Max woke up and heard thunder. He saw raindrops on his window. What is the weather like?', choices:['Sunny','Cloudy','Rainy','Snowy'], answer:'Rainy' },
+  { type:'reading', display:'📖', text:'Lily packed her bag, ate breakfast fast, and ran to the bus stop. Where was Lily going?', choices:['To sleep','To school','To the shop','To a party'], answer:'To school' },
+  // ── READING: vocabulary ──
+  { type:'reading', display:'🔡', text:'Which word means very HAPPY?', choices:['Grumpy','Joyful','Tired','Scared'], answer:'Joyful' },
+  { type:'reading', display:'🔡', text:'Which word means very SMALL?', choices:['Huge','Giant','Tiny','Tall'],       answer:'Tiny'   },
 ];
 
 /* ─── HELPERS ─── */
@@ -984,6 +1115,20 @@ const $       = id  => document.getElementById(id);
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
+}
+
+/* ─── NO-REPEAT QUESTION TRACKING ─── */
+const usedQuestions = new Set();
+
+function pickUnused(pool, count) {
+  let available = pool.filter(q => !usedQuestions.has(q.text));
+  if (available.length < count) {
+    pool.forEach(q => usedQuestions.delete(q.text));
+    available = pool;
+  }
+  const picked = shuffle(available).slice(0, count);
+  picked.forEach(q => usedQuestions.add(q.text));
+  return picked;
 }
 
 /* ─── CUSTOMIZATION STATE ─── */
@@ -1068,7 +1213,7 @@ function syncPreview() {
 }
 
 /* ─── ROBOT HTML BUILDER ─── */
-function buildRobotHTML(allLit, cfg) {
+function buildRobotHTML(allLit, cfg, shapeClass) {
   const c   = cfg || custom;
   const eyeCls     = allLit ? `r-eye ${c.eye.cls} lit` : `r-eye ${c.eye.cls}`;
   const eyeContent = c.eye.id === 'star' ? '★' : '';
@@ -1076,9 +1221,10 @@ function buildRobotHTML(allLit, cfg) {
   const rpCls      = allLit ? 'rp lit' : 'rp';
   const colorStyle  = `--r-primary:${c.color.primary};--r-secondary:${c.color.secondary};--r-glow:${c.color.glow};`;
   const bounceStyle = allLit ? 'animation:robotBounce 2s ease-in-out infinite;' : '';
+  const extraClass  = shapeClass ? ` ${shapeClass}` : '';
 
   return `
-  <div class="robot" style="${colorStyle}${bounceStyle}">
+  <div class="robot${extraClass}" style="${colorStyle}${bounceStyle}">
     <div class="ant-wrap">
       <div class="${antCls}">${c.antenna.content}</div>
       <div class="ant-stem ${rpCls}"></div>
@@ -1117,7 +1263,7 @@ function buildRobotHTML(allLit, cfg) {
   </div>`;
 }
 
-/* ─── OZZIE-BOT HTML BUILDER (size scales with level 1–3) ─── */
+/* ─── OZZIE-BOT HTML BUILDER ─── */
 function buildOzzieHTML(level, cfg) {
   const c = cfg || ozzieCfg;
   const eyeCls     = `r-eye ${c.eye.cls} lit`;
@@ -1170,7 +1316,7 @@ function buildOzzieHTML(level, cfg) {
   </div>`;
 }
 
-/* apply color + style to the live game robot */
+/* apply color + eye/antenna style to the live game robot */
 function applyRobotStyle() {
   const r = $('game-robot');
   r.style.setProperty('--r-primary',   custom.color.primary);
@@ -1190,6 +1336,49 @@ function applyRobotStyle() {
   ball.textContent = custom.antenna.content;
 }
 
+/* apply shape class to the game robot element */
+function applyRobotShapeClass(shapeClass) {
+  const r = $('game-robot');
+  ROBOT_STYLE_CLASSES.forEach(c => { if (c) r.classList.remove(c); });
+  if (shapeClass) r.classList.add(shapeClass);
+}
+
+/* ─── UPGRADE MODAL ─── */
+function showUpgradeModal() {
+  const opts = $('upgrade-opts');
+  opts.innerHTML = '';
+  shuffle(UPGRADES).forEach(u => {
+    const btn = document.createElement('div');
+    btn.className = 'upgrade-opt';
+    btn.innerHTML = `<span class="u-emoji">${u.emoji}</span><span class="u-label">${u.label}</span>`;
+    btn.onclick = () => pickUpgrade(u);
+    opts.appendChild(btn);
+  });
+  $('upgrade-modal').style.display = 'flex';
+}
+
+function pickUpgrade(u) {
+  $('upgrade-modal').style.display = 'none';
+  gs.streak = 0;
+  updateStreakPill();
+  const el = document.createElement('div');
+  el.className = 'power-up-item';
+  el.innerHTML = `${u.emoji} ${u.label} <span class="pu-desc">${u.desc}</span>`;
+  $('powerups-display').appendChild(el);
+  gs.qIndex++;
+  loadQuestion();
+}
+
+function updateStreakPill() {
+  const pill = $('streak-pill');
+  if (gs.streak >= 2) {
+    pill.style.display = 'block';
+    pill.textContent = gs.streak >= 3 ? `🔥🔥🔥 ON FIRE!` : `🔥 Streak: ${gs.streak}`;
+  } else {
+    pill.style.display = 'none';
+  }
+}
+
 /* ─── WELCOME INIT ─── */
 $('preview-robot').innerHTML = buildRobotHTML(true, { color: ROBOT_COLORS[0], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] });
 
@@ -1202,31 +1391,37 @@ function showCustomize() {
 let gs = {};
 
 function startGame() {
-  const mathPool   = shuffle(QUESTIONS.filter(q => q.type === 'math')).slice(0, 3);
-  const readPool   = shuffle(QUESTIONS.filter(q => q.type === 'reading')).slice(0, 3);
-  const logicPool  = shuffle(QUESTIONS.filter(q => q.type === 'logic')).slice(0, 2);
-  const mainQs     = shuffle([...mathPool, ...readPool, ...logicPool]);
+  const mathPool  = pickUnused(QUESTIONS.filter(q => q.type === 'math'),    3);
+  const readPool  = pickUnused(QUESTIONS.filter(q => q.type === 'reading'), 3);
+  const logicPool = pickUnused(QUESTIONS.filter(q => q.type === 'logic'),   2);
+  const mainQs    = shuffle([...mathPool, ...readPool, ...logicPool]);
   const bonusPowerQs = shuffle([...BONUS_POWERUP_QUESTIONS]).slice(0, 2);
 
+  const shapeClass = ROBOT_STYLE_CLASSES[rand(0, ROBOT_STYLE_CLASSES.length - 1)];
+
   gs = {
-    questions:    mainQs,
-    bonusQs:      bonusPowerQs,
-    qIndex:       0,
-    bonusIndex:   0,
-    partsEarned:  0,
-    correctCount: 0,
-    answered:     false,
-    phase:        'main',   // 'main' | 'bonus_powerup'
-    powerUps:     [],
+    questions:      mainQs,
+    bonusQs:        bonusPowerQs,
+    qIndex:         0,
+    bonusIndex:     0,
+    partsEarned:    0,
+    correctCount:   0,
+    answered:       false,
+    phase:          'main',
+    powerUps:       [],
+    streak:         0,
+    robotStyleClass: shapeClass,
   };
 
-  $('g-title').textContent        = `🤖 Go, Winter!`;
-  $('game-robot-name').textContent = custom.name;
-  $('powerups-display').innerHTML  = '';
+  $('g-title').textContent         = `🤖 Go, Winter!`;
+  $('game-robot-name').textContent  = custom.name;
+  $('powerups-display').innerHTML   = '';
+  $('streak-pill').style.display    = 'none';
 
   buildChecklist();
   resetRobot();
   applyRobotStyle();
+  applyRobotShapeClass(shapeClass);
   loadQuestion();
   showScreen('game-screen');
 }
@@ -1270,7 +1465,6 @@ function loadQuestion() {
     renderQuestion(q);
 
   } else {
-    // bonus_powerup phase
     if (gs.bonusIndex >= gs.bonusQs.length) {
       showOzzieScreen();
       return;
@@ -1336,10 +1530,22 @@ function handleAnswer(val, clickedBtn) {
   }
 
   if (gs.phase === 'main') {
-    if (ok) gs.correctCount++;
+    if (ok) {
+      gs.correctCount++;
+      gs.streak++;
+    } else {
+      gs.streak = 0;
+    }
+    updateStreakPill();
     gs.partsEarned++;
     setTimeout(() => unlockPart(PARTS[gs.qIndex]), 500);
-    setTimeout(() => { gs.qIndex++; loadQuestion(); }, 2000);
+
+    if (ok && gs.streak >= 3) {
+      // Show upgrade picker instead of auto-advancing
+      setTimeout(() => showUpgradeModal(), 1600);
+    } else {
+      setTimeout(() => { gs.qIndex++; loadQuestion(); }, 2000);
+    }
   } else {
     if (ok) {
       const pu = POWER_UPS[gs.bonusQs[gs.bonusIndex].powerUpIdx];
@@ -1421,13 +1627,27 @@ function startBonusRound() {
   const triviaPool = shuffle([...BONUS_TRIVIA]).slice(0, 3);
   bonusGs = { questions: triviaPool, qIndex: 0, bonusCorrect: 0, answered: false };
 
-  $('bonus-main-label').textContent   = custom.name;
+  $('bonus-main-label').textContent      = custom.name;
   $('bonus-robot-name-span').textContent = custom.name;
-  $('bonus-main-robot').innerHTML     = buildRobotHTML(true, custom);
-  $('bonus-ozzie-robot').innerHTML    = buildOzzieHTML(getOzzieLevel(), ozzieCfg);
+  $('bonus-main-robot').innerHTML        = buildRobotHTML(true, custom, gs.robotStyleClass);
+  $('bonus-ozzie-robot').innerHTML       = buildOzzieHTML(getOzzieLevel(), ozzieCfg);
+
+  // Reset Ozzie to starting position (far right)
+  const ozziePanel = $('bonus-ozzie-panel');
+  ozziePanel.style.transition = 'none';
+  ozziePanel.style.transform  = 'translateX(260px)';
+  // Re-enable transition after a tick
+  setTimeout(() => { ozziePanel.style.transition = 'transform 1s cubic-bezier(.34,1.56,.64,1)'; }, 50);
 
   loadBonusQuestion();
   showScreen('bonus-screen');
+}
+
+function updateOzziePosition() {
+  const positions = [260, 130, 0];
+  const pos = positions[Math.min(bonusGs.bonusCorrect, 2)];
+  const panel = $('bonus-ozzie-panel');
+  if (panel) panel.style.transform = `translateX(${pos}px)`;
 }
 
 function loadBonusQuestion() {
@@ -1475,6 +1695,8 @@ function handleBonusAnswer(val, clickedBtn) {
     const praise = ['Brilliant, Winter! 🎉', 'You know everything! ⭐', 'So smart! 💫', 'Incredible! 🤩'];
     $('bonus-feedback').textContent = praise[rand(0, praise.length - 1)];
     $('bonus-feedback').className   = 'feedback';
+    // Move Ozzie closer!
+    setTimeout(() => updateOzziePosition(), 400);
   } else {
     clickedBtn.classList.add('wrong');
     $('bonus-feedback').textContent = `Good try! The answer is "${q.answer}" 😊`;
@@ -1514,7 +1736,7 @@ function setStatus(txt) {
 
 function runCelebration() {
   const wrap = $('celeb-robot-wrap');
-  wrap.innerHTML = buildRobotHTML(true, custom);
+  wrap.innerHTML = buildRobotHTML(true, custom, gs.robotStyleClass);
   const robot = wrap.querySelector('.robot');
   robot.style.transformOrigin = 'center bottom';
 
@@ -1564,7 +1786,7 @@ function runDualCelebration() {
   const wrap      = $('celeb-robot-wrap');
   const ozzieWrap = $('celeb-ozzie-wrap');
 
-  wrap.innerHTML      = buildRobotHTML(true, custom);
+  wrap.innerHTML      = buildRobotHTML(true, custom, gs.robotStyleClass);
   ozzieWrap.innerHTML = buildOzzieHTML(getOzzieLevel(), ozzieCfg);
 
   const robot = wrap.querySelector('.robot');
@@ -1572,19 +1794,16 @@ function runDualCelebration() {
   robot.style.transformOrigin = 'center bottom';
   ozzie.style.transformOrigin = 'center bottom';
 
-  // Ozzie starts off to the right, slides in
   ozzieWrap.style.animation = 'ozzieSlide 1.4s cubic-bezier(.34,1.56,.64,1) forwards';
 
   setStatus('🎉 IT\'S A REUNION!! Ozzie found ' + custom.name + '!! 🤖💕🤖');
 
-  // Both dance together
   setTimeout(() => {
     setStatus('🎉 Let\'s ALL DANCE TOGETHER!! 💃🕺');
     robot.style.animation = 'robotDance .55s ease-in-out infinite';
     ozzie.style.animation = 'ozzieDance .55s ease-in-out infinite';
   }, 2000);
 
-  // Eat candy
   setTimeout(() => {
     setStatus('🍬 CANDY PARTY!! Nom nom nom!! 🍬');
     robot.style.animation = 'robotChomp .32s ease-in-out infinite';
@@ -1592,7 +1811,6 @@ function runDualCelebration() {
     for (let i = 0; i < 18; i++) setTimeout(() => dropCandy(wrap), i * 130);
   }, 4000);
 
-  // Transform
   setTimeout(() => {
     setStatus('⚡ DOUBLE CANDY ROBOT TRANSFORMATION!! ⚡');
     robot.style.animation = 'candyGrow 2.2s ease forwards';
@@ -1662,7 +1880,7 @@ function singLyrics(dual) {
   const dualLines = [
     '🎵 Two candy robots, huge and bright!',
     `🍬 Winter built us both just right!`,
-    '🌈 ${custom.name} and Ozzie munch on gummies too,',
+    `🌈 ${custom.name} and Ozzie munch on gummies too,`,
     '✨ Hip hip hooray for Winter — WOO!',
     '🌟 You are so clever, smart and cool,',
     `🤖 We BOTH say: WINTER YOU RULE!`,
