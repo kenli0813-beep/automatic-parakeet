@@ -253,7 +253,7 @@
     .pu-desc { color: #fff; font-size: .75rem; }
 
     /* ── ROBOT CSS ART ── */
-    .robot { display: flex; flex-direction: column; align-items: center; }
+    .robot { display: flex; flex-direction: column; align-items: center; position: relative; }
 
     .robot {
       --r-primary:  #78c8f0;
@@ -369,6 +369,74 @@
     .robot.robot-bubble .r-leg  { width: 28px; height: 30px; border-radius: 14px 14px 0 0; }
     .robot.robot-bubble .r-foot { width: 38px; height: 14px; border-radius: 8px; }
     .robot.robot-bubble .r-eyes-row { gap: 18px; }
+
+    /* ── UPGRADE ROBOT ATTACHMENTS ── */
+    .r-upgrade { position: absolute; pointer-events: none; }
+
+    /* Lightsaber: glowing blue blade on the right */
+    .r-upgrade-lightsaber {
+      width: 5px; height: 70px;
+      background: linear-gradient(to top, #0288d1, #e1f5fe);
+      box-shadow: 0 0 8px #29b6f6, 0 0 18px #29b6f6, 0 0 30px rgba(41,182,246,.4);
+      border-radius: 2px 2px 1px 1px;
+      right: -12px; top: 28%;
+    }
+    .r-upgrade-lightsaber::before {
+      content: ''; position: absolute;
+      width: 10px; height: 12px;
+      background: #888; border-radius: 2px;
+      bottom: -12px; left: -3px;
+    }
+
+    /* Rocket Booster: flame jets at the bottom */
+    .r-upgrade-rocket {
+      width: 44px; height: 14px;
+      background: linear-gradient(90deg, #ff7043, #ffca28, #fff);
+      border-radius: 50%;
+      box-shadow: 0 6px 14px #ff7043, 0 0 20px #ffca28;
+      bottom: -14px; left: 50%; transform: translateX(-50%);
+    }
+    .r-upgrade-rocket::before {
+      content: '🔥'; position: absolute;
+      font-size: 14px; bottom: -2px; left: 6px;
+    }
+
+    /* Missiles: twin pods on the left shoulder */
+    .r-upgrade-missiles {
+      display: flex; flex-direction: column; gap: 5px;
+      left: -18px; top: 28%;
+    }
+    .r-upgrade-missiles .missile {
+      width: 9px; height: 22px;
+      background: linear-gradient(to bottom, #ccc 0%, #777 70%, #e53935 100%);
+      border-radius: 3px 3px 1px 1px;
+      box-shadow: 0 0 5px rgba(229,57,53,.6);
+    }
+
+    /* Laser Cannon: barrel extending from right arm */
+    .r-upgrade-laser {
+      width: 34px; height: 9px;
+      background: linear-gradient(90deg, #424242, #9e9e9e);
+      border-radius: 1px 5px 5px 1px;
+      box-shadow: 0 0 8px #00e676, 0 0 16px rgba(0,230,118,.4);
+      right: -30px; top: 44%;
+    }
+    .r-upgrade-laser::before {
+      content: ''; position: absolute;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #00e676; box-shadow: 0 0 8px #00e676;
+      right: 2px; top: 50%; transform: translateY(-50%);
+    }
+
+    /* Light Shield: glowing shield on the left */
+    .r-upgrade-shield {
+      width: 24px; height: 46px;
+      background: rgba(100,200,255,.2);
+      border: 2px solid rgba(100,200,255,.8);
+      border-radius: 40% 20% 20% 40%;
+      box-shadow: 0 0 12px rgba(100,200,255,.6), inset 0 0 10px rgba(100,200,255,.3);
+      left: -20px; top: 22%;
+    }
 
     /* ── UPGRADE MODAL ── */
     .upgrade-modal {
@@ -1117,18 +1185,74 @@ function showScreen(id) {
   $(id).classList.add('active');
 }
 
-/* ─── NO-REPEAT QUESTION TRACKING ─── */
+/* ─── PERSISTENCE KEYS ─── */
+const LS_QUESTIONS = 'bab_used_questions';
+const LS_UPGRADES  = 'bab_earned_upgrades';
+
+/* ─── NO-REPEAT QUESTION TRACKING (persisted across sessions) ─── */
 const usedQuestions = new Set();
+
+function loadUsedQuestions() {
+  try {
+    const saved = localStorage.getItem(LS_QUESTIONS);
+    if (saved) JSON.parse(saved).forEach(t => usedQuestions.add(t));
+  } catch(e) {}
+}
+
+function saveUsedQuestions() {
+  try { localStorage.setItem(LS_QUESTIONS, JSON.stringify([...usedQuestions])); } catch(e) {}
+}
 
 function pickUnused(pool, count) {
   let available = pool.filter(q => !usedQuestions.has(q.text));
   if (available.length < count) {
     pool.forEach(q => usedQuestions.delete(q.text));
     available = pool;
+    saveUsedQuestions();
   }
   const picked = shuffle(available).slice(0, count);
   picked.forEach(q => usedQuestions.add(q.text));
+  saveUsedQuestions();
   return picked;
+}
+
+/* ─── UPGRADE PERSISTENCE ─── */
+let savedUpgrades = []; // array of upgrade ids earned across all sessions
+
+function loadSavedUpgrades() {
+  try {
+    const saved = localStorage.getItem(LS_UPGRADES);
+    if (saved) savedUpgrades = JSON.parse(saved);
+  } catch(e) { savedUpgrades = []; }
+}
+
+function saveSavedUpgrades() {
+  try { localStorage.setItem(LS_UPGRADES, JSON.stringify(savedUpgrades)); } catch(e) {}
+}
+
+function applyUpgradeVisual(upgradeId, targetEl) {
+  const el = targetEl || $('game-robot');
+  if (!el) return;
+  // Don't add duplicates to the same robot element
+  if (el.querySelector(`.r-upgrade-${upgradeId}`)) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = `r-upgrade r-upgrade-${upgradeId}`;
+
+  if (upgradeId === 'missiles') {
+    wrap.innerHTML = '<div class="missile"></div><div class="missile"></div>';
+  }
+
+  el.appendChild(wrap);
+}
+
+function refreshUpgradeVisuals() {
+  const robot = $('game-robot');
+  if (!robot) return;
+  // Remove any existing upgrade overlays
+  robot.querySelectorAll('.r-upgrade').forEach(el => el.remove());
+  // Re-apply all saved upgrades
+  savedUpgrades.forEach(id => applyUpgradeVisual(id, robot));
 }
 
 /* ─── CUSTOMIZATION STATE ─── */
@@ -1361,10 +1485,20 @@ function pickUpgrade(u) {
   $('upgrade-modal').style.display = 'none';
   gs.streak = 0;
   updateStreakPill();
+
+  // Persist upgrade across sessions
+  savedUpgrades.push(u.id);
+  saveSavedUpgrades();
+
+  // Show in power-ups list
   const el = document.createElement('div');
   el.className = 'power-up-item';
   el.innerHTML = `${u.emoji} ${u.label} <span class="pu-desc">${u.desc}</span>`;
   $('powerups-display').appendChild(el);
+
+  // Apply visual to robot graphic
+  applyUpgradeVisual(u.id, $('game-robot'));
+
   gs.qIndex++;
   loadQuestion();
 }
@@ -1378,6 +1512,10 @@ function updateStreakPill() {
     pill.style.display = 'none';
   }
 }
+
+/* ─── INIT: load persisted data ─── */
+loadUsedQuestions();
+loadSavedUpgrades();
 
 /* ─── WELCOME INIT ─── */
 $('preview-robot').innerHTML = buildRobotHTML(true, { color: ROBOT_COLORS[0], eye: EYE_STYLES[0], antenna: ANTENNA_STYLES[0] });
@@ -1422,6 +1560,18 @@ function startGame() {
   resetRobot();
   applyRobotStyle();
   applyRobotShapeClass(shapeClass);
+
+  // Show upgrades earned in prior sessions
+  savedUpgrades.forEach(id => {
+    const u = UPGRADES.find(u => u.id === id);
+    if (!u) return;
+    const el = document.createElement('div');
+    el.className = 'power-up-item';
+    el.innerHTML = `${u.emoji} ${u.label} <span class="pu-desc">${u.desc}</span>`;
+    $('powerups-display').appendChild(el);
+  });
+  refreshUpgradeVisuals();
+
   loadQuestion();
   showScreen('game-screen');
 }
